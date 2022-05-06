@@ -23,40 +23,33 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <LinkContainer to="/notification">
-                <Nav.Link>
-                  <i className="fa fa-shopping-cart"></i> Notification
+                <Nav.Link className="common_nav_items">
+                  <i className="fa fa-shopping-cart"></i> <br />
+                  <span>Notification</span>
                 </Nav.Link>
               </LinkContainer>
+
               <LinkContainer to="/cart">
-                <Nav.Link>
-                  <i className="fa fa-shopping-cart"></i> Login
+                <Nav.Link className="common_nav_items">
+                  <i className="fa fa-shopping-cart"></i> <br />
+                  <span>Login</span>
                 </Nav.Link>
               </LinkContainer>
-              {/* {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
-                  <LinkContainer to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
-              ) : (
-                <LinkContainer to="/login">
-                  <Nav.Link>
-                    <i className="fa fa-user"></i> Sign In
-                  </Nav.Link>
-                </LinkContainer>
-              )} */}
-              <NavDropdown title="Menu" id="username">
-                <LinkContainer to="/profile">
-                  <NavDropdown.Item>Menu 1</NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to="/profile">
-                  <NavDropdown.Item>Menu 2</NavDropdown.Item>
-                </LinkContainer>
-                <NavDropdown.Item>Logout</NavDropdown.Item>
-              </NavDropdown>
+
+              <LinkContainer to="/cart">
+                <Nav.Link className="common_nav_items">
+                  <i className="fa fa-shopping-cart"></i>
+                  <NavDropdown title="Menu" id="username">
+                    <LinkContainer to="/profile">
+                      <NavDropdown.Item>Menu 1</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/profile">
+                      <NavDropdown.Item>Menu 2</NavDropdown.Item>
+                    </LinkContainer>
+                    <NavDropdown.Item>Logout</NavDropdown.Item>
+                  </NavDropdown>
+                </Nav.Link>
+              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Container>

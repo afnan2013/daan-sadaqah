@@ -1,0 +1,35 @@
+{
+  "name": "daan-sadaqah",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MERN Daan Sadaqah Web Application ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder",
+    "data:destroy": "node backend/seeder -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kucse160235/daan-sadaqah.git"
+  },
+  "author": "Mahfujur Rahman Afnan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kucse160235/daan-sadaqah/issues"
+  },
+  "homepage": "https://github.com/kucse160235/daan-sadaqah#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.1.0",
+    "nodemon": "^2.0.16"
+  }
+}

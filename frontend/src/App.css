@@ -1,3 +1,11 @@
+
+.loader {
+  width: 100px;
+  height: 100px;
+  margin: 200px auto;
+  display: block;
+}
+
 .common_navbar_brand img {
   max-height: 90px;
   width: auto;
@@ -12,6 +20,10 @@
   padding: 0px;
 }
 
+.common_nav_items{
+  text-align: center;
+}
+
 .carousel {
   margin-top: 99px;
 }
@@ -22,14 +34,7 @@
   right: 50%;
 }
 
-.carousel-caption h3 {
-  font-size: 1.6rem;
-  color:black
-}
-
 .carousel-caption p {
-  font-size: 1.6rem;
-  color:black;
   text-align: right;
 }
 
@@ -37,7 +42,7 @@
   top: 20%;
   left:3%;
   position:fixed;
-  z-index: 2;
+  z-index: 3;
 }
 
 .fixed_content button {
