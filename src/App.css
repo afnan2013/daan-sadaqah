@@ -32,3 +32,15 @@
   color:black;
   text-align: right;
 }
+
+.fixed_content {
+  top: 20%;
+  left:3%;
+  position:fixed;
+  z-index: 2;
+}
+
+.fixed_content button {
+  padding: 20px 60px;
+  margin: 5px 0px;
+}
