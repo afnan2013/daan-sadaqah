@@ -6,15 +6,28 @@
   display: block;
 }
 
+ 
+/*************************************************Start HEADER ********************************************/
+#common_hamBurger_Icon {
+  margin: 20px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+#common_hamBurger_Icon:hover {
+  background-color: #FF9800;
+}
+
 .common_navbar_brand img {
   max-height: 90px;
   width: auto;
 } 
 
 .common_navbar_brand span {
-  font-size: 32px;
+  font-size: 36px;
   margin-left: 15px;
 } 
+
 
 .navbar{
   padding: 0px;
@@ -22,10 +35,25 @@
 
 .common_nav_items{
   text-align: center;
+  font-size: 16px;
+  margin: 0px 15px;
+
 }
 
+.common_nav_items i{
+  font-size: 2.3rem;
+}
+
+.badge{
+  font-size: 0.35em;
+  background-color: #FF0000;
+  --bs-bg-opacity: 1;
+}
+
+
 .carousel {
-  margin-top: 99px;
+  max-height: 950px; 
+  overflow: hidden;
 }
 
 .carousel-caption {
@@ -38,14 +66,35 @@
   text-align: right;
 }
 
-.fixed_content {
+/************************************************* END HEADER ********************************************/
+
+
+/********************* Fixed Donation Buttons *****************/
+.btn_donation_fixed_mobile{
+  margin-top: 150px;
+  font-size: 1.5em;
+  color: white;
+  padding: 10px;
+}
+
+.btn_donation_fixed_desktop {
   top: 20%;
-  left:3%;
   position:fixed;
   z-index: 3;
 }
 
-.fixed_content button {
-  padding: 20px 60px;
-  margin: 5px 0px;
+.btn_donation_fixed_desktop button {
+  padding: 30px 100px;
+  margin: 10px 0px;
+  border-radius: 10px;
 }
+
+/********************* Fixed Donation Buttons *****************/
+
+
+/************************************************* START FOOTER ********************************************/
+
+
+
+
+/************************************************* END FOOTER ********************************************/

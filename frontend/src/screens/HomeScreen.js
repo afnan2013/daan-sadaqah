@@ -27,7 +27,15 @@ const HomeScreen = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <div className="fixed_content">
+          <div className="btn_donation_fixed_mobile d-block d-sm-none">
+            <Button type="button" variant="dark" className="w-100">
+              Make A Donation
+            </Button>
+            <Button type="button" variant="dark" className="w-100">
+              Seek A Donation
+            </Button>
+          </div>
+          <div className="btn_donation_fixed_desktop d-none d-lg-block">
             {/* <Image src={'/images/upright-hand.png'}></Image> */}
             <Button type="button" variant="dark" className="w-100">
               Make A Donation
