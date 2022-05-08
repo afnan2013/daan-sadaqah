@@ -118,6 +118,16 @@ const Footer = () => {
                     App
                   </Link>
                 </li>
+                <li>
+                  <Link to={``} className="footer_app_btn px-3">
+                    <Image src="/images/google-play.png"></Image>
+                  </Link>
+                </li>
+                <li>
+                  <Link to={``} className="footer_app_btn px-3">
+                    <Image src="/images/apple-play.png"></Image>
+                  </Link>
+                </li>
               </Col>
             </Row>
           </Col>
