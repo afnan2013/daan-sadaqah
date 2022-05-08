@@ -6,8 +6,13 @@
   display: block;
 }
 
+hr {
+  height: 3px;
+  opacity: 0.5;
+}
  
 /*************************************************Start HEADER ********************************************/
+
 #common_hamBurger_Icon {
   margin: 20px;
   font-size: 25px;
@@ -93,7 +98,19 @@
 
 
 /************************************************* START FOOTER ********************************************/
+.commom_footer_styles{
+  font-size: 1.1em;
+  color: azure;
+}
 
+.footer_right_panel{
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.social_icon_styles{
+  font-size: 40px;
+}
 
 
 

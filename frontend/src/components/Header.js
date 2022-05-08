@@ -101,7 +101,16 @@ const Header = () => {
                 </LinkContainer>
                 <LinkContainer to="/notification">
                   <Nav.Link className="common_nav_items">
-                    <i class="fa-solid fa-bell"></i> <br />
+                    <i
+                      class="fa-solid fa-bell"
+                      style={{ position: 'relative' }}
+                    >
+                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                        9+
+                        <span class="visually-hidden">unread messages</span>
+                      </span>
+                    </i>{' '}
+                    <br />
                     <span>Notification</span>
                   </Nav.Link>
                 </LinkContainer>
