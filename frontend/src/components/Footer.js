@@ -15,7 +15,11 @@ const Footer = () => {
       <Container fluid>
         <Row className="align-items-center">
           <Col sm={3} className="text-center">
-            <Image src="/images/Daan-Sadaqah-65x80_PNG.png" fluid></Image>{' '}
+            <Image
+              src="/images/Daan-Sadaqah-65x80_PNG.png"
+              className="footer_logo"
+              fluid
+            ></Image>{' '}
           </Col>
           <Col sm={6} className="text-center">
             <h2>Our Statistics</h2>
@@ -26,7 +30,7 @@ const Footer = () => {
           <Col sm={3}> </Col>
         </Row>
 
-        <Row className=" align-items-center">
+        <Row className="align-items-center">
           <Col md={4}>
             <p>Follow us</p>
             <Link to={``} className="social_icon_styles px-3">
@@ -46,11 +50,11 @@ const Footer = () => {
             </Link>
           </Col>
           <Col md={8}>
-            <Row>
+            <Row className="footer_row">
               <Col>
                 <ul>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={'/about'} className="px-3">
                       About
                     </Link>
                   </li>
@@ -101,38 +105,48 @@ const Footer = () => {
                 </ul>
               </Col>
               <Col>
-                <li>
-                  <Link to={``} className="px-3">
-                    Support
-                  </Link>
-                </li>
-                <li>
-                  <Link to={``} className="px-3">
-                    Online Support
-                  </Link>
-                </li>
+                <ul>
+                  <li>
+                    <Link to={``} className="px-3">
+                      Support
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={``} className="px-3">
+                      Online Support
+                    </Link>
+                  </li>
+                </ul>
               </Col>
               <Col>
-                <li>
-                  <Link to={``} className="px-3">
-                    App
-                  </Link>
-                </li>
-                <li>
-                  <Link to={``} className="footer_app_btn px-3">
-                    <Image src="/images/google-play.png"></Image>
-                  </Link>
-                </li>
-                <li>
-                  <Link to={``} className="footer_app_btn px-3">
-                    <Image src="/images/apple-play.png"></Image>
-                  </Link>
-                </li>
+                <ul>
+                  <li>
+                    <Link to={``} className="px-3">
+                      App
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={``} className="footer_app_btn px-3">
+                      <Image
+                        src="/images/google-play.png"
+                        rounded
+                        fluid
+                      ></Image>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={``} className="footer_app_btn px-3">
+                      <Image src="/images/apple-play.png" rounded fluid></Image>
+                    </Link>
+                  </li>
+                </ul>
               </Col>
             </Row>
           </Col>
         </Row>
-
+        <Row>
+          <h1>DaanSadaqah</h1>
+        </Row>
         <hr />
         <Row>
           <Col className="commom_footer_styles py-3">

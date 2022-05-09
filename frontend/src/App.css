@@ -10,6 +10,19 @@ hr {
   height: 3px;
   opacity: 0.5;
 }
+
+ul{
+  list-style-type: none;
+}
+
+a{
+  text-decoration: none;
+}
+
+.screen_margin {
+  margin-top: 115px;
+  background-color: azure;
+}
  
 /*************************************************Start HEADER ********************************************/
 
@@ -98,10 +111,17 @@ hr {
 
 
 /************************************************* START FOOTER ********************************************/
+
 .commom_footer_styles{
   font-size: 1.1em;
   color: azure;
 }
+
+.footer_logo {
+  max-height: 115px;
+  margin: 35px 0px;
+}
+
 
 .footer_right_panel{
   display: flex;
@@ -110,10 +130,25 @@ hr {
 
 .social_icon_styles{
   font-size: 40px;
+  color: azure;
 }
 
 .footer_app_btn img{
-  width: 250px;
+  max-width: 90%;
 }
+
+.footer_row {
+  font-size: x-large;
+}
+
+.footer_row li {
+  padding: 10px 0px;
+}
+
+.footer_row a {
+  color: #839496;
+  
+}
+
 
 /************************************************* END FOOTER ********************************************/
