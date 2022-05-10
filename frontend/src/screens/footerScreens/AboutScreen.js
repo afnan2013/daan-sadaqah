@@ -1,8 +1,9 @@
 import React from 'react';
+import FormContainer from '../../components/FormContainer';
 import Loader from '../../components/Loader';
 
 const AboutScreen = () => {
-  return <div className="screen_margin">AboutScreen</div>;
+  return <FormContainer>About Screen</FormContainer>;
 };
 
 export default AboutScreen;

@@ -19,9 +19,10 @@ a{
   text-decoration: none;
 }
 
-.screen_margin {
+.common_screen_margin {
   margin-top: 115px;
-  background-color: azure;
+  min-height: 650px;
+  /* background-color: azure; */
 }
  
 /*************************************************Start HEADER ********************************************/
@@ -70,7 +71,7 @@ a{
 
 
 .carousel {
-  max-height: 950px; 
+  height: 85vh; 
   overflow: hidden;
 }
 
@@ -150,5 +151,36 @@ a{
   
 }
 
-
 /************************************************* END FOOTER ********************************************/
+
+.auth_component {
+  padding: 20px 0px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.auth_component .form-control{
+  font-size: 1.5rem;
+  padding: 20px 10px;
+  margin: 10px 0px;
+}
+
+.auth_component .form_icon {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: auto;
+}
+
+.notification_panel{
+  position: absolute;
+  width: 360px;
+  padding: 0 10px;
+  transition: all 1s;
+  background: black;
+  right: -25%;
+  top: 85%;
+}
+
+.notification_panel.active {
+  right: 2%;
+}
