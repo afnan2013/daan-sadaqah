@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 
 import sliders from './data/sliders.js';
+import about from './data/about.js';
 
 dotenv.config();
 
@@ -16,6 +17,10 @@ app.get('/', (req, res) => {
 
 app.use('/api/sliders', (req, res) => {
   res.json(sliders);
+});
+
+app.use('/api/about', (req, res)=> {
+  res.json(about);
 });
 
 const PORT = process.env.PORT || 5000;

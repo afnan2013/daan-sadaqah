@@ -80,7 +80,7 @@ const Header = () => {
             </Col>
 
             <Col md={6}>
-              <Form className="d-flex" style={{ 'max-width': '700px' }}>
+              <Form className="d-flex common_search_form">
                 <FormControl
                   type="search"
                   placeholder="Search"

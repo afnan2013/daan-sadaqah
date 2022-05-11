@@ -54,32 +54,32 @@ const Footer = () => {
               <Col>
                 <ul>
                   <li>
-                    <Link to={'/about'} className="px-3">
+                    <Link to={'/about'}>
                       About
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       What we do
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       Press release
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       Photo Gallery
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       Career
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       Contact us
                     </Link>
                   </li>
@@ -88,17 +88,17 @@ const Footer = () => {
               <Col>
                 <ul>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       Useful links
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       How to use
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       Video tutorial
                     </Link>
                   </li>
@@ -107,12 +107,12 @@ const Footer = () => {
               <Col>
                 <ul>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       Support
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       Online Support
                     </Link>
                   </li>
@@ -121,12 +121,12 @@ const Footer = () => {
               <Col>
                 <ul>
                   <li>
-                    <Link to={``} className="px-3">
+                    <Link to={``}>
                       App
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="footer_app_btn px-3">
+                    <Link to={``} className="footer_app_btn">
                       <Image
                         src="/images/google-play.png"
                         rounded
@@ -135,7 +135,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to={``} className="footer_app_btn px-3">
+                    <Link to={``} className="footer_app_btn">
                       <Image src="/images/apple-play.png" rounded fluid></Image>
                     </Link>
                   </li>

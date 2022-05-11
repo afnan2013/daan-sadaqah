@@ -21,10 +21,14 @@ a{
 
 .common_screen_margin {
   margin-top: 115px;
-  min-height: 650px;
-  /* background-color: azure; */
+  /* min-height: 650px; */
 }
- 
+
+.common_screen_margin .common_form_container{
+   background-color:#073642;
+   border-radius: 10px;
+}
+
 /*************************************************Start HEADER ********************************************/
 
 #common_hamBurger_Icon {
@@ -61,6 +65,11 @@ a{
 
 .common_nav_items i{
   font-size: 2.3rem;
+}
+
+.common_search_form {
+  max-width: 650px;
+  margin: auto;
 }
 
 .badge{
@@ -184,3 +193,74 @@ a{
 .notification_panel.active {
   right: 2%;
 }
+
+
+/********** Large devices only **********/
+@media (min-width: 1200px) {
+
+  
+  
+}
+
+
+/********** Mediam- Large devices only **********/
+@media (min-width: 1200px) and (max-width: 1500px) {
+  /* HEADER PAGE */
+  #common_hamBurger_Icon{
+    margin: 15px;
+  font-size: 20px;
+  }
+
+  .common_navbar_brand img {
+    max-height: 70px;
+  }
+
+  .common_navbar_brand span {
+    font-size: 32px;
+  }
+
+  .footer_row {
+    font-size: 1.3rem;
+  }
+  
+}
+
+/********** Mediam devices only **********/
+@media (min-width: 992px) and (max-width: 1199px) {
+  /* HEADER PAGE */
+
+  #common_hamBurger_Icon{
+    margin: 15px 10px;
+    font-size: 20px;
+  }
+
+  .common_navbar_brand img {
+    max-height: 70px;
+  }
+
+  .common_navbar_brand span {
+    font-size: 30px;
+  }
+
+  .common_search_form {
+    max-width: 400px;
+  }
+
+  .common_nav_items {
+    font-size: 13px;
+  }
+
+  .footer_row {
+    font-size: 1.1rem;
+  }
+}
+
+
+/********** Small devices only **********/
+@media (min-width: 768px) and (max-width: 991px) {
+      
+  .footer_row {
+    font-size: 1rem;
+  }
+}
+
