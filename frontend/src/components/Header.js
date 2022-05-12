@@ -87,18 +87,15 @@ const Header = () => {
                   aria-label="Search"
                 />
                 <Button variant="outline-success">
-                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <i className="fa-solid fa-magnifying-glass"></i>
                 </Button>
               </Form>
             </Col>
             <Col md={2} className="d-none d-lg-block">
-              <Nav
-                className="ms-auto"
-                style={{ 'flex-direction': 'row-reverse' }}
-              >
+              <Nav className="ms-auto" style={{ flexDirection: 'row-reverse' }}>
                 <LinkContainer to="/login">
                   <Nav.Link className="common_nav_items">
-                    <i class="fa-solid fa-user"></i>
+                    <i className="fa-solid fa-user"></i>
                     <br />
                     <span>Login</span>
                   </Nav.Link>
@@ -108,10 +105,13 @@ const Header = () => {
                   className="common_nav_items"
                   onClick={() => setShowNotification(!showNotification)}
                 >
-                  <i class="fa-solid fa-bell" style={{ position: 'relative' }}>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                  <i
+                    className="fa-solid fa-bell"
+                    style={{ position: 'relative' }}
+                  >
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
                       9+
-                      <span class="visually-hidden">unread messages</span>
+                      <span className="visually-hidden">unread messages</span>
                     </span>
                   </i>{' '}
                   <br />

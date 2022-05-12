@@ -4,12 +4,13 @@ import {
   SLIDER_LIST_REQUEST,
   SLIDER_LIST_FAIL,
 } from '../constants/sliderConstants';
+import { apiCall } from '../utils/apiCall';
 
 export const listSliders = () => async (dispatch) => {
   try {
     dispatch({ type: SLIDER_LIST_REQUEST });
 
-    const { data } = await axios.get('/api/sliders');
+    const { data } = await apiCall('get', '/api/sliders');
 
     // console.log(data);
     dispatch({

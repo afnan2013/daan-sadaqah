@@ -21,6 +21,7 @@ a{
 
 .common_screen_margin {
   margin-top: 115px;
+  padding: 15px;
   /* min-height: 650px; */
 }
 
@@ -28,6 +29,7 @@ a{
    background-color:#073642;
    border-radius: 10px;
    color: #fff;
+   padding: 25px;
 }
 
 /*************************************************Start HEADER ********************************************/

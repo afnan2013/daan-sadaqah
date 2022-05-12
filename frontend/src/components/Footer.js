@@ -54,76 +54,52 @@ const Footer = () => {
               <Col>
                 <ul>
                   <li>
-                    <Link to={'/about'}>
-                      About
-                    </Link>
+                    <Link to={'/about'}>About</Link>
                   </li>
                   <li>
-                    <Link to={``}>
-                      What we do
-                    </Link>
+                    <Link to={'/whatwedo'}>What we do</Link>
                   </li>
                   <li>
-                    <Link to={``}>
-                      Press release
-                    </Link>
+                    <Link to={'/pressrelease'}>Press release</Link>
                   </li>
                   <li>
-                    <Link to={``}>
-                      Photo Gallery
-                    </Link>
+                    <Link to={'/photogallery'}>Photo Gallery</Link>
                   </li>
                   <li>
-                    <Link to={``}>
-                      Career
-                    </Link>
+                    <Link to={'/career'}>Career</Link>
                   </li>
                   <li>
-                    <Link to={``}>
-                      Contact us
-                    </Link>
+                    <Link to={'/contactus'}>Contact us</Link>
                   </li>
                 </ul>
               </Col>
               <Col>
                 <ul>
                   <li>
-                    <Link to={``}>
-                      Useful links
-                    </Link>
+                    <Link to={'/usefulLinks'}>Useful links</Link>
                   </li>
                   <li>
-                    <Link to={``}>
-                      How to use
-                    </Link>
+                    <Link to={'/howtouse'}>How to use</Link>
                   </li>
                   <li>
-                    <Link to={``}>
-                      Video tutorial
-                    </Link>
+                    <Link to={'/videotutorial'}>Video tutorial</Link>
                   </li>
                 </ul>
               </Col>
               <Col>
                 <ul>
                   <li>
-                    <Link to={``}>
-                      Support
-                    </Link>
+                    <Link to={'/support'}>Support</Link>
                   </li>
                   <li>
-                    <Link to={``}>
-                      Online Support
-                    </Link>
+                    <Link to={'/onlinesupport'}>Online Support</Link>
                   </li>
                 </ul>
               </Col>
               <Col>
                 <ul>
                   <li>
-                    <Link to={``}>
-                      App
-                    </Link>
+                    <Link to={'/mobileapp'}>App</Link>
                   </li>
                   <li>
                     <Link to={``} className="footer_app_btn">
