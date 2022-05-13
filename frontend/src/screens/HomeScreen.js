@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Image } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import Slider from '../components/Slider';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -24,7 +24,7 @@ const HomeScreen = () => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant="danger">error</Message>
       ) : (
         <>
           <div className="btn_donation_fixed_mobile d-block d-sm-none">

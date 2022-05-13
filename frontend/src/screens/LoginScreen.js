@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import FormContainer from '../components/FormContainer';
-import { Button, Form, Row, Col } from 'react-bootstrap';
+import { Button, Form, Row } from 'react-bootstrap';
 import { login } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
   ABOUT_TEXT_FAIL,
   ABOUT_TEXT_REQUEST,
