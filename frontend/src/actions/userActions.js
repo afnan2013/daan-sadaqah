@@ -14,23 +14,19 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
 } from '../constants/userConstants';
+import { apiCall } from '../utils/apiCall';
 
-export const login = (email, password) => async (dispatch, getState) => {
+export const login = (phone, password) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const { data } = await axios.post(
-      '/api/users/login',
-      { email, password },
-      config
-    );
+    const { data } = await apiCall({
+      method: 'post',
+      URL: '/api/users/login',
+      payload: { phone, password },
+    });
 
     dispatch({
       type: USER_LOGIN_SUCCESS,

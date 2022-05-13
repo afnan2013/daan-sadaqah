@@ -1,10 +1,35 @@
 import axios from 'axios';
 
-export const apiCall = async (method, URL, publicAccess, payload, token) => {
+export const apiCall = async ({
+  method,
+  URL,
+  publicAccess = true,
+  payload,
+  config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  },
+  token,
+}) => {
   if (!publicAccess) {
-    publicAccess = true;
+    config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
   }
+
   if (method === 'post') {
+    if (payload) {
+      if (publicAccess) {
+        return await axios.post(URL, payload, config);
+      } else {
+      }
+    } else {
+      console.log('Payload not found for POST API Request');
+    }
   } else if (method === 'get') {
     if (publicAccess) {
       return await axios.get(URL);

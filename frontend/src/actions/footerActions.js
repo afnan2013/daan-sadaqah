@@ -13,7 +13,7 @@ export const getAbout = () => async (dispatch) => {
   try {
     dispatch({ type: ABOUT_TEXT_REQUEST });
 
-    const { data } = await apiCall('get', '/api/about');
+    const { data } = await apiCall({ method: 'get', URL: '/api/about' });
 
     dispatch({
       type: ABOUT_TEXT_SUCCESS,
@@ -34,7 +34,7 @@ export const getUseFulLinks = () => async (dispatch) => {
   try {
     dispatch({ type: USEFUL_LINKS_REQUEST });
 
-    const { data } = await apiCall('get', '/api/usefullinks');
+    const { data } = await apiCall({ method: 'get', URL: '/api/usefullinks' });
     console.log(data);
 
     dispatch({

@@ -29,7 +29,7 @@ const LoginScreen = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // dispatch(login(email, password));
+    dispatch(login(phone, password));
   };
 
   return (
