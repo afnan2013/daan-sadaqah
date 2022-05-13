@@ -116,13 +116,13 @@ const Header = () => {
                   </i>{' '}
                   <br />
                   <span>Notification</span>
-                  <NotificationPanel show={showNotification} />
                 </Nav.Link>
               </Nav>
             </Col>
           </Row>
         </Container>
       </Navbar>
+      <NotificationPanel show={showNotification} />
     </header>
   );
 };

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { getUseFulLinks } from '../../actions/footerActions';
-import FormContainer from '../../components/FormContainer';
+import ScreenContainer from '../../components/ScreenContainer';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { Link } from 'react-router-dom';
@@ -18,7 +18,7 @@ const UsefullLinksScreen = () => {
   }, [dispatch]);
 
   return (
-    <FormContainer>
+    <ScreenContainer>
       <h1>Some Useful Links</h1>
       {loading ? (
         <Loader />
@@ -54,7 +54,7 @@ const UsefullLinksScreen = () => {
           </tbody>
         </Table>
       )}
-    </FormContainer>
+    </ScreenContainer>
   );
 };
 

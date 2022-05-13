@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAbout } from '../../actions/footerActions';
-import FormContainer from '../../components/FormContainer';
+import ScreenContainer from '../../components/ScreenContainer';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 
@@ -16,7 +16,7 @@ const AboutScreen = () => {
   }, [dispatch]);
 
   return (
-    <FormContainer>
+    <ScreenContainer>
       <h1>About Our Website</h1>
       {loading ? (
         <Loader />
@@ -32,7 +32,7 @@ const AboutScreen = () => {
           {about.aboutText}
         </div>
       )}
-    </FormContainer>
+    </ScreenContainer>
   );
 };
 

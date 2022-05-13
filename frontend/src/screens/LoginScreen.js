@@ -35,63 +35,60 @@ const LoginScreen = ({ history }) => {
   return (
     <FormContainer>
       <div className="auth_component">
-        <h1>Sign In</h1>
         {error && <Message variant={'danger'}>{error}</Message>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId="email">
-            <Row>
-              <Col>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter email"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  required
-                ></Form.Control>
-              </Col>
-              <Col sm={2} className="form_icon">
-                <Form.Label>
-                  <i class="fa-solid fa-phone"></i>
-                </Form.Label>
-              </Col>
-            </Row>
+          <Form.Group controlId="phone" className="form_field">
+            <span className="form_icon">
+              <i class="fa-solid fa-phone-flip"></i>
+            </span>
+            <Form.Control
+              type=""
+              placeholder="Enter phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId="password" className="form_field">
+            <span className="form_icon">
+              <i class="fa-solid fa-key"></i>
+            </span>
+            <Form.Control
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            ></Form.Control>
           </Form.Group>
 
-          <Form.Group controlId="password">
-            <Row>
-              <Col>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                ></Form.Control>
-              </Col>
-              <Col sm={2} className="form_icon">
-                <Form.Label>
-                  <i class="fa-solid fa-phone"></i>
-                </Form.Label>
-              </Col>
-            </Row>
-          </Form.Group>
-
-          <Button type="submit" variant="primary" className="my-3">
-            Sign In
+          <Button
+            type="submit"
+            variant="info"
+            className="w-100 form_submit_button"
+          >
+            Log In
           </Button>
         </Form>
         <Row>
-          <Col>
-            New Customer?{' '}
-            <Link
-              to={redirect ? `/register?redirect=${redirect}` : '/register'}
-            >
-              Register
-            </Link>
-          </Col>
+          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+            <span className="common_link_hover">Forgotten password?</span>
+          </Link>
         </Row>
       </div>
+
+      <Row className="text-center">
+        <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+          <Button
+            type="submit"
+            variant="success"
+            className="new_account_button"
+          >
+            Create New Account
+          </Button>
+        </Link>
+      </Row>
     </FormContainer>
   );
 };

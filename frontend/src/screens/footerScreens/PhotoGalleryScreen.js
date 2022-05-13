@@ -1,9 +1,9 @@
 import React from 'react';
-import FormContainer from '../../components/FormContainer';
+import ScreenContainer from '../../components/ScreenContainer';
 
 const PhotoGalleryScreen = () => {
   return (
-    <FormContainer>
+    <ScreenContainer>
       <h1>Photo Gallery</h1>
       <p>
         Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -16,7 +16,7 @@ const PhotoGalleryScreen = () => {
         with desktop publishing software like Aldus PageMaker including versions
         of Lorem Ipsum
       </p>
-    </FormContainer>
+    </ScreenContainer>
   );
 };
 

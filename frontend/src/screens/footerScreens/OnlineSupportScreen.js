@@ -1,9 +1,9 @@
 import React from 'react';
-import FormContainer from '../../components/FormContainer';
+import ScreenContainer from '../../components/ScreenContainer';
 
 const OnlineSupportScreen = () => {
   return (
-    <FormContainer>
+    <ScreenContainer>
       <h1>Online Support</h1>
       <p>
         Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -16,7 +16,7 @@ const OnlineSupportScreen = () => {
         with desktop publishing software like Aldus PageMaker including versions
         of Lorem Ipsum
       </p>
-    </FormContainer>
+    </ScreenContainer>
   );
 };
 

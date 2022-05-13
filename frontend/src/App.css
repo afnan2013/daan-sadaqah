@@ -11,12 +11,19 @@ hr {
   opacity: 0.5;
 }
 
-ul{
+ol, ul{
   list-style-type: none;
+  padding: 0px;
+  margin: 0px;
 }
 
 a{
   text-decoration: none;
+}
+
+.common_link_hover:hover{
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .common_screen_margin {
@@ -25,11 +32,25 @@ a{
   /* min-height: 650px; */
 }
 
-.common_screen_margin .common_form_container{
+.common_screen_margin .common_screeen_container{
    background-color:#073642;
    border-radius: 10px;
    color: #fff;
    padding: 25px;
+}
+
+.common_form_margin{
+  margin-top: 115px;
+  padding: 15px;
+  background: #F0F2F5;
+}
+
+.common_form_container{
+  background-color:#fff;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  color: #073642;
+  padding: 25px;
 }
 
 /*************************************************Start HEADER ********************************************/
@@ -166,35 +187,61 @@ a{
 /************************************************* END FOOTER ********************************************/
 
 .auth_component {
-  padding: 20px 0px;
+  padding: 0px 0px 20px;
   max-width: 500px;
   margin: auto;
 }
 
+.auth_component .form_field {
+  position: relative;
+}
+
 .auth_component .form-control{
-  font-size: 1.5rem;
-  padding: 20px 10px;
+  font-size: 1.3rem;
+  padding: 15px 10px 15px 65px;
   margin: 10px 0px;
 }
 
 .auth_component .form_icon {
-  font-size: 2.5rem;
-  text-align: center;
-  margin: auto;
+  position: absolute;
+  z-index: 3;
+  left: 5%;
+  font-size: 1.4rem;
+  top: 24%;
 }
+
+.auth_component .form_submit_button{
+  padding: 16px;
+  margin: 10px 0px;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.new_account_button{
+  width: 60%;
+  padding: 16px;
+  margin: 10px auto;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
 
 .notification_panel{
   position: absolute;
-  width: 360px;
+  top: 12%;
+  right: -40%;
+  width: 400px;
   padding: 0 10px;
-  transition: all 1s;
-  background: black;
-  right: -25%;
-  top: 85%;
+  height: 85vh;
+  border-radius: 10px;
+  transition: all 0.5s;
+  background: #FFFFFF;
+  z-index: 5;
 }
 
 .notification_panel.active {
-  right: 2%;
+  top: 12%;
+  right: 1%;
 }
 
 
