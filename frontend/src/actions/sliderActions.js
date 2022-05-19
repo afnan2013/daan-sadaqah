@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
   SLIDER_LIST_SUCCESS,
   SLIDER_LIST_REQUEST,

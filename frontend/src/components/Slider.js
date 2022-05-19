@@ -2,6 +2,22 @@ import React from 'react';
 import { Carousel } from 'react-bootstrap';
 
 const Slider = ({ sliders }) => {
+	console.log("sliders issue: 1");
+	
+	let l = 0;
+	
+	try
+	{
+		l = sliders.length;
+	}
+	catch(e)
+	{
+	}
+	
+	if (l === 0)
+		return (<div>slider load failed</div>);
+	
+	console.log("sliders issue: 2");
   return (
     <Carousel pause={false}>
       {sliders.map((slider) => (

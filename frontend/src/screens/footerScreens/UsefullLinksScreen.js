@@ -5,7 +5,6 @@ import { getUseFulLinks } from '../../actions/footerActions';
 import ScreenContainer from '../../components/ScreenContainer';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
-import { Link } from 'react-router-dom';
 
 const UsefullLinksScreen = () => {
   const usefulLinksList = useSelector((state) => state.usefulLinksList);

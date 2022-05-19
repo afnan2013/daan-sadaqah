@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import { Button, Form, Row, Col } from 'react-bootstrap';
-import { register } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 
@@ -15,10 +14,9 @@ const RegisterScreen = ({ history }) => {
   const [OTP, setOTP] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState(null);
 
-  const dispatch = useDispatch();
   const location = useLocation();
+  const message = undefined;
 
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
