@@ -18,6 +18,7 @@ import VideoTutorialScreen from './screens/footerScreens/VideoTutorialScreen';
 import SupportScreen from './screens/footerScreens/SupportScreen';
 import MobileAppScreen from './screens/footerScreens/MobileAppScreen';
 import OnlineSupportScreen from './screens/footerScreens/OnlineSupportScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/about" element={<AboutScreen />} />
 
         {/* User Routes */}
+        <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/login" element={<LoginScreen />} />
 

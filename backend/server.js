@@ -1,4 +1,6 @@
+import path from 'path';
 import express from 'express';
+import morgan from 'morgan';
 import dotenv from 'dotenv';
 import colors from 'colors';
 
@@ -15,9 +17,9 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('API is running.......');
-});
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 app.use('/api/sliders', (req, res) => {
   res.json(sliders);
@@ -45,6 +47,7 @@ app.post('/api/users/login', (req, res) => {
       id: user._id,
       email: user.email,
       name: user.name,
+      phone: user.phone,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
@@ -55,6 +58,45 @@ app.post('/api/users/login', (req, res) => {
     });
   }
 });
+
+app.post('/api/users', (req, res) => {
+  const { phone, password } = req.body;
+  console.log(phone);
+
+  const userMatched = users.filter((u) => {
+    return u.password === password && u.phone === phone;
+  });
+  const user = userMatched[0];
+  console.log(user);
+  if (user) {
+    res.status(401);
+    res.json({
+      message: 'Already user registered',
+    });
+  } else {
+    res.json({
+      id: 'NewUser1',
+      phone: phone,
+      isAdmin: false,
+      token: generateToken(password),
+    });
+  }
+});
+
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....');
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 
