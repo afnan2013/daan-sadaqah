@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
+import { Button, Image } from 'react-bootstrap';
 import Slider from '../components/Slider';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -37,14 +37,27 @@ class HomeScreen extends React.Component {
               </Button>
             </div>
             <div className="btn_donation_fixed_desktop d-none d-lg-block">
-              {/* <Image src={'/images/upright-hand.png'}></Image> */}
               <Button type="button" variant="dark" className="w-100">
-                Make A Donation
+                Make A Donation{' '}
+                <span>
+                  <Image
+                    className="btn_donation_right_hand"
+                    src={'/images/right_hand.png'}
+                  ></Image>
+                </span>
               </Button>
               <br />
-              <Button type="button" variant="dark" className="w-100">
-                Seek A Donation
-              </Button>
+              <div>
+                <Button type="button" variant="dark" className="w-100">
+                  Seek A Donation
+                  <span>
+                    <Image
+                      className="btn_donation_left_hand"
+                      src={'/images/left_hand.png'}
+                    ></Image>
+                  </span>
+                </Button>
+              </div>
             </div>
 
             <Slider sliders={sliders} />
