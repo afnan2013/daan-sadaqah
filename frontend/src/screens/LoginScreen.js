@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import { Button, Form, Row } from 'react-bootstrap';
 import { login } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import { apiCall } from '../utils/apiCall';
+import AuthUtil from '../utils/AuthUtil';
 import { withRouter } from '../components/withRouter';
 
 class LoginScreen extends React.Component {
@@ -16,51 +17,111 @@ class LoginScreen extends React.Component {
       password: '',
       enable: '',
       redirect: '',
+      loading: false,
+      error: undefined,
     };
   }
 
-  setInputValue(property, val) {
+  setInputValue = (property, val) => {
     this.setState({
       [property]: val,
     });
-  }
+  };
 
-  checkEnter(thisEvent) {
+  checkEnter = (thisEvent) => {
     if (thisEvent.keyCode === 13) {
-      this.props.login(this.state.phone, this.state.password);
+      this.doLogin();
     }
-  }
+  };
 
-  resetForm() {
+  resetForm = () => {
     this.setState({
       phone: '',
       password: '',
     });
-  }
-
-  submitHandler = (e) => {
-    e.preventDefault();
-    this.props.login(this.state.phone, this.state.password);
-    this.resetForm();
   };
 
-  render() {
-    const redirect = this.props.location.search
-      ? this.props.location.search.split('=')[1]
-      : '/';
+  doLogin = async (e) => {
+    e.preventDefault();
 
-    const { loading, error, userInfo } = this.props.userLogin;
-
-    if (userInfo) {
-      return <Navigate to={redirect} />;
+    this.setState({
+      enable: 'disable',
+      loading: true,
+      error: undefined,
+    });
+    if (!this.state.phone) {
+      this.setState({
+        enable: '',
+        loading: false,
+      });
+      this.setState({ error: 'Phone field is empty' });
+      return;
     }
+
+    if (!this.state.password) {
+      this.setState({
+        enable: '',
+        loading: false,
+      });
+      this.setState({ error: 'Password field is empty' });
+      return;
+    }
+    // const gwUrl = process.env.REACT_APP_API_GW_HOST;
+    try {
+      const phone = this.state.phone;
+      const password = this.state.password;
+      const { data } = await apiCall({
+        method: 'post',
+        URL: '/api/users/login',
+        payload: { phone, password },
+      });
+
+      console.log(data);
+      this.setState({
+        enable: '',
+        loading: false,
+      });
+      if (data.token) {
+        AuthUtil.setToken(data.token);
+        AuthUtil.setRole(data.rolelist);
+        AuthUtil.setPhone(data.phone);
+
+        // this.getMenu();
+      }
+    } catch (error) {
+      this.setState({
+        enable: '',
+        loading: false,
+      });
+      this.setState({
+        error:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.response,
+      });
+      this.resetForm();
+    }
+  };
+
+  render = () => {
+    // const redirect = this.props.location.search
+    //   ? this.props.location.search.split('=')[1]
+    //   : '/';
+
+    // const { loading, error, userInfo } = this.props.userLogin;
+
+    // if (userInfo) {
+    //   return <Navigate to={redirect} />;
+    // }
 
     return (
       <FormContainer>
         <div className="auth_component">
-          {error && <Message variant={'danger'}>{error}</Message>}
-          {loading && <Loader />}
-          <Form onSubmit={this.submitHandler}>
+          {this.state.error && (
+            <Message variant={'danger'}>{this.state.error}</Message>
+          )}
+          {this.state.loading && <Loader />}
+          <Form onSubmit={this.doLogin}>
             <Form.Group controlId="phone" className="form_field">
               <span className="form_icon">
                 <i className="fa-solid fa-phone-flip"></i>
@@ -91,7 +152,7 @@ class LoginScreen extends React.Component {
               type="submit"
               variant="info"
               className="w-100 form_submit_button"
-              // onClick={() => this.submitHandler()}
+              // onClick={(e) => this.doLogin(e)}
             >
               Log In
             </Button>
@@ -128,13 +189,7 @@ class LoginScreen extends React.Component {
         </Row>
       </FormContainer>
     );
-  }
+  };
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userLogin: state.userLogin,
-  };
-};
-
-export default withRouter(connect(mapStateToProps, { login })(LoginScreen));
+export default withRouter(LoginScreen);
