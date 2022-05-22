@@ -135,11 +135,30 @@ a{
   z-index: 3;
 }
 
+
+
 .btn_donation_fixed_desktop button {
-  padding: 30px 100px;
+  position: relative;
+  padding: 32px 105px;
   margin: 10px 0px;
-  border-radius: 10px;
+  border-radius: 12px;
+  font-size: 20px;
 }
+
+.btn_donation_fixed_desktop .btn_donation_right_hand {
+  position: absolute;
+  width: 68px;
+  top: 0%;
+  right: 0%;
+}
+
+.btn_donation_fixed_desktop .btn_donation_left_hand {
+  position: absolute;
+  width: 68px;
+  bottom: 0%;
+  left: 0%;
+}
+
 
 /********************* Fixed Donation Buttons *****************/
 
