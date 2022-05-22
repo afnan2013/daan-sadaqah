@@ -4,6 +4,11 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import colors from 'colors';
 
+import {
+  getUserRolesFromDb,
+  getRolesFromDb,
+  getMenuForRoleFromDb,
+} from './utils/dbApiCall.js';
 import generateToken from './utils/generateToken.js';
 
 import sliders from './data/sliders.js';
@@ -33,23 +38,31 @@ app.use('/api/usefullinks', (req, res) => {
   res.json(usefulLinks);
 });
 
-app.post('/api/users/login', (req, res) => {
+app.post('/api/users/login', async (req, res) => {
   const { phone, password } = req.body;
-  console.log(phone);
+  // console.log(phone);
 
   const userMatched = users.filter((u) => {
     return u.password === password && u.phone === phone;
   });
   const user = userMatched[0];
-  console.log(user);
+
   if (user) {
+    const userRole = await getUserRolesFromDb(user.userid);
+    const userMenu = await getMenuForRoleFromDb(
+      userRole ? userRole : 'developer'
+    );
+
+    console.log(userMenu);
+    // getRolesFromDb();
     res.json({
-      id: user._id,
+      id: user.userid,
       email: user.email,
       name: user.name,
       phone: user.phone,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      rolelist: userRole ? [userRole] : [],
+      token: generateToken(user.userid),
     });
   } else {
     res.status(401);

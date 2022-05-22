@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 
 const users = [
   {
-    _id: '1',
+    userid: 'administrator',
     name: 'Admin User',
     email: 'admin@gmail.com',
     phone: '01779007937',
@@ -11,7 +11,7 @@ const users = [
     isAdmin: true,
   },
   {
-    _id: '2',
+    userid: 'developer',
     name: 'John Doe',
     email: 'john@gmail.com',
     phone: '01779007931',
@@ -19,7 +19,7 @@ const users = [
     passwordHash: bcrypt.hashSync('123456', 10),
   },
   {
-    _id: '3',
+    userid: 'donator',
     name: 'Zia Ahmed',
     email: 'rafin@gmail.com',
     phone: '01779007932',
