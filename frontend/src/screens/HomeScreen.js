@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 
 import { listSliders } from '../actions/sliderActions';
 import { withRouter } from '../components/withRouter';
+import AuthUtil from '../utils/AuthUtil';
 
 class HomeScreen extends React.Component {
   // eslint-disable-next-line
@@ -17,6 +18,12 @@ class HomeScreen extends React.Component {
   componentDidMount() {
     this.props.listSliders();
   }
+
+  checkLoggedInUser = () => {
+    if (!AuthUtil.getToken()) {
+      this.props.navigate('/login');
+    }
+  };
 
   render() {
     const { loading, error, sliders } = this.props.sliderList;

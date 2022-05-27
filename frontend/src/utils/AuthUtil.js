@@ -95,20 +95,22 @@ class AuthUtil {
     try {
       roleList = localStorage.getItem('role_list');
       let roleArray = JSON.parse(roleList);
+
       for (var j = 0; j < roleNames.length; j++) {
         let roleName = roleNames[j];
         // console.log('====getRolePresence(role)====');
         // console.log(roleName);
         for (var i = 0; i < roleArray.length; i++) {
           let currentRole = roleArray[i];
-          if (currentRole.name === roleName) {
+
+          // if (currentRole.name === roleName) {
+          if (currentRole === roleName) {
             // console.log('====getRolePresence(true)====');
             // console.log('true');
             return true;
           }
         }
       }
-
       // console.log('====getRolePresence(false)====');
       // console.log('false');
       return result;

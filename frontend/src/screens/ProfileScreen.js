@@ -1,14 +1,11 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
-import { connect } from 'react-redux';
-import { Table, Button, Form, Row, Col } from 'react-bootstrap';
+import { Button, Form, Row, Col } from 'react-bootstrap';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { UPDATE_USER_PROFILE_RESET } from '../constants/userConstants';
 import ScreenContainer from '../components/ScreenContainer';
 import { withRouter } from '../components/withRouter';
+import AuthUtil from '../utils/AuthUtil';
 // import { getLoggedInUserOrderList } from '../actions/orderActions';
 
 class ProfileScreen extends React.Component {
@@ -20,6 +17,8 @@ class ProfileScreen extends React.Component {
       phone: '',
       loggedIn: false,
       message: undefined,
+      error: '',
+      isLoading: false,
     };
   }
 
@@ -29,39 +28,44 @@ class ProfileScreen extends React.Component {
     });
   }
 
+  checkLoggedInUser = () => {
+    if (!AuthUtil.getToken()) {
+      this.props.navigate('/login');
+    }
+  };
+
   submitHandler = (e) => {
     e.preventDefault();
-    console.log('Sunmi');
     // dispatch(updateUserProfile('profile', name, email, password));
   };
 
+  logout = () => {
+    AuthUtil.resetTokenDetail();
+    this.checkLoggedInUser();
+  };
+
   componentDidMount() {
-    const { userInfo } = this.props.userLogin;
-    if (userInfo) {
-      this.setValue('name', userInfo.name);
-      this.setValue('phone', userInfo.phone);
-      this.setValue('email', userInfo.email);
+    if (AuthUtil.getToken()) {
+      this.setValue('phone', AuthUtil.getPhone());
       this.setValue('loggedIn', true);
     }
   }
 
   render() {
-    const { loading, error, userInfo } = this.props.userLogin;
-    if (!userInfo) {
-      return <Navigate to={'/login'} />;
-    }
-
+    this.checkLoggedInUser();
     return (
       <ScreenContainer>
         <Row>
           <Col md={3}>
             <h1>User Profile</h1>
-            {error && <Message variant={'danger'}>{error}</Message>}
+            {this.state.error && (
+              <Message variant={'danger'}>{this.state.error}</Message>
+            )}
             {this.state.message && (
               <Message variant={'danger'}>{this.state.message}</Message>
             )}
             {/* {success && <Message variant={'success'}>Profile Updated!</Message>} */}
-            {loading && <Loader />}
+            {this.state.isLoading && <Loader />}
             <Form onSubmit={this.submitHandler}>
               <Form.Group controlId="name">
                 <Form.Label>Full Name</Form.Label>
@@ -106,6 +110,16 @@ class ProfileScreen extends React.Component {
                 Update
               </Button>
             </Form>
+          </Col>
+          <Col md={8}></Col>
+          <Col md={1}>
+            <Button
+              variant="primary"
+              className="my-3 w-100"
+              onClick={() => this.logout()}
+            >
+              Logout
+            </Button>
           </Col>
           {/* <Col md={9}>
         <h1>My Orders</h1>
@@ -164,11 +178,4 @@ class ProfileScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userLogin: state.userLogin,
-    userDetails: state.userDetails,
-  };
-};
-
-export default withRouter(connect(mapStateToProps, {})(ProfileScreen));
+export default withRouter(ProfileScreen);

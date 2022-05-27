@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import { Button, Form, Row } from 'react-bootstrap';
-import { login } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { apiCall } from '../utils/apiCall';
@@ -16,7 +15,7 @@ class LoginScreen extends React.Component {
       phone: '',
       password: '',
       enable: '',
-      redirect: '',
+      redirect: '/',
       loading: false,
       error: undefined,
     };
@@ -85,8 +84,9 @@ class LoginScreen extends React.Component {
         AuthUtil.setToken(data.token);
         AuthUtil.setRole(data.rolelist);
         AuthUtil.setPhone(data.phone);
+        AuthUtil.setMenu(data.menulist);
 
-        // this.getMenu();
+        this.props.navigate(this.state.redirect);
       }
     } catch (error) {
       this.setState({
@@ -103,16 +103,18 @@ class LoginScreen extends React.Component {
     }
   };
 
+  checkLoggedInUser = () => {
+    if (AuthUtil.getToken()) {
+      this.props.navigate(this.state.redirect);
+    }
+  };
+
   render = () => {
-    // const redirect = this.props.location.search
-    //   ? this.props.location.search.split('=')[1]
-    //   : '/';
+    this.state.redirect = this.props.location.search
+      ? this.props.location.search.split('=')[1]
+      : '/';
 
-    // const { loading, error, userInfo } = this.props.userLogin;
-
-    // if (userInfo) {
-    //   return <Navigate to={redirect} />;
-    // }
+    this.checkLoggedInUser();
 
     return (
       <FormContainer>

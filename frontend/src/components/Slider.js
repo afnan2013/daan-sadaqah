@@ -13,8 +13,8 @@ const Slider = ({ sliders }) => {
   // if (l === 0) return <div>slider load failed</div>;
 
   // console.log('sliders issue: 2');
-  console.log(typeof sliders);
-  console.log(sliders);
+  // console.log(typeof sliders);
+  // console.log(sliders);
   return (
     <>
       {Array.isArray(sliders) ? (

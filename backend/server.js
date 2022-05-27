@@ -15,6 +15,7 @@ import sliders from './data/sliders.js';
 import about from './data/about.js';
 import usefulLinks from './data/usefulLinks.js';
 import users from './data/users.js';
+import menus from './data/menus.js';
 
 dotenv.config();
 
@@ -38,6 +39,10 @@ app.use('/api/usefullinks', (req, res) => {
   res.json(usefulLinks);
 });
 
+app.use('/api/menus', (req, res) => {
+  res.json(menus);
+});
+
 app.post('/api/users/login', async (req, res) => {
   const { phone, password } = req.body;
   // console.log(phone);
@@ -49,10 +54,11 @@ app.post('/api/users/login', async (req, res) => {
 
   if (user) {
     const userRole = await getUserRolesFromDb(user.userid);
+    // const userRole = 'developer';
     const userMenu = await getMenuForRoleFromDb(
       userRole ? userRole : 'developer'
     );
-
+    console.log(userRole);
     console.log(userMenu);
     // getRolesFromDb();
     res.json({
@@ -63,6 +69,7 @@ app.post('/api/users/login', async (req, res) => {
       isAdmin: user.isAdmin,
       rolelist: userRole ? [userRole] : [],
       token: generateToken(user.userid),
+      menulist: userMenu,
     });
   } else {
     res.status(401);

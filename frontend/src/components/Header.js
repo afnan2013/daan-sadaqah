@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { connect } from 'react-redux';
+import AuthUtil from '../utils/AuthUtil';
 import {
   Container,
   Image,
   Nav,
   Navbar,
-  NavDropdown,
   Offcanvas,
   Form,
   FormControl,
@@ -15,18 +14,120 @@ import {
   Col,
 } from 'react-bootstrap';
 import NotificationPanel from './NotificationPanel';
+import { withRouter } from './withRouter';
+import Loader from './Loader';
+import { apiCall } from '../utils/apiCall';
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showNotification: false,
+      isLoading: false,
+      menuList: [],
     };
+  }
+
+  getMenu = async () => {
+    console.log('Component Did Mount : Get Menu Fired');
+    this.setState({
+      isLoading: true,
+    });
+    console.log(AuthUtil.getToken());
+    if (AuthUtil.getToken()) {
+      this.setState({
+        menuList: AuthUtil.getMenu(),
+        isLoading: false,
+      });
+    } else {
+      const { data } = await apiCall({ method: 'get', URL: '/api/menus' });
+      // console.log(data);
+      this.setState({
+        menuList: data,
+        isLoading: false,
+      });
+    }
+  };
+
+  getMenuDesign = () => {
+    if (this.state.isLoading) {
+      return <Loader />;
+    }
+
+    let menuDesign = (
+      <>
+        {AuthUtil.getRolePresence(['admin']) === true ? (
+          <Nav className="justify-content-end flex-grow-1 pe-3">
+            {console.log(this.state.menuList)}
+            {this.state.menuList?.map((menu) => (
+              <LinkContainer key={menu[0]} to="{menu.path}">
+                <Nav.Link className="common_sidenav_items">
+                  <i className="fa-solid fa-user"></i>
+                  <span>{menu[2]}</span>
+                </Nav.Link>
+              </LinkContainer>
+            ))}
+          </Nav>
+        ) : AuthUtil.getRolePresence(['developer']) === true ? (
+          <Nav className="justify-content-end flex-grow-1 pe-3">
+            <Nav.Link href="#action1">Developer</Nav.Link>
+            <Nav.Link href="#action2">Link</Nav.Link>
+          </Nav>
+        ) : (
+          <Nav className="justify-content-end flex-grow-1 pe-3">
+            <LinkContainer to="/">
+              <Nav.Link className="common_sidenav_items">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Home</span>
+              </Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/">
+              <Nav.Link className="common_sidenav_items">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Posts</span>
+              </Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/">
+              <Nav.Link className="common_sidenav_items">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Discover</span>
+              </Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/">
+              <Nav.Link className="common_sidenav_items">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Shortlist</span>
+              </Nav.Link>
+            </LinkContainer>
+
+            <LinkContainer to="/">
+              <Nav.Link className="common_sidenav_items">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Training</span>
+              </Nav.Link>
+            </LinkContainer>
+
+            <LinkContainer to="/">
+              <Nav.Link className="common_sidenav_items">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Rule Book</span>
+              </Nav.Link>
+            </LinkContainer>
+          </Nav>
+        )}
+      </>
+    );
+
+    return menuDesign;
+  };
+
+  componentDidMount() {
+    this.getMenu();
   }
 
   render() {
     const expand = false;
-    const { userInfo } = this.props.userLogin;
+    const menuDesign = this.getMenuDesign();
 
     return (
       <header>
@@ -47,38 +148,20 @@ class Header extends React.Component {
                     <Offcanvas.Title
                       id={`offcanvasNavbarLabel-expand-${expand}`}
                     >
-                      Offcanvas
+                      <LinkContainer to="/">
+                        <Navbar.Brand className="common_navbar_brand">
+                          <Image
+                            src="/images/Daan-Sadaqah-65x80_PNG.png"
+                            fluid
+                          ></Image>
+                          <span>DaanSadaqah</span>
+                        </Navbar.Brand>
+                      </LinkContainer>
                     </Offcanvas.Title>
                   </Offcanvas.Header>
                   <Offcanvas.Body>
-                    <Nav className="justify-content-end flex-grow-1 pe-3">
-                      <Nav.Link href="#action1">Home</Nav.Link>
-                      <Nav.Link href="#action2">Link</Nav.Link>
-                      <NavDropdown
-                        title="Dropdown"
-                        id={`offcanvasNavbarDropdown-expand-${expand}`}
-                      >
-                        <NavDropdown.Item href="#action3">
-                          Action
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="#action4">
-                          Another action
-                        </NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action5">
-                          Something else here
-                        </NavDropdown.Item>
-                      </NavDropdown>
-                    </Nav>
-                    <Form className="d-flex">
-                      <FormControl
-                        type="search"
-                        placeholder="Search"
-                        className="me-2"
-                        aria-label="Search"
-                      />
-                      <Button variant="outline-success">Search</Button>
-                    </Form>
+                    {/* Menu */}
+                    {menuDesign}
                   </Offcanvas.Body>
                 </Navbar.Offcanvas>
                 <LinkContainer to="/">
@@ -109,7 +192,7 @@ class Header extends React.Component {
                   className="ms-auto"
                   style={{ flexDirection: 'row-reverse' }}
                 >
-                  {userInfo ? (
+                  {AuthUtil.getToken() ? (
                     <LinkContainer to="/profile">
                       <Nav.Link className="common_nav_items">
                         <i className="fa-solid fa-user"></i>
@@ -127,7 +210,7 @@ class Header extends React.Component {
                     </LinkContainer>
                   )}
 
-                  {userInfo && (
+                  {AuthUtil.getToken() && (
                     <Nav.Link
                       className="common_nav_items"
                       onClick={() => {
@@ -162,9 +245,4 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userLogin: state.userLogin,
-  };
-};
-export default connect(mapStateToProps, {})(Header);
+export default withRouter(Header);

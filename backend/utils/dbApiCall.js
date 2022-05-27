@@ -22,7 +22,7 @@ export const getUserDetails = async (user_id) => {
 export const getUserRolesFromDb = async (user_id) => {
   let dbgw = process.env.DB_API_GW_HOST;
   const result = await axios.post(dbgw + '/getUsers');
-
+  console.log(result.data.returnTables);
   if (result.data.status === 1) {
     const users = result.data.returnTables[0];
     for (let i in users) {
@@ -31,9 +31,8 @@ export const getUserRolesFromDb = async (user_id) => {
         return rolecode;
       }
     }
-    return '';
   }
-  return {};
+  return '';
 };
 
 export const getRolesFromDb = async () => {
@@ -48,12 +47,25 @@ export const getRolesFromDb = async () => {
   return {};
 };
 
-export const getMenusFromDb = async () => {
+export const getMenusFromDb = async (filter) => {
   let dbgw = process.env.DB_API_GW_HOST;
   const result = await axios.post(dbgw + '/getMenus');
 
   if (result.data.status === 1) {
     const menus = result.data.returnTables[0];
+    const filterdMenu = [];
+    if (filter) {
+      for (let i in menus) {
+        const [id, menucode, menuname] = menus[i];
+
+        for (let j in filter) {
+          if (filter[j] === menucode) {
+            filterdMenu.push(menus[i]);
+          }
+        }
+      }
+      return filterdMenu;
+    }
     return menus;
     //console.log(json);
   }
@@ -65,16 +77,20 @@ export const getMenuForRoleFromDb = async (role_code) => {
   const result = await axios.post(dbgw + '/getRoleMenuMaps');
 
   let menus = [];
+  let menuCodes = [];
   if (result.data.status === 1) {
     const rolemenumaps = result.data.returnTables[0];
     for (let i in rolemenumaps) {
       const [id, rolecode, menucode] = rolemenumaps[i];
 
       if (rolecode === role_code) {
-        menus.push(menucode);
+        menuCodes.push(menucode);
       }
     }
     //console.log(json);
   }
+
+  menus = await getMenusFromDb(menuCodes);
+
   return menus;
 };
