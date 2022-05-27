@@ -19,6 +19,13 @@ class LoginScreen extends React.Component {
       loading: false,
       error: undefined,
     };
+    this.setInputValue = this.setInputValue.bind(this);
+    this.checkEnter = this.checkEnter.bind(this);
+    this.resetForm = this.resetForm.bind(this);
+    this.doLogin = this.doLogin.bind(this);
+    this.doLogin = this.doLogin.bind(this);
+    this.checkLoggedInUser = this.checkLoggedInUser.bind(this);
+
   }
 
   setInputValue = (property, val) => {
@@ -81,11 +88,10 @@ class LoginScreen extends React.Component {
         loading: false,
       });
       if (data.token) {
-        AuthUtil.setToken(data.token);
-        AuthUtil.setRole(data.rolelist);
-        AuthUtil.setPhone(data.phone);
         AuthUtil.setMenu(data.menulist);
-
+        AuthUtil.setPhone(data.phone);
+        AuthUtil.setRole(data.rolelist);
+        AuthUtil.setToken(data.token);
         this.props.navigate(this.state.redirect);
       }
     } catch (error) {
@@ -109,10 +115,16 @@ class LoginScreen extends React.Component {
     }
   };
 
+ 
+
   render = () => {
-    this.state.redirect = this.props.location.search
-      ? this.props.location.search.split('=')[1]
-      : '/';
+    // const r = this.props.location.search
+    // ? this.props.location.search.split('=')[1]
+    // : '/';
+    // this.setState({
+    //   redirect : r
+    // });
+    
 
     this.checkLoggedInUser();
 

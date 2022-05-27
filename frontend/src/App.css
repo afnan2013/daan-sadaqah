@@ -53,6 +53,10 @@ a{
   padding: 25px;
 }
 
+.progress-bar{
+  color: white;
+}
+
 /*************************************************Start HEADER ********************************************/
 
 #common_hamBurger_Icon {
@@ -109,6 +113,11 @@ a{
 
 .nav-link{
   color: white;
+}
+
+.common_inner_nav_link{
+  border-style: solid;
+  border-width: 1px;
 }
 
 .badge{
@@ -177,6 +186,11 @@ a{
 
 /********************* Fixed Donation Buttons *****************/
 
+.post_card{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
 
 /************************************************* START FOOTER ********************************************/
 

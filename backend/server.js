@@ -16,6 +16,8 @@ import about from './data/about.js';
 import usefulLinks from './data/usefulLinks.js';
 import users from './data/users.js';
 import menus from './data/menus.js';
+import posts from './data/posts.js';
+import postCategories from './data/postCategories.js'
 
 dotenv.config();
 
@@ -42,6 +44,22 @@ app.use('/api/usefullinks', (req, res) => {
 app.use('/api/menus', (req, res) => {
   res.json(menus);
 });
+
+app.use('/api/posts/study', (req, res)=> {
+  const filteredPosts = posts.filter((p) => {
+    return p.categoryCode === 'study';
+  });
+  res.json(filteredPosts);
+})
+
+app.use('/api/posts', (req, res)=> {
+  res.json(posts);
+})
+
+app.use('/api/postCategories', (req, res) => {
+  res.json(postCategories);
+});
+
 
 app.post('/api/users/login', async (req, res) => {
   const { phone, password } = req.body;

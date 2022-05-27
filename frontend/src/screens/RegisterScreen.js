@@ -20,6 +20,14 @@ class RegisterScreen extends React.Component {
       confirmPassword: '',
       message: undefined,
     };
+
+    this.setInputValue = this.setInputValue.bind(this);
+    this.checkEnter = this.checkEnter.bind(this);
+    this.resetForm = this.resetForm.bind(this);
+    this.submitOTPHandler = this.submitOTPHandler.bind(this);
+    this.validateOTPHandler = this.validateOTPHandler.bind(this);
+    this.submitPasswordHandler = this.submitPasswordHandler.bind(this);
+
   }
 
   setInputValue = (property, val) => {

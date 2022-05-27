@@ -43,7 +43,7 @@ const UsefullLinksScreen = () => {
               >
                 <td>{link.name}</td>
                 <td>
-                  <a href={link.url} target="_blank">
+                  <a href={link.url} target="_blank" rel="noopener noreferrer">
                     {link.url}
                   </a>
                 </td>

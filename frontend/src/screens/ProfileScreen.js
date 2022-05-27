@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
-import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import ScreenContainer from '../components/ScreenContainer';
@@ -20,6 +19,11 @@ class ProfileScreen extends React.Component {
       error: '',
       isLoading: false,
     };
+
+    this.setValue = this.setValue.bind(this);
+    this.checkLoggedInUser = this.checkLoggedInUser.bind(this);
+    this.submitHandler = this.submitHandler.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   setValue(property, val) {

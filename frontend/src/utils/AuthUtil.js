@@ -74,6 +74,8 @@ class AuthUtil {
     localStorage.setItem('role_list', JSON.stringify(roleList));
   }
   setMenu(menu) {
+    console.log("AuthUtil Menu Loaded");
+    console.log(menu);
     localStorage.setItem('menu', JSON.stringify(menu));
   }
 
