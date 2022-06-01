@@ -53,6 +53,10 @@ a{
   padding: 25px;
 }
 
+.progress-bar{
+  color: white;
+}
+
 /*************************************************Start HEADER ********************************************/
 
 #common_hamBurger_Icon {
@@ -75,7 +79,6 @@ a{
   margin-left: 15px;
 } 
 
-
 .navbar{
   padding: 0px;
 }
@@ -91,9 +94,30 @@ a{
   font-size: 2.3rem;
 }
 
+.common_sidenav_items {
+  font-size: 24px;
+  margin: 5px 15px;
+  padding: 18px 0px;
+}
+
+.common_sidenav_items i{
+  font-size: 2.3rem;
+  margin-right: 20px;
+  padding: 0px 10px;
+}
+
 .common_search_form {
   max-width: 650px;
   margin: auto;
+}
+
+.nav-link{
+  color: white;
+}
+
+.common_inner_nav_link{
+  border-style: solid;
+  border-width: 1px;
 }
 
 .badge{
@@ -135,14 +159,38 @@ a{
   z-index: 3;
 }
 
+
+
 .btn_donation_fixed_desktop button {
-  padding: 30px 100px;
+  position: relative;
+  padding: 32px 105px;
   margin: 10px 0px;
-  border-radius: 10px;
+  border-radius: 12px;
+  font-size: 20px;
 }
+
+.btn_donation_fixed_desktop .btn_donation_right_hand {
+  position: absolute;
+  width: 68px;
+  top: 0%;
+  right: 0%;
+}
+
+.btn_donation_fixed_desktop .btn_donation_left_hand {
+  position: absolute;
+  width: 68px;
+  bottom: 0%;
+  left: 0%;
+}
+
 
 /********************* Fixed Donation Buttons *****************/
 
+.post_card{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
 
 /************************************************* START FOOTER ********************************************/
 
@@ -247,7 +295,9 @@ a{
 
 /********** Large devices only **********/
 @media (min-width: 1200px) {
-
+  .offcanvas-start{
+    width: 460px;
+  }
   
   
 }
@@ -272,7 +322,6 @@ a{
   .footer_row {
     font-size: 1.3rem;
   }
-  
 }
 
 /********** Mediam devices only **********/

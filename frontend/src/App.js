@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -18,35 +19,46 @@ import VideoTutorialScreen from './screens/footerScreens/VideoTutorialScreen';
 import SupportScreen from './screens/footerScreens/SupportScreen';
 import MobileAppScreen from './screens/footerScreens/MobileAppScreen';
 import OnlineSupportScreen from './screens/footerScreens/OnlineSupportScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import PostScreen from './screens/PostScreen';
 
-function App() {
-  return (
-    <Router>
-      <Header />
-      <Routes>
-        {/* Footer Routes */}
-        <Route path="/mobileapp" element={<MobileAppScreen />} />
-        <Route path="/onlinesupport" element={<OnlineSupportScreen />} />
-        <Route path="/support" element={<SupportScreen />} />
-        <Route path="/videotutorial" element={<VideoTutorialScreen />} />
-        <Route path="/howtouse" element={<HowtoUseScreen />} />
-        <Route path="/contactus" element={<ContactUsScreeen />} />
-        <Route path="/career" element={<CareerScreen />} />
-        <Route path="/photogallery" element={<PhotoGalleryScreen />} />
-        <Route path="/pressrelease" element={<PressReleaseScreen />} />
-        <Route path="/whatwedo" element={<WhatWeDoScreen />} />
-        <Route path="/usefulLinks" element={<UsefullLinksScreen />} />
-        <Route path="/about" element={<AboutScreen />} />
+class App extends React.Component {
+  constructor(props){
+    super(props);
+  }
 
-        {/* User Routes */}
-        <Route path="/register" element={<RegisterScreen />} />
-        <Route path="/login" element={<LoginScreen />} />
+  render(){
+    return (
+      <Router>
+        <Header/>
+        <Routes>
+          {/* Footer Routes */}
+          <Route path="/mobileapp" element={<MobileAppScreen />} />
+          <Route path="/onlinesupport" element={<OnlineSupportScreen />} />
+          <Route path="/support" element={<SupportScreen />} />
+          <Route path="/videotutorial" element={<VideoTutorialScreen />} />
+          <Route path="/howtouse" element={<HowtoUseScreen />} />
+          <Route path="/contactus" element={<ContactUsScreeen />} />
+          <Route path="/career" element={<CareerScreen />} />
+          <Route path="/photogallery" element={<PhotoGalleryScreen />} />
+          <Route path="/pressrelease" element={<PressReleaseScreen />} />
+          <Route path="/whatwedo" element={<WhatWeDoScreen />} />
+          <Route path="/usefulLinks" element={<UsefullLinksScreen />} />
+          <Route path="/about" element={<AboutScreen />} />
 
-        <Route path="/" element={<HomeScreen />} />
-      </Routes>
-      <Footer />
-    </Router>
-  );
+          <Route path="/posts" element={<PostScreen />} />
+          
+          {/* User Routes */}
+          <Route path="/profile" element={<ProfileScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+
+          <Route path="/" element={<HomeScreen />} />
+        </Routes>
+        <Footer />
+      </Router>
+    );
+  }
 }
 
 export default App;

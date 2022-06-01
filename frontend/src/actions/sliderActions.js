@@ -11,7 +11,6 @@ export const listSliders = () => async (dispatch) => {
 
     const { data } = await apiCall({ method: 'get', URL: '/api/sliders' });
 
-    // console.log(data);
     dispatch({
       type: SLIDER_LIST_SUCCESS,
       payload: data,

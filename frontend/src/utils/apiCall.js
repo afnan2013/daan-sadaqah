@@ -33,6 +33,8 @@ export const apiCall = async ({
   } else if (method === 'get') {
     if (publicAccess) {
       return await axios.get(URL);
+    } else {
+      return await axios.get(URL, config);
     }
   } else if (method === 'delete') {
   } else if (method === 'put') {

@@ -5,7 +5,7 @@ const ScreenContainer = ({ children }) => {
   return (
     <Container fluid>
       <Row className="common_screen_margin justify-content-md-center">
-        <Col xs={12} md={6} className="common_screeen_container">
+        <Col xs={12} md={11} className="common_screeen_container">
           {children}
         </Col>
       </Row>
