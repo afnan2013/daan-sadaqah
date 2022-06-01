@@ -1,0 +1,20 @@
+{
+  "name": "ds",
+  "version": "1.0.0",
+  "description": "be of ds",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "asnazrul@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "mysql": "^2.18.1",
+    "path": "^0.12.7"
+  }
+}
