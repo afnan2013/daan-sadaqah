@@ -19,7 +19,7 @@ export const getUserDetails = async (user_id) => {
   }
 };
 
-export const getUserLogin = async (p_userid, p_password)
+export const getUserLogin = async (p_userid, p_password) => {};
 
 export const getUserRolesFromDb = async (user_id) => {
   let dbgw = process.env.DB_API_GW_HOST;
