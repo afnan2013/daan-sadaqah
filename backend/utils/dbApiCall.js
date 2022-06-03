@@ -19,16 +19,30 @@ export const getUserDetails = async (user_id) => {
   }
 };
 
-export const getUserLogin = async (p_userid, p_password) => {};
+export const getUserLogin = async (p_userid, p_password) => {
+  let dbgw = process.env.DB_API_GW_HOST;
+  const result = await axios.post(dbgw + '/login', {
+    p_userid,
+    p_password
+  });
+
+  // console.log(result.data.token);
+  return {
+    returnTables: result.data.returnTables,
+    token: result.data.token
+  }
+   
+ 
+};
 
 export const getUserRolesFromDb = async (user_id) => {
   let dbgw = process.env.DB_API_GW_HOST;
   const result = await axios.post(dbgw + '/getUsers');
-  console.log(result.data.returnTables);
+  // console.log(result.data.returnTables);
   if (result.data.status === 1) {
     const users = result.data.returnTables[0];
     for (let i in users) {
-      const [id, userid, username, rolecode, status, creationdate] = users[i];
+      const {id, userid, username, rolecode, status, creationdate} = users[i];
       if (userid === user_id) {
         return rolecode;
       }

@@ -38,10 +38,10 @@ class Header extends React.Component {
       isLoading: true,
     });
     
-    const { data } = await apiCall({ method: 'get', URL: '/api/menus' });
-    console.log(data);
+    const { data } = await apiCall({ method: 'post', URL: 'http://www.daansadaqah.com:8443/getMenus' , payload: {}});
+    console.log(data.returnTables[0]);
     this.setState({
-      menuList: data,
+      menuList: data.returnTables[0],
       isLoading: false,
     });
     
@@ -60,10 +60,10 @@ class Header extends React.Component {
             <Nav className="justify-content-end flex-grow-1 pe-3">
               
               {menus.map((menu) => (
-                <LinkContainer key={menu[0]} to='/'>
+                <LinkContainer key={menu.menucode} to='/'>
                   <Nav.Link className="common_sidenav_items">
-                    <i className="fa-solid fa-user"></i>
-                    <span>{menu[2]}</span>
+                    <i className={menu.menuicon}></i>
+                    <span>{menu.menuname}</span>
                   </Nav.Link>
                 </LinkContainer>
               ))}
@@ -75,15 +75,16 @@ class Header extends React.Component {
 
     if(AuthUtil.getRolePresence(['developer']) === true){
       console.log("developer Menu Populated");
+      const menus = AuthUtil.getMenu();
       let menuDesign = (
         <>
             <Nav className="justify-content-end flex-grow-1 pe-3">
               
-              {this.state.menuList.map((menu) => (
-                <LinkContainer key={menu[0]} to='/'>
+              {menus.map((menu) => (
+                <LinkContainer key={menu.menucode} to='/'>
                   <Nav.Link className="common_sidenav_items">
-                    <i className="fa-solid fa-user"></i>
-                    <span>{menu[2]}</span>
+                    <i className={menu.menuicon}></i>
+                    <span>{menu.menuname}</span>
                   </Nav.Link>
                 </LinkContainer>
               ))}
@@ -92,15 +93,16 @@ class Header extends React.Component {
       );
       return menuDesign;
     }
-    console.log("Default Menu Populated");
+    console.log("Default Menu Populated - ");
+    console.log(this.state.menuList)
     return (
       <Nav className="justify-content-end flex-grow-1 pe-3">
-        {this.state.menuList.map((menu)=>(
-          menu !== undefined && menu.path !== undefined && 
+        {this.state.menuList && this.state.menuList.map((menu)=>(
+          menu !== undefined && menu.menucode !== undefined && menu.menuposition === "left" && 
           
-          <LinkContainer key={menu.id} to={menu.path}>
+          <LinkContainer key={menu.menucode} to={menu.menucode}>
           <Nav.Link className="common_sidenav_items">
-            <i className={menu.icon}></i>
+            <i className={menu.menuicon}></i>
             <span>{menu.menuname}</span>
           </Nav.Link>
         </LinkContainer>

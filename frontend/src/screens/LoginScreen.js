@@ -36,7 +36,7 @@ class LoginScreen extends React.Component {
 
   checkEnter = (thisEvent) => {
     if (thisEvent.keyCode === 13) {
-      this.doLogin();
+      this.doLogin(thisEvent);
     }
   };
 
@@ -78,22 +78,35 @@ class LoginScreen extends React.Component {
       const password = this.state.password;
       const { data } = await apiCall({
         method: 'post',
-        URL: '/api/users/login',
-        payload: { phone, password },
+        URL: 'http://www.daansadaqah.com:8443/login',
+        payload: { p_userid: phone, p_password: password },
       });
+      console.log(data.returnTables)
+      if(data.returnTables){
+        const roles = data.returnTables[0];
+        const menulist = data.returnTables[1];
+        const [user] = data.returnTables[2];
+        
+        const rolelist = roles.map((role)=>role.rolecode);
 
-      console.log(data);
-      this.setState({
-        enable: '',
-        loading: false,
-      });
-      if (data.token) {
-        AuthUtil.setMenu(data.menulist);
-        AuthUtil.setPhone(data.phone);
-        AuthUtil.setRole(data.rolelist);
-        AuthUtil.setToken(data.token);
-        this.props.navigate(this.state.redirect);
+        console.log(data);
+        this.setState({
+          enable: '',
+          loading: false,
+        });
+        if (data.token) {
+          AuthUtil.setMenu(menulist);
+          AuthUtil.setPhone(user.phone);
+          AuthUtil.setRole(rolelist);
+          AuthUtil.setToken(data.token);
+          this.props.navigate(this.state.redirect);
+        }
+      }else{
+        this.setInputValue("error",  'Invalid Credentials');
+        this.setInputValue( "loading", false );
+        this.resetForm();
       }
+      
     } catch (error) {
       this.setState({
         enable: '',
@@ -175,8 +188,8 @@ class LoginScreen extends React.Component {
             <Link
               to={
                 this.state.redirect
-                  ? `/register?redirect=${this.state.redirect}`
-                  : '/register'
+                  ? `/forgetpassword?redirect=${this.state.redirect}`
+                  : '/forgetpassword'
               }
             >
               <span className="common_link_hover">Forgotten password?</span>

@@ -3,7 +3,7 @@ import ScreenContainer from "../components/ScreenContainer";
 import {
     Nav,
   } from 'react-bootstrap';
-import { Button, LinkContainer } from 'react-router-bootstrap';
+
 import Post from "../components/Post";
 import {apiCall} from '../utils/apiCall';
 

@@ -31,12 +31,12 @@ class Footer extends React.Component {
   getFooterData = async () => {
     this.setInputValue('isLoading', true);
 
-    const { data } = await apiCall({ method: 'get', URL: '/api/footers' });
+    const { data } = await apiCall({ method: 'post', URL: 'http://www.daansadaqah.com:8443/getFooters' , payload: {}});
     // console.log(data.statistics.banner);
 
     this.setInputValue('isLoading', false);
-    this.setInputValue('footerLinks', data.footerLinks);
-    this.setInputValue('statistics', data.statistics);
+    this.setInputValue('footerLinks', data.footerData.footerLinks);
+    this.setInputValue('statistics', data.footerData.statistics);
   };
 
   getFooterDesign = () => {

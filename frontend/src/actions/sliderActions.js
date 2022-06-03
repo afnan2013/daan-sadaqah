@@ -9,11 +9,11 @@ export const listSliders = () => async (dispatch) => {
   try {
     dispatch({ type: SLIDER_LIST_REQUEST });
 
-    const { data } = await apiCall({ method: 'get', URL: '/api/sliders' });
+    const { data } = await apiCall({  method: 'post', URL: 'http://www.daansadaqah.com:8443/getSliders' , payload: {}});
 
     dispatch({
       type: SLIDER_LIST_SUCCESS,
-      payload: data,
+      payload: data.sliders,
     });
   } catch (error) {
     dispatch({

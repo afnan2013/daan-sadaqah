@@ -21,6 +21,7 @@ import MobileAppScreen from './screens/footerScreens/MobileAppScreen';
 import OnlineSupportScreen from './screens/footerScreens/OnlineSupportScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import PostScreen from './screens/PostScreen';
+import ForgetPassScreen from './screens/ForgetPassScreen';
 
 class App extends React.Component {
   constructor(props){
@@ -49,6 +50,7 @@ class App extends React.Component {
           <Route path="/posts" element={<PostScreen />} />
           
           {/* User Routes */}
+          <Route path="/forgetpassword" element={<ForgetPassScreen />} />
           <Route path="/profile" element={<ProfileScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/login" element={<LoginScreen />} />

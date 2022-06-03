@@ -8,6 +8,7 @@ import {
   getUserRolesFromDb,
   getRolesFromDb,
   getMenuForRoleFromDb,
+  getUserLogin
 } from './utils/dbApiCall.js';
 import generateToken from './utils/generateToken.js';
 
@@ -68,35 +69,32 @@ app.use('/api/postCategories', (req, res) => {
 app.post('/api/users/login', async (req, res) => {
   const { phone, password } = req.body;
   // console.log(phone);
+  if(phone && password){
+    const data = await getUserLogin(phone, password);
+    if(data.returnTables){
+      const roles = data.returnTables[0];
+      const menulist = data.returnTables[1];
+      const [user] = data.returnTables[2];
+      
+      const rolelist = roles.map((role)=>role.rolecode);
 
-  const userMatched = users.filter((u) => {
-    return u.password === password && u.phone === phone;
-  });
-  const user = userMatched[0];
-
-  if (user) {
-    const userRole = await getUserRolesFromDb(user.userid);
-    // const userRole = 'developer';
-    const userMenu = await getMenuForRoleFromDb(
-      userRole ? userRole : 'developer'
-    );
-    console.log(userRole);
-    console.log(userMenu);
-    // getRolesFromDb();
+      res.json({
+        menulist,
+        rolelist, 
+        phone: user.userid,
+        token: data.token
+      });
+    }
+    else{
+      res.status(401);
+      res.json({
+        message: 'Invalid User Credentials',
+      });
+    }
+  }else{
+    res.status(400);
     res.json({
-      id: user.userid,
-      email: user.email,
-      name: user.name,
-      phone: user.phone,
-      isAdmin: user.isAdmin,
-      rolelist: userRole ? [userRole] : [],
-      token: generateToken(user.userid),
-      menulist: userMenu,
-    });
-  } else {
-    res.status(401);
-    res.json({
-      message: 'Invalid User Credentials',
+      message: 'Invalid Request',
     });
   }
 });
