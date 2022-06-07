@@ -8,7 +8,7 @@ import {
   getUserRolesFromDb,
   getRolesFromDb,
   getMenuForRoleFromDb,
-  getUserLogin
+  getUserLogin,
 } from './utils/dbApiCall.js';
 import generateToken from './utils/generateToken.js';
 
@@ -20,6 +20,7 @@ import menus from './data/menus.js';
 import posts from './data/posts.js';
 import postCategories from './data/postCategories.js';
 import footerLinks from './data/footerLinks.js';
+import account from './data/account.js';
 
 dotenv.config();
 
@@ -47,6 +48,10 @@ app.use('/api/menus', (req, res) => {
   res.json(menus);
 });
 
+app.use('/api/profile', (req, res) => {
+  res.json(account);
+});
+
 app.use('/api/posts/study', (req, res) => {
   const filteredPosts = posts.filter((p) => {
     return p.categoryCode === 'study';
@@ -69,29 +74,28 @@ app.use('/api/postCategories', (req, res) => {
 app.post('/api/users/login', async (req, res) => {
   const { phone, password } = req.body;
   // console.log(phone);
-  if(phone && password){
+  if (phone && password) {
     const data = await getUserLogin(phone, password);
-    if(data.returnTables){
+    if (data.returnTables) {
       const roles = data.returnTables[0];
       const menulist = data.returnTables[1];
       const [user] = data.returnTables[2];
-      
-      const rolelist = roles.map((role)=>role.rolecode);
+
+      const rolelist = roles.map((role) => role.rolecode);
 
       res.json({
         menulist,
-        rolelist, 
+        rolelist,
         phone: user.userid,
-        token: data.token
+        token: data.token,
       });
-    }
-    else{
+    } else {
       res.status(401);
       res.json({
         message: 'Invalid User Credentials',
       });
     }
-  }else{
+  } else {
     res.status(400);
     res.json({
       message: 'Invalid Request',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import { Button, Form, Row } from 'react-bootstrap';
 import Message from '../components/Message';
@@ -15,7 +15,6 @@ class LoginScreen extends React.Component {
       phone: '',
       password: '',
       enable: '',
-      redirect: '/',
       loading: false,
       error: undefined,
     };
@@ -24,8 +23,6 @@ class LoginScreen extends React.Component {
     this.resetForm = this.resetForm.bind(this);
     this.doLogin = this.doLogin.bind(this);
     this.doLogin = this.doLogin.bind(this);
-    this.checkLoggedInUser = this.checkLoggedInUser.bind(this);
-
   }
 
   setInputValue = (property, val) => {
@@ -81,13 +78,13 @@ class LoginScreen extends React.Component {
         URL: 'http://www.daansadaqah.com:8443/login',
         payload: { p_userid: phone, p_password: password },
       });
-      console.log(data.returnTables)
-      if(data.returnTables){
+      console.log(data.returnTables);
+      if (data.returnTables) {
         const roles = data.returnTables[0];
         const menulist = data.returnTables[1];
         const [user] = data.returnTables[2];
-        
-        const rolelist = roles.map((role)=>role.rolecode);
+
+        const rolelist = roles.map((role) => role.rolecode);
 
         console.log(data);
         this.setState({
@@ -96,17 +93,16 @@ class LoginScreen extends React.Component {
         });
         if (data.token) {
           AuthUtil.setMenu(menulist);
-          AuthUtil.setPhone(user.phone);
+          AuthUtil.setPhone(user.userid);
           AuthUtil.setRole(rolelist);
           AuthUtil.setToken(data.token);
           this.props.navigate(this.state.redirect);
         }
-      }else{
-        this.setInputValue("error",  'Invalid Credentials');
-        this.setInputValue( "loading", false );
+      } else {
+        this.setInputValue('error', 'Invalid Credentials');
+        this.setInputValue('loading', false);
         this.resetForm();
       }
-      
     } catch (error) {
       this.setState({
         enable: '',
@@ -122,24 +118,14 @@ class LoginScreen extends React.Component {
     }
   };
 
-  checkLoggedInUser = () => {
-    if (AuthUtil.getToken()) {
-      this.props.navigate(this.state.redirect);
-    }
-  };
-
- 
-
+  com;
   render = () => {
-    // const r = this.props.location.search
-    // ? this.props.location.search.split('=')[1]
-    // : '/';
-    // this.setState({
-    //   redirect : r
-    // });
-    
-
-    this.checkLoggedInUser();
+    const redirect = this.props.location.search
+      ? this.props.location.search.split('=')[1]
+      : '/';
+    if (AuthUtil.getToken()) {
+      return <Navigate to={redirect} />;
+    }
 
     return (
       <FormContainer>
@@ -187,8 +173,8 @@ class LoginScreen extends React.Component {
           <Row>
             <Link
               to={
-                this.state.redirect
-                  ? `/forgetpassword?redirect=${this.state.redirect}`
+                redirect
+                  ? `/forgetpassword?redirect=${redirect}`
                   : '/forgetpassword'
               }
             >
@@ -198,13 +184,7 @@ class LoginScreen extends React.Component {
         </div>
 
         <Row className="text-center">
-          <Link
-            to={
-              this.state.redirect
-                ? `/register?redirect=${this.state.redirect}`
-                : '/register'
-            }
-          >
+          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
             <Button
               type="submit"
               variant="success"

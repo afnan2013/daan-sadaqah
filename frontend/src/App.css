@@ -116,8 +116,9 @@ a{
 }
 
 .common_inner_nav_link{
-  border-style: solid;
-  border-width: 1px;
+  border: 1px solid white;
+  border-radius: 5px;
+  margin: 5px;
 }
 
 .badge{
@@ -240,23 +241,24 @@ a{
 }
 
 .auth_component .form-control{
-  font-size: 1.3rem;
-  padding: 15px 10px 15px 65px;
+  font-size: 1.2rem;
+  padding: 10px 5px 10px 65px;
   margin: 10px 0px;
 }
+
 
 .auth_component .form_icon {
   position: absolute;
   z-index: 3;
   left: 5%;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   top: 24%;
 }
 
 .auth_component .form_submit_button{
-  padding: 16px;
+  padding: 10px;
   margin: 10px 0px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   letter-spacing: 0.5px;
 }
 
@@ -272,14 +274,14 @@ a{
 .notification_panel{
   position: absolute;
   top: 12%;
-  right: -40%;
+  right: -42%;
   width: 400px;
   padding: 0 10px;
   height: 85vh;
   border-radius: 10px;
   transition: all 0.5s;
   background: #FFFFFF;
-  z-index: 5;
+  z-index: 10;
 }
 
 .notification_panel.active {
@@ -288,17 +290,16 @@ a{
 }
 
 
-/********** Large devices only **********/
+/********** Extra Large devices only **********/
 @media (min-width: 1200px) {
   .offcanvas-start{
     width: 460px;
   }
-  
-  
+
 }
 
 
-/********** Mediam- Large devices only **********/
+/********** Large devices only **********/
 @media (min-width: 1200px) and (max-width: 1500px) {
   /* HEADER PAGE */
   #common_hamBurger_Icon{
@@ -314,12 +315,19 @@ a{
     font-size: 32px;
   }
 
+  .carousel {
+    height: 650px;
+  }
+  .carousel img{
+    margin-top: 70px;
+  }
+
   .footer_row {
     font-size: 1.3rem;
   }
 }
 
-/********** Mediam devices only **********/
+/********** Mediam -Large devices only **********/
 @media (min-width: 992px) and (max-width: 1199px) {
   /* HEADER PAGE */
 
@@ -344,17 +352,60 @@ a{
     font-size: 13px;
   }
 
+  .carousel {
+    height: 590px;
+  }
+  .carousel img{
+    margin-top: 70px;
+  }
+
+
   .footer_row {
     font-size: 1.1rem;
   }
 }
 
 
-/********** Small devices only **********/
+/********** Medium devices only **********/
 @media (min-width: 768px) and (max-width: 991px) {
+  
+  .carousel {
+    height: 530px;
+  }
+  .carousel img{
+    margin-top: 100px;
+  }
+  
+  .footer_row {
+    font-size: 1rem;
+  }
+
+
+}
+
+
+
+/********** Small devices only **********/
+@media (min-width: 576px) and (max-width: 767.98px) {
       
+  .carousel {
+    height: 430px;
+  }
+  .carousel img{
+    margin-top: 70px;
+  }
   .footer_row {
     font-size: 1rem;
   }
 }
 
+/************ Extra small devices (portrait phones, less than 576px) **********/
+@media (max-width: 575.98px) {
+  .carousel {
+    height: 200px;
+  }
+
+  .footer_row {
+    font-size: 1.1rem;
+  }
+}

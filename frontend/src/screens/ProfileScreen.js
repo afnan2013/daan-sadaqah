@@ -1,10 +1,15 @@
 import React from 'react';
-import { Button, Form, Row, Col } from 'react-bootstrap';
+import { Button, Form, Row, Col, Nav } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import ScreenContainer from '../components/ScreenContainer';
 import { withRouter } from '../components/withRouter';
 import AuthUtil from '../utils/AuthUtil';
+import { apiCall } from '../utils/apiCall';
+import Identity from '../components/account/Identity';
+import NameAndAddresses from '../components/account/NameAndAddresses';
+import Nominee from '../components/account/Nominee';
+import PaymentMethod from '../components/account/PaymentMethod';
 // import { getLoggedInUserOrderList } from '../actions/orderActions';
 
 class ProfileScreen extends React.Component {
@@ -16,8 +21,11 @@ class ProfileScreen extends React.Component {
       phone: '',
       loggedIn: false,
       message: undefined,
-      error: '',
+      error: undefined,
       isLoading: false,
+      profileNavBar: [],
+      subProfileNavBar: [],
+      subProfileContent: undefined,
     };
 
     this.setValue = this.setValue.bind(this);
@@ -38,6 +46,82 @@ class ProfileScreen extends React.Component {
     }
   };
 
+  getProfileNavBar = async () => {
+    this.setValue('isLoading', true);
+    try {
+      const { data } = await apiCall({
+        method: 'get',
+        URL: '/api/profile',
+      });
+      console.log(data);
+      if (data.accountNavBar) {
+        this.setValue('profileNavBar', data.accountNavBar);
+        this.setValue('isLoading', false);
+      }
+    } catch (err) {
+      console.error(err);
+      this.setValue('error', err);
+      this.setValue('isLoading', false);
+    }
+  };
+
+  onSubNavBarHandler = (path) => {
+    // console.log(path);
+    if (path) {
+      this.setValue('subProfileContent', path);
+    }
+  };
+
+  onNavBarHandler = (path) => {
+    // console.log(path);
+    if (path) {
+      const clickedNavBar = this.state.profileNavBar.filter(
+        (nav) => nav.path === path
+      );
+      // console.log(clickedNavBar[0].subNavBar);
+      this.setValue('subProfileNavBar', clickedNavBar[0].subNavBar);
+    }
+  };
+
+  getProfileNavBarDesign = () => {
+    if (this.state.isLoading) {
+      return <Loader />;
+    }
+
+    let navbarDesign = (
+      <>
+        <Nav className="ms-auto">
+          {this.state.profileNavBar &&
+            this.state.profileNavBar.length !== 0 &&
+            this.state.profileNavBar.map((navbar) => (
+              <Nav.Link
+                key={navbar.serial}
+                className="common_inner_nav_link"
+                onClick={() => this.onNavBarHandler(navbar.path)}
+              >
+                <span>{navbar.name}</span>
+              </Nav.Link>
+            ))}
+        </Nav>
+        <Nav className="ms-auto">
+          {this.state.subProfileNavBar &&
+            this.state.subProfileNavBar.length !== 0 &&
+            this.state.subProfileNavBar.map((navbar) => (
+              <Nav.Link
+                key={navbar.serial}
+                className="common_inner_nav_link"
+                onClick={() => this.onSubNavBarHandler(navbar.path)}
+              >
+                <span>{navbar.name}</span>
+              </Nav.Link>
+            ))}
+        </Nav>
+      </>
+    );
+
+    return navbarDesign;
+  };
+
   submitHandler = (e) => {
     e.preventDefault();
     // dispatch(updateUserProfile('profile', name, email, password));
@@ -52,70 +136,19 @@ class ProfileScreen extends React.Component {
     if (AuthUtil.getToken()) {
       this.setValue('phone', AuthUtil.getPhone());
       this.setValue('loggedIn', true);
+      this.getProfileNavBar();
     }
   }
 
   render() {
     this.checkLoggedInUser();
+    const profileNavbarDesign = this.getProfileNavBarDesign();
+    const subProfileContent = this.state.subProfileContent;
+
     return (
       <ScreenContainer>
         <Row>
-          <Col md={3}>
-            <h1>User Profile</h1>
-            {this.state.error && (
-              <Message variant={'danger'}>{this.state.error}</Message>
-            )}
-            {this.state.message && (
-              <Message variant={'danger'}>{this.state.message}</Message>
-            )}
-            {/* {success && <Message variant={'success'}>Profile Updated!</Message>} */}
-            {this.state.isLoading && <Loader />}
-            <Form onSubmit={this.submitHandler}>
-              <Form.Group controlId="name">
-                <Form.Label>Full Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter name"
-                  value={this.state.name}
-                  onChange={(e) => this.setValue('name', e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-              <Form.Group controlId="email">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter email"
-                  value={this.state.email}
-                  onChange={(e) => this.setValue('email', e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId="phone">
-                <Form.Label>Mobile Number</Form.Label>
-                <Form.Control
-                  type="phone"
-                  placeholder="Enter phone"
-                  value={this.state.phone}
-                  onChange={(e) => this.setValue('phone', e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter password"
-                  value={this.state.password}
-                  onChange={(e) => this.setValue('password', e.target.value)}
-                ></Form.Control>
-              </Form.Group>
-
-              <Button type="submit" variant="primary" className="my-3">
-                Update
-              </Button>
-            </Form>
-          </Col>
-          <Col md={8}></Col>
+          <Col>{profileNavbarDesign}</Col>
           <Col md={1}>
             <Button
               variant="primary"
@@ -125,58 +158,17 @@ class ProfileScreen extends React.Component {
               Logout
             </Button>
           </Col>
-          {/* <Col md={9}>
-        <h1>My Orders</h1>
-        {loadingOrders ? (
-          <Loader />
-        ) : errorOrders ? (
-          <Message variant={'danger'}>{errorOrders}</Message>
-        ) : orders.length === 0 ? (
-          <Message variant={'danger'}>No Orders found</Message>
-        ) : (
-          <Table striped bordered hover responsive size="sm">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>DATE</th>
-                <th>TOTAL</th>
-                <th>PAID</th>
-                <th>DELIVERED</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr key={order._id}>
-                  <td>{order._id}</td>
-                  <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>{order.totalPrice}</td>
-                  <td>
-                    {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
-                    ) : (
-                      <i className="fas fa-times" style={{ color: 'red' }}></i>
-                    )}
-                  </td>
-                  <td>
-                    {order.isDelivered ? (
-                      order.deliveredAt.substring(0, 10)
-                    ) : (
-                      <i className="fas fa-times" style={{ color: 'red' }}></i>
-                    )}
-                  </td>
-                  <td>
-                    <LinkContainer to={`/order/${order._id}`}>
-                      <Button size="sm">Details</Button>
-                    </LinkContainer>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
-      </Col> */}
         </Row>
+
+        {subProfileContent === 'identity' ? (
+          <Identity />
+        ) : subProfileContent === 'nameandaddress' ? (
+          <NameAndAddresses />
+        ) : subProfileContent === 'nominee' ? (
+          <Nominee />
+        ) : (
+          subProfileContent === 'paymentmethod' && <PaymentMethod />
+        )}
       </ScreenContainer>
     );
   }

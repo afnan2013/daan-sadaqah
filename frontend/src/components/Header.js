@@ -25,26 +25,26 @@ class Header extends React.Component {
       showNotification: false,
       isLoading: false,
       menuList: [],
-
     };
     this.getMenu = this.getMenu.bind(this);
     this.getMenuDesign = this.getMenuDesign.bind(this);
-
   }
 
   getMenu = async () => {
-    
     this.setState({
       isLoading: true,
     });
-    
-    const { data } = await apiCall({ method: 'post', URL: 'http://www.daansadaqah.com:8443/getMenus' , payload: {}});
+
+    const { data } = await apiCall({
+      method: 'post',
+      URL: 'http://www.daansadaqah.com:8443/getMenus',
+      payload: {},
+    });
     console.log(data.returnTables[0]);
     this.setState({
       menuList: data.returnTables[0],
       isLoading: false,
     });
-    
   };
 
   getMenuDesign = () => {
@@ -52,64 +52,65 @@ class Header extends React.Component {
       return <Loader />;
     }
 
-    if(AuthUtil.getRolePresence(['admin']) === true){
-      console.log("Admin Menu Populated");
+    if (AuthUtil.getRolePresence(['admin']) === true) {
+      console.log('Admin Menu Populated');
       const menus = AuthUtil.getMenu();
       let menuDesign = (
         <>
-            <Nav className="justify-content-end flex-grow-1 pe-3">
-              
-              {menus.map((menu) => (
-                <LinkContainer key={menu.menucode} to='/'>
-                  <Nav.Link className="common_sidenav_items">
-                    <i className={menu.menuicon}></i>
-                    <span>{menu.menuname}</span>
-                  </Nav.Link>
-                </LinkContainer>
-              ))}
-            </Nav>
-          </>
+          <Nav className="justify-content-end flex-grow-1 pe-3">
+            {menus.map((menu) => (
+              <LinkContainer key={menu.menucode} to="/">
+                <Nav.Link className="common_sidenav_items">
+                  <i className={menu.menuicon}></i>
+                  <span>{menu.menuname}</span>
+                </Nav.Link>
+              </LinkContainer>
+            ))}
+          </Nav>
+        </>
       );
       return menuDesign;
     }
 
-    if(AuthUtil.getRolePresence(['developer']) === true){
-      console.log("developer Menu Populated");
+    if (AuthUtil.getRolePresence(['developer']) === true) {
+      console.log('developer Menu Populated');
       const menus = AuthUtil.getMenu();
       let menuDesign = (
         <>
-            <Nav className="justify-content-end flex-grow-1 pe-3">
-              
-              {menus.map((menu) => (
-                <LinkContainer key={menu.menucode} to='/'>
+          <Nav className="justify-content-end flex-grow-1 pe-3">
+            {menus.map((menu) => (
+              <LinkContainer key={menu.menucode} to="/">
+                <Nav.Link className="common_sidenav_items">
+                  <i className={menu.menuicon}></i>
+                  <span>{menu.menuname}</span>
+                </Nav.Link>
+              </LinkContainer>
+            ))}
+          </Nav>
+        </>
+      );
+      return menuDesign;
+    }
+    console.log('Default Menu Populated - ');
+    console.log(this.state.menuList);
+    return (
+      <Nav className="justify-content-end flex-grow-1 pe-3">
+        {this.state.menuList &&
+          this.state.menuList.map(
+            (menu) =>
+              menu !== undefined &&
+              menu.menucode !== undefined &&
+              menu.menuposition === 'left' && (
+                <LinkContainer key={menu.menucode} to={menu.menucode}>
                   <Nav.Link className="common_sidenav_items">
                     <i className={menu.menuicon}></i>
                     <span>{menu.menuname}</span>
                   </Nav.Link>
                 </LinkContainer>
-              ))}
-            </Nav>
-          </>
-      );
-      return menuDesign;
-    }
-    console.log("Default Menu Populated - ");
-    console.log(this.state.menuList)
-    return (
-      <Nav className="justify-content-end flex-grow-1 pe-3">
-        {this.state.menuList && this.state.menuList.map((menu)=>(
-          menu !== undefined && menu.menucode !== undefined && menu.menuposition === "left" && 
-          
-          <LinkContainer key={menu.menucode} to={menu.menucode}>
-          <Nav.Link className="common_sidenav_items">
-            <i className={menu.menuicon}></i>
-            <span>{menu.menuname}</span>
-          </Nav.Link>
-        </LinkContainer>
-        ))}
+              )
+          )}
       </Nav>
-    )
-    
+    );
   };
 
   componentDidMount() {
@@ -230,7 +231,9 @@ class Header extends React.Component {
             </Row>
           </Container>
         </Navbar>
-        <NotificationPanel show={this.state.showNotification} />
+        <div className="d-none d-lg-block">
+          <NotificationPanel show={this.state.showNotification} />
+        </div>
       </header>
     );
   }

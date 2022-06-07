@@ -1,24 +1,45 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Button, Image } from 'react-bootstrap';
 import Slider from '../components/Slider';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-
-import { listSliders } from '../actions/sliderActions';
 import { withRouter } from '../components/withRouter';
 import AuthUtil from '../utils/AuthUtil';
-import { Link } from 'react-router-dom';
+import { apiCall } from '../utils/apiCall';
 
 class HomeScreen extends React.Component {
   // eslint-disable-next-line
   constructor(props) {
     super(props);
+    this.state = {
+      loading: false,
+      sliders: [],
+    };
     this.checkLoggedInUser = this.checkLoggedInUser.bind(this);
   }
 
+  setInputValue = (property, val) => {
+    this.setState({
+      [property]: val,
+    });
+  };
+
+  fetchSliders = async () => {
+    this.setInputValue('loading', true);
+    const { data } = await apiCall({
+      method: 'post',
+      URL: 'http://www.daansadaqah.com:8443/getSliders',
+      payload: {},
+    });
+    if (data.sliders) {
+      this.setInputValue('sliders', data.sliders);
+      this.setInputValue('loading', false);
+    }
+  };
+
   componentDidMount() {
-    this.props.listSliders();
+    this.fetchSliders();
   }
 
   checkLoggedInUser = () => {
@@ -28,7 +49,7 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    const { loading, error, sliders } = this.props.sliderList;
+    const { loading, error, sliders } = this.state;
     return (
       <>
         {loading ? (
@@ -38,20 +59,19 @@ class HomeScreen extends React.Component {
         ) : (
           <>
             <div className="btn_donation_fixed_mobile d-block d-sm-none">
-              <Link to='/posts'>
+              <Link to="/posts">
                 <Button type="button" variant="dark" className="w-100">
                   Make A Donation
                 </Button>
               </Link>
-              <Link to='/posts'>
+              <Link to="/posts">
                 <Button type="button" variant="dark" className="w-100">
                   Seek A Donation
                 </Button>
               </Link>
-              
             </div>
             <div className="btn_donation_fixed_desktop d-none d-lg-block">
-              <Link to='/posts'>
+              <Link to="/posts">
                 <Button type="button" variant="dark" className="w-100">
                   Make A Donation{' '}
                   <span>
@@ -64,7 +84,7 @@ class HomeScreen extends React.Component {
               </Link>
               <br />
               <div>
-                <Link to='/posts'>
+                <Link to="/posts">
                   <Button type="button" variant="dark" className="w-100">
                     Seek A Donation
                     <span>
@@ -86,12 +106,4 @@ class HomeScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    sliderList: state.sliderList,
-  };
-};
-
-export default withRouter(
-  connect(mapStateToProps, { listSliders })(HomeScreen)
-);
+export default withRouter(HomeScreen);

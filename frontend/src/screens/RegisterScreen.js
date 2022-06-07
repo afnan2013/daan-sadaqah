@@ -7,7 +7,8 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { withRouter } from '../components/withRouter';
 import { register } from '../actions/userActions';
-import {apiCall} from '../utils/apiCall';
+import { apiCall } from '../utils/apiCall';
+import AuthUtil from '../utils/AuthUtil';
 
 class RegisterScreen extends React.Component {
   constructor(props) {
@@ -20,15 +21,16 @@ class RegisterScreen extends React.Component {
       password: '',
       confirmPassword: '',
       message: undefined,
-      OTPid: ''
+      OTPid: '',
+      loading: false,
+      error: undefined,
     };
 
     this.setInputValue = this.setInputValue.bind(this);
-    this.checkEnter = this.checkEnter.bind(this);
+    // this.checkEnter = this.checkEnter.bind(this);
     this.resetForm = this.resetForm.bind(this);
     this.submitOTPHandler = this.submitOTPHandler.bind(this);
     this.submitPasswordHandler = this.submitPasswordHandler.bind(this);
-
   }
 
   setInputValue = (property, val) => {
@@ -37,11 +39,11 @@ class RegisterScreen extends React.Component {
     });
   };
 
-  checkEnter = (thisEvent) => {
-    if (thisEvent.keyCode === 13) {
-      this.props.login(this.state.phone, this.state.password);
-    }
-  };
+  // checkEnter = (thisEvent) => {
+  //   if (thisEvent.keyCode === 13) {
+  //     this.props.login(this.state.phone, this.state.password);
+  //   }
+  // };
 
   resetForm = () => {
     this.setState({
@@ -52,25 +54,27 @@ class RegisterScreen extends React.Component {
 
   submitOTPHandler = async (e) => {
     e.preventDefault();
-    if(this.state.phone){
-      try{
-        const { data } = await apiCall({ method: 'post', URL: 'http://www.daansadaqah.com:8443/sendRegOTP' , payload: {p_userid: this.state.phone}});
+    if (this.state.phone) {
+      try {
+        const { data } = await apiCall({
+          method: 'post',
+          URL: 'http://www.daansadaqah.com:8443/sendRegOTP',
+          payload: { p_userid: this.state.phone },
+        });
         console.log(data);
-        
-        if(data.status === "sent"){
+
+        if (data.status === 'sent') {
           this.setInputValue('OTPid', data.otpid);
           this.setInputValue('showPasswordForm', true);
-        }else if (data.status ==="USER1"){
+        } else if (data.status === 'USER1') {
           this.setInputValue('message', 'User Already Exists');
         }
-      }catch(err){
+      } catch (err) {
         console.log(err);
       }
-      
-    }else{
+    } else {
       this.setInputValue('message', 'Please enter your Phone Number');
     }
-   
   };
 
   submitPasswordHandler = async (e) => {
@@ -79,25 +83,27 @@ class RegisterScreen extends React.Component {
       this.setInputValue('message', 'Password do not match');
     } else {
       try {
-      const { data } = await apiCall({ method: 'post', URL: 'http://www.daansadaqah.com:8443/register' , payload: 
-        {
-          p_userid: this.state.phone,
-          p_username: this.state.name,
-          p_password: this.state.password,
-          p_otp: this.state.OTP,
-          p_otpid: this.state.OTPid
-        }});
-      
-      console.log(data.returnTables);
-      const validate= data.returnTables[0][0];
-      if(validate.status === "complete"){
-        this.props.navigate('/login'); 
-      }
-      else{
-        this.setInputValue('message', 'Invalid OTP');
-      }
-      }catch(err){
-        console.log(err)
+        const { data } = await apiCall({
+          method: 'post',
+          URL: 'http://www.daansadaqah.com:8443/register',
+          payload: {
+            p_userid: this.state.phone,
+            p_username: this.state.name,
+            p_password: this.state.password,
+            p_otp: this.state.OTP,
+            p_otpid: this.state.OTPid,
+          },
+        });
+
+        console.log(data.returnTables);
+        const validate = data.returnTables[0][0];
+        if (validate.status === 'complete') {
+          this.props.navigate('/login');
+        } else {
+          this.setInputValue('message', 'Invalid OTP');
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
   };
@@ -106,8 +112,8 @@ class RegisterScreen extends React.Component {
     const redirect = this.props.location.search
       ? this.props.location.search.split('=')[1]
       : '/';
-    const { loading, error, userInfo } = this.props.userRegister;
-    if (userInfo) {
+    const { loading, error } = this.state;
+    if (AuthUtil.getToken()) {
       return <Navigate to={redirect} />;
     }
 
@@ -154,9 +160,7 @@ class RegisterScreen extends React.Component {
                   type="number"
                   placeholder="Enter OTP"
                   value={this.props.OTP}
-                  onChange={(e) =>
-                    this.setInputValue('OTP', e.target.value)
-                  }
+                  onChange={(e) => this.setInputValue('OTP', e.target.value)}
                   required
                 ></Form.Control>
               </Form.Group>
@@ -168,9 +172,7 @@ class RegisterScreen extends React.Component {
                   type="text"
                   placeholder="Enter Name"
                   value={this.props.name}
-                  onChange={(e) =>
-                    this.setInputValue('name', e.target.value)
-                  }
+                  onChange={(e) => this.setInputValue('name', e.target.value)}
                   required
                 ></Form.Control>
               </Form.Group>
