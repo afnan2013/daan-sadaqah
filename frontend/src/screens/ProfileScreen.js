@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Form, Row, Col, Nav } from 'react-bootstrap';
-import Message from '../components/Message';
+import { Navigate } from 'react-router-dom';
+import { Button, Row, Col, Nav } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import ScreenContainer from '../components/ScreenContainer';
 import { withRouter } from '../components/withRouter';
@@ -141,7 +141,11 @@ class ProfileScreen extends React.Component {
   }
 
   render() {
-    this.checkLoggedInUser();
+    const redirect = "/profile";
+    // const { loading, error } = this.state;
+    if (!AuthUtil.getToken()) {
+      return <Navigate to={`/login?redirect=${redirect}`}/>;
+    }
     const profileNavbarDesign = this.getProfileNavBarDesign();
     const subProfileContent = this.state.subProfileContent;
 

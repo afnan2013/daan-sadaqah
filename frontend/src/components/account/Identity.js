@@ -20,8 +20,8 @@ class Identity extends Component {
       nid_back_page: '',
       message: undefined,
       isLoading: false,
-      otp: '',
-      otpId: '',
+      OTP: '',
+      OTPid: '',
       showValidateOTPForm: false
     };
   }
@@ -128,7 +128,9 @@ class Identity extends Component {
         profile_pic: this.state.profile_pic,
         nid_profile_pic: this.state.nid_profile_pic,
         nid_front_page: this.state.nid_front_page,
-        nid_back_page: this.state.nid_back_page
+        nid_back_page: this.state.nid_back_page,
+        otp: this.state.OTP,
+        otpid: this.state.OTPid
       }
       console.log(identity);
       const { data } = await apiCall({
@@ -140,11 +142,11 @@ class Identity extends Component {
       });
       console.log(data.returnTables);
       if (data.returnTables) {
-        const roles = data.returnTables[0];
-        const menulist = data.returnTables[1];
-        const [user] = data.returnTables[2];
+        // const roles = data.returnTables[0];
+        // const menulist = data.returnTables[1];
+        // const [user] = data.returnTables[2];
 
-        const rolelist = roles.map((role) => role.rolecode);
+        // const rolelist = roles.map((role) => role.rolecode);
 
         console.log(data);
         this.setState({

@@ -14,20 +14,42 @@ const account = {
           serial: 1,
           fontColor: '#fff',
           fontSize: '1.1rem',
-          formFields: [
+          formDatas: [
             {
               name: 'phone',
               type: 'text',
               isVerified: false,
+              value: '01779007937'
             },
             {
               type: 'text',
               name: 'nid',
-              isVerified: '',
+              isVerified: true,
+              value: '82793840349349'
             },
             {
               type: 'image',
               name: 'profile_pic',
+              value: 'BLOB'
+            },
+            {
+              type: 'image',
+              name: 'nid_profile_pic',
+              isVerified: false,
+              value: 'BLOB'
+            },
+
+            {
+              type: 'image',
+              name: 'nid_front_page',
+              isVerified: false,
+              value: 'BLOB'
+            },
+            {
+              type: 'image',
+              name: 'nid_back_page',
+              isVerified: false,
+              value: 'BLOB'
             },
           ],
         },

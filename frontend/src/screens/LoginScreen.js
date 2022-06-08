@@ -118,7 +118,7 @@ class LoginScreen extends React.Component {
     }
   };
 
-  com;
+  
   render = () => {
     const redirect = this.props.location.search
       ? this.props.location.search.split('=')[1]
@@ -140,7 +140,7 @@ class LoginScreen extends React.Component {
                 <i className="fa-solid fa-phone-flip"></i>
               </span>
               <Form.Control
-                type="number"
+                type="text"
                 placeholder="Enter phone number"
                 value={this.state.phone}
                 onChange={(e) => this.setInputValue('phone', e.target.value)}
