@@ -289,7 +289,7 @@ class Nominee extends Component {
               </Col>
               <Col md={3}>
                 <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span>
-              </Col>
+              </Col>q
             </Row>
           </Form.Group>
           <Form.Group controlId="email">

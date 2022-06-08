@@ -315,6 +315,13 @@ a{
   max-height: 200px;
 }
 
+.account_container .payment_label{
+  height: 48px;
+  background: aqua;
+  color: white;
+  text-align: center;
+}
+
 /********** Extra Large devices only **********/
 @media (min-width: 1200px) {
   .offcanvas-start{

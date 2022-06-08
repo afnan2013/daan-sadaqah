@@ -7,11 +7,12 @@ import {apiCall} from '../../utils/apiCall';
 import { withRouter } from '../withRouter';
 
 
-class Nominee extends Component {
+class PaymentMethod extends Component {
   constructor(props) {
     super(props);
     this.state = {
       error: undefined,
+      mfs_details: {},
       name: '',
       address1: '',
       address2: '',
@@ -33,30 +34,23 @@ class Nominee extends Component {
     });
   };
 
-  getIdentityData = async ()=> {
+  getPaymentMethodData = async ()=> {
+    this.setInputValue('isLoading',true);
     try {
       
       const { data } = await apiCall({
-        method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getIdentity',
+        method: 'get',
+        URL: '/api/payments',
         payload: {},
-        publicAccess: false,
-        token: AuthUtil.getToken()
       });
-      console.log(data.returnTables);
-      if (data.returnTables) {
-        
-
-        console.log(data);
-        this.setState({
-          enable: '',
-          loading: false,
-        });
+      console.log("Payment Data - ", data);
+      if (data) {
+        this.setInputValue("mfs_details", data.mfsDetails)
+        this.setInputValue('isLoading', false);
     
       } else {
         this.setInputValue('error', 'Invalid Credentials');
-        this.setInputValue('loading', false);
-        this.resetForm();
+        this.setInputValue('isLoading', false);
       }
     } catch (error) {
       console.log(error)
@@ -160,9 +154,12 @@ class Nominee extends Component {
   }
 
   componentDidMount(){
-    this.getIdentityData();
+    this.getPaymentMethodData();
   }
   render() {
+
+    const mfs_data = this.state.mfs_details;
+    const mfs_companies = this.state.mfs_companies;
     
     return (
       <Row className='account_container'>
@@ -174,6 +171,25 @@ class Nominee extends Component {
         )}
         {/* {success && <Message variant={'success'}>Profile Updated!</Message>} */}
         {this.state.isLoading ? <Loader />: 
+        <>
+        <Row className='my-2 form_row'>
+              <Col md={3}>
+                <div className='payment_label'>
+                  <span>Relationship</span>
+                </div>
+                
+              </Col>
+              <Col md={9}>
+                <Form.Control
+                  type="text"
+                  placeholder=""
+                  className="form_field"
+                  value={this.state.relationship}
+                  onChange={(e) => this.setInputValue('relationship', e.target.value)}
+                  required
+                ></Form.Control>
+              </Col>
+            </Row>
         <Form onSubmit={this.sendOTPHandler}>
           <Form.Group controlId="name">
             <Row className='my-2 form_row'>
@@ -317,7 +333,9 @@ class Nominee extends Component {
               Update
             </Button>
           </Row>
-        </Form>}
+        </Form>
+        </>}
+        
 
         {this.state.showValidateOTPForm && (
             <Form onSubmit={this.submitOTPHandler}>
@@ -345,6 +363,7 @@ class Nominee extends Component {
                 </Button>
               </Row>
             </Form>
+            
           )}
 
       </Row>
@@ -353,4 +372,4 @@ class Nominee extends Component {
 }
 
 
-export default withRouter(Nominee);
+export default withRouter(PaymentMethod);

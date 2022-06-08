@@ -21,6 +21,7 @@ import posts from './data/posts.js';
 import postCategories from './data/postCategories.js';
 import footerLinks from './data/footerLinks.js';
 import account from './data/account.js';
+import payments from './data/payments.js';
 
 dotenv.config();
 
@@ -42,6 +43,10 @@ app.use('/api/about', (req, res) => {
 
 app.use('/api/usefullinks', (req, res) => {
   res.json(usefulLinks);
+});
+
+app.use('/api/payments', (req, res) => {
+  res.json(payments);
 });
 
 app.use('/api/menus', (req, res) => {
