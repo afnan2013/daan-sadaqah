@@ -41,6 +41,7 @@ class Identity extends Component {
       fileReader.onload = (FileLoadEvent) => {
         const srcData = FileLoadEvent.target.result;
         this.setInputValue(imageState, srcData);
+        console.log(srcData);
       };
       fileReader.readAsDataURL(selectedFile);
     }

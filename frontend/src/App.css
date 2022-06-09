@@ -316,10 +316,12 @@ a{
 }
 
 .account_container .payment_label{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 48px;
-  background: aqua;
+  background: #073642;
   color: white;
-  text-align: center;
 }
 
 /********** Extra Large devices only **********/

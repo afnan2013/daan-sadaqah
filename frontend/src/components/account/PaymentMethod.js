@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Form, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Button, Form, Row, Col, Table } from 'react-bootstrap';
 import Message from '../Message';
 import Loader from '../Loader';
 import AuthUtil from '../../utils/AuthUtil';
@@ -13,13 +14,12 @@ class PaymentMethod extends Component {
     this.state = {
       error: undefined,
       mfs_details: {},
-      name: '',
-      address1: '',
-      address2: '',
-      thana: '',
-      district: '',
-      nomineePhone: '',
-      email: '',
+      bank_details:{},
+      accountNumber:'',
+      bankName:'',
+      branch:'',
+      routingNumber:'',
+      chequeLeafPic:'',
       message: undefined,
       isLoading: false,
       otp: '',
@@ -43,9 +43,15 @@ class PaymentMethod extends Component {
         URL: '/api/payments',
         payload: {},
       });
-      console.log("Payment Data - ", data);
+      // console.log("Payment Data - ", data);
       if (data) {
-        this.setInputValue("mfs_details", data.mfsDetails)
+        this.setInputValue("mfs_details", data.mfsDetails);
+        this.setInputValue("bank_details", data.bankDetails);
+        this.setInputValue("accountNumber", data.bankDetails.account_number);
+        this.setInputValue("bankName", data.bankDetails.bank_name);
+        this.setInputValue("branch", data.bankDetails.branch);
+        this.setInputValue("routingNumber", data.bankDetails.routing_number);
+        this.setInputValue("chequeLeafPic", data.bankDetails.check_leaf_image);
         this.setInputValue('isLoading', false);
     
       } else {
@@ -101,23 +107,21 @@ class PaymentMethod extends Component {
     }
 
     try {
-      const identity = {
-        name: this.state.name,
-        address1: this.state.address1,
-        address2: this.state.address2,
-        thana: this.state.thana,
-        district: this.state.district,
-        nomineePhone: this.state.nomineePhone,
-        email: this.state.email,
+      const bankDetails = {
+        accountNumber: this.state.accountNumber,
+        bankName: this.state.bankName,
+        branch: this.state.branch,
+        routingNumber: this.state.routingNumber,
+        chequeLeafPic: this.state.chequeLeafPic,
         phone: AuthUtil.getPhone(),
         otp: this.state.OTP,
         otpid: this.state.OTPid
       }
-      console.log(identity);
+      console.log(bankDetails);
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/updateIdentity',
-        payload: identity,
+        URL: 'http://www.daansadaqah.com:8443/updateBankDetails',
+        payload: bankDetails,
         publicAccess: false,
         token: AuthUtil.getToken()
       });
@@ -159,8 +163,11 @@ class PaymentMethod extends Component {
   render() {
 
     const mfs_data = this.state.mfs_details;
-    const mfs_companies = this.state.mfs_companies;
+    const bank_data = this.state.bank_details;
     
+    console.log(mfs_data);
+  
+
     return (
       <Row className='account_container'>
         {this.state.error && (
@@ -172,58 +179,72 @@ class PaymentMethod extends Component {
         {/* {success && <Message variant={'success'}>Profile Updated!</Message>} */}
         {this.state.isLoading ? <Loader />: 
         <>
+      
         <Row className='my-2 form_row'>
-              <Col md={3}>
-                <div className='payment_label'>
-                  <span>Relationship</span>
-                </div>
-                
-              </Col>
-              <Col md={9}>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  className="form_field"
-                  value={this.state.relationship}
-                  onChange={(e) => this.setInputValue('relationship', e.target.value)}
-                  required
-                ></Form.Control>
-              </Col>
-            </Row>
+          <Col md={3}>
+            <div className='payment_label'>
+              <span>{mfs_data.mfs_label}</span>
+            </div>
+            <div className='payment_label'>
+              <span>{mfs_data.mfs_number}</span>
+            </div>
+          </Col>
+          <Col md={9}>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  {mfs_data.mfs_companies && mfs_data.mfs_companies.length !== 0 &&
+                    mfs_data.mfs_companies.map(company => 
+                      <th key={company.serial}>
+                        <Link to={company.mfs_link}>
+                          <span className="common_link_hover">{company.mfs_name}</span>
+                        </Link>
+                      </th>
+                    )
+                  } 
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  {mfs_data.mfs_companies && mfs_data.mfs_companies.length !== 0 &&
+                    mfs_data.mfs_companies.map(company => 
+                      <td key={company.serial}>
+                        {company.isValidated ? 
+                          <span>Yes</span>:
+                          <span>No</span>
+                        }
+                      </td>
+                    )
+                  } 
+                </tr>
+          
+              </tbody>
+            </Table>
+          
+          </Col>
+              
+        </Row>
+        <br />
+        <Row className='my-2 form_row'>
+          <Col md={3}>
+            <div className='payment_label'>
+              <span>{bank_data.bank_label}</span>
+            </div>
+          </Col>
+        </Row>
         <Form onSubmit={this.sendOTPHandler}>
-          <Form.Group controlId="name">
+          <Form.Group controlId="accountNumber">
             <Row className='my-2 form_row'>
               <Col md={3}>
-                <p>Name</p>
-              </Col>
-              <Col md={6}>
-                <Form.Control
-                  type="text"
-                  placeholder="Full name as per NID"
-                  className="form_field"
-                  value={this.state.name}
-                  onChange={(e) => this.setInputValue('name', e.target.value)}
-                  required
-                ></Form.Control>
-              </Col>
-              <Col md={3}>
-                
-              </Col>
-            </Row>
-          </Form.Group>
-
-          <Form.Group controlId="relationship">
-            <Row className='my-2 form_row'>
-              <Col md={3}>
-                <p>Relationship</p>
+                <p>Account Number</p>
               </Col>
               <Col md={6}>
                 <Form.Control
                   type="text"
                   placeholder=""
                   className="form_field"
-                  value={this.state.relationship}
-                  onChange={(e) => this.setInputValue('relationship', e.target.value)}
+                  value={this.state.accountNumber}
+                  onChange={(e) => this.setInputValue('accountNumber', e.target.value)}
                   required
                 ></Form.Control>
               </Col>
@@ -233,99 +254,79 @@ class PaymentMethod extends Component {
             </Row>
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group controlId="bankName">
             <Row className='my-2 form_row'>
               <Col md={3}>
-                <p>Address</p>
+                <p>Bank Name</p>
               </Col>
               <Col md={6}>
                 <Form.Control
                   type="text"
+                  placeholder=""
                   className="form_field"
-                  placeholder="Enter Address Line 1"
-                  value={this.state.address1}
-                  onChange={(e) => this.setInputValue('address1', e.target.value)}
+                  value={this.state.bankName}
+                  onChange={(e) => this.setInputValue('bankName', e.target.value)}
                   required
                 ></Form.Control>
               </Col>
               <Col md={3}>
-                <Form.Control
-                    type="text"
-                    className="form_field"
-                    placeholder="Enter Address Line 2"
-                    value={this.state.address2}
-                    onChange={(e) => this.setInputValue('address2', e.target.value)}
-                    required
-                  ></Form.Control>
+                
               </Col>
             </Row>
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group controlId="branch">
             <Row className='my-2 form_row'>
               <Col md={3}>
+                <p>Branch</p>
               </Col>
               <Col md={6}>
                 <Form.Control
                   type="text"
                   className="form_field"
-                  placeholder="Thana"
-                  value={this.state.thana}
-                  onChange={(e) => this.setInputValue('thana', e.target.value)}
+                  placeholder=""
+                  value={this.state.branch}
+                  onChange={(e) => this.setInputValue('branch', e.target.value)}
                   required
                 ></Form.Control>
-              </Col>
-              <Col md={3}>
-                <Form.Control
-                    type="text"
-                    className="form_field"
-                    placeholder="District"
-                    value={this.state.district}
-                    onChange={(e) => this.setInputValue('district', e.target.value)}
-                    required
-                  ></Form.Control>
               </Col>
             </Row>
           </Form.Group>
 
-          <Form.Group controlId="nomineePhone">
+          <Form.Group controlId="routingNumber">
             <Row className='my-2 form_row'>
               <Col md={3}>
-                <p>Mobile</p>
+                <p>Routing Number</p>
               </Col>
               <Col md={6}>
                 <Form.Control
                   type="text"
-                  placeholder="Enter phone number"
                   className="form_field"
-                  value={this.state.nomineePhone}
-                  onChange={(e) => this.setInputValue('nomineePhone', e.target.value)}
+                  placeholder=""
+                  value={this.state.routingNumber}
+                  onChange={(e) => this.setInputValue('routingNumber', e.target.value)}
                   required
                 ></Form.Control>
               </Col>
-              <Col md={3}>
-                <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span>
-              </Col>q
             </Row>
           </Form.Group>
-          <Form.Group controlId="email">
+
+          <Form.Group controlId="chequeLeafPic">
             <Row className='my-2 form_row'>
               <Col md={3}>
-                <p>Email</p>
+                <p>Cheque Leaf (Pic)</p>
               </Col>
               <Col md={6}>
+                {this.state.chequeLeafPic && <img src={this.state.chequeLeafPic} className='form_image'/>}
                 <Form.Control
-                  type="email"
-                  placeholder="Enter email"
+                  type="file"
                   className="form_field"
-                  value={this.state.email}
-                  onChange={(e) => this.setInputValue('email', e.target.value)}
-                  required
+                  onChange={(event) =>
+                    this.encodeImageFileURL(event, 'chequeLeafPic')
+                  }
                 ></Form.Control>
               </Col>
-              <Col md={3}>
-                <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span>
-              </Col>
+              <Col md={3}></Col>
             </Row>
           </Form.Group>
           <Row className="text-center">
