@@ -13,16 +13,20 @@ class Nominee extends Component {
     this.state = {
       error: undefined,
       name: '',
+      relationship: '',
       address1: '',
       address2: '',
       thana: '',
       district: '',
       nomineePhone: '',
       email: '',
+      road: '',
+      sector: '',
+      status: "inactive",
       message: undefined,
       isLoading: false,
-      otp: '',
-      otpId: '',
+      OTP: '',
+      OTPId: '',
       showValidateOTPForm: false
     };
   }
@@ -38,20 +42,22 @@ class Nominee extends Component {
       
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getIdentity',
-        payload: {},
-        publicAccess: false,
-        token: AuthUtil.getToken()
+        URL: 'http://www.daansadaqah.com:8443/getNominee',
+        payload: {
+          p_userid: AuthUtil.getPhone()
+        },
       });
-      console.log(data.returnTables);
-      if (data.returnTables) {
-        
-
-        console.log(data);
-        this.setState({
-          enable: '',
-          loading: false,
-        });
+      // console.log(data.returnTables);
+      const nominee = data.returnTables[0][0];
+      if (nominee) {  
+        this.setInputValue("name", nominee.name);
+        this.setInputValue("relationship", nominee.relationship);
+        this.setInputValue("address1", nominee.address1);
+        this.setInputValue("address2", nominee.address2);
+        this.setInputValue("thana", nominee.thana);
+        this.setInputValue("district", nominee.district);
+        this.setInputValue("nomineePhone", nominee.phonenumber);
+        this.setInputValue("email", nominee.email);
     
       } else {
         this.setInputValue('error', 'Invalid Credentials');
@@ -107,25 +113,28 @@ class Nominee extends Component {
     }
 
     try {
-      const identity = {
-        name: this.state.name,
-        address1: this.state.address1,
-        address2: this.state.address2,
-        thana: this.state.thana,
-        district: this.state.district,
-        nomineePhone: this.state.nomineePhone,
-        email: this.state.email,
-        phone: AuthUtil.getPhone(),
-        otp: this.state.OTP,
-        otpid: this.state.OTPid
+      const nominee = {
+        p_userid: AuthUtil.getPhone(), 
+        p_status: this.state.status, 
+        p_name: this.state.name, 
+        p_relationship: this.state.relationship,
+        p_address1: this.state.address1,
+        p_address2: this.state.address2, 
+        p_thana: this.state.thana,
+        p_district: this.state.district,
+        p_road:this.state.road, 
+        p_sector:this.state.sector, 
+        p_phonenumber: this.state.nomineePhone, 
+        p_email: this.state.email,
+        p_otp:this.state.OTP, 
+        p_otpid: this.state.OTPid
       }
-      console.log(identity);
+      console.log(nominee);
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/updateIdentity',
-        payload: identity,
-        publicAccess: false,
-        token: AuthUtil.getToken()
+        URL: 'http://www.daansadaqah.com:8443/updateNominee',
+        payload: nominee,
+        
       });
       console.log(data.returnTables);
       if (data.returnTables) {
@@ -217,7 +226,7 @@ class Nominee extends Component {
             </Row>
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group controlId="address1">
             <Row className='my-2 form_row'>
               <Col md={3}>
                 <p>Address</p>
@@ -245,7 +254,7 @@ class Nominee extends Component {
             </Row>
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group controlId="thana">
             <Row className='my-2 form_row'>
               <Col md={3}>
               </Col>
@@ -289,7 +298,7 @@ class Nominee extends Component {
               </Col>
               <Col md={3}>
                 <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span>
-              </Col>q
+              </Col>
             </Row>
           </Form.Group>
           <Form.Group controlId="email">

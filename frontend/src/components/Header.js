@@ -59,12 +59,16 @@ class Header extends React.Component {
         <>
           <Nav className="justify-content-end flex-grow-1 pe-3">
             {menus.map((menu) => (
+              menu !== undefined &&
+              menu.menucode !== undefined &&
+              menu.menuposition === 'left' &&(
               <LinkContainer key={menu.menucode} to="/">
                 <Nav.Link className="common_sidenav_items">
                   <i className={menu.menuicon}></i>
                   <span>{menu.menuname}</span>
                 </Nav.Link>
               </LinkContainer>
+              )
             ))}
           </Nav>
         </>
@@ -79,12 +83,16 @@ class Header extends React.Component {
         <>
           <Nav className="justify-content-end flex-grow-1 pe-3">
             {menus.map((menu) => (
+              menu !== undefined &&
+              menu.menucode !== undefined &&
+              menu.menuposition === 'left' &&(
               <LinkContainer key={menu.menucode} to="/">
                 <Nav.Link className="common_sidenav_items">
                   <i className={menu.menuicon}></i>
                   <span>{menu.menuname}</span>
                 </Nav.Link>
               </LinkContainer>
+              )
             ))}
           </Nav>
         </>

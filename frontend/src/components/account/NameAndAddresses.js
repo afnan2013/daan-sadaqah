@@ -17,12 +17,16 @@ class NameAndAddresses extends Component {
       nid_address2: '',
       nid_thana: '',
       nid_district: '',
+
       name: '',
+      status: false,
       address1: '',
       address2: '',
       thana: '',
       district: '',
-      secondPhone: '',
+      road:'',
+      sector:'',
+      phonenumber: '',
       email: '',
       message: undefined,
       isLoading: false,
@@ -43,18 +47,27 @@ class NameAndAddresses extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getNameAndAddress',
-        payload: {},
-        publicAccess: false,
-        token: AuthUtil.getToken()
+        URL: 'http://www.daansadaqah.com:8443/getContact',
+        payload: {
+          p_userid: AuthUtil.getPhone()
+        },
+        // publicAccess: false,
+        // token: AuthUtil.getToken()
       });
       console.log(data.returnTables);
+      const nameandaddress = data.returnTables[0][0];
+
       if (data.returnTables) {
         console.log(data);
-        this.setState({
-          enable: '',
-          isLoading: false,
-        });
+        this.setInputValue("name", nameandaddress.name);
+        this.setInputValue("address1", nameandaddress.address1);
+        this.setInputValue("address2", nameandaddress.address2);
+        this.setInputValue("email", nameandaddress.email);
+        this.setInputValue("phonenumber", nameandaddress.phonenumber);
+        this.setInputValue("road", nameandaddress.road);
+        this.setInputValue("sector", nameandaddress.sector);
+        this.setInputValue("thana", nameandaddress.thana);
+        this.setInputValue("district", nameandaddress.district);
     
       } else {
         this.setInputValue('error', 'Invalid Credentials');
@@ -110,29 +123,27 @@ class NameAndAddresses extends Component {
 
     try {
       const nameandaddress = {
-        nid_name: this.state.nid_name,
-        nid_address1: this.state.nid_address1,
-        nid_address2: this.state.nid_address2,
-        nid_thana: this.state.nid_thana,
-        nid_district: this.state.nid_district,
-        name: this.state.name,
-        address1: this.state.address1,
-        address2: this.state.address2,
-        thana: this.state.thana,
-        district: this.state.district,
-        secondPhone: this.state.secondPhone,
-        email: this.state.email,
-        phone: AuthUtil.getPhone(),
-        otp: this.state.OTP,
-        otpid: this.state.OTPid
+      
+        p_name: this.state.name,
+        p_type: "NID",
+        p_status: this.state.status,
+        p_address1: this.state.address1,
+        p_address2: this.state.address2,
+        p_thana: this.state.thana,
+        p_district: this.state.district,
+        p_road: this.state.road,
+        p_sector: this.state.sector,
+        p_phonenumber: this.state.phonenumber,
+        p_email: this.state.email,
+        p_userid: AuthUtil.getPhone(),
+        p_otp: this.state.OTP,
+        p_otpid: this.state.OTPid
       }
       console.log(nameandaddress);
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/updateNameAndAddress',
+        URL: 'http://www.daansadaqah.com:8443/updateContact',
         payload: nameandaddress,
-        publicAccess: false,
-        token: AuthUtil.getToken()
       });
       console.log(data.returnTables);
       if (data.returnTables) {
@@ -194,7 +205,7 @@ class NameAndAddresses extends Component {
                   className="form_field"
                   value={this.state.nid_name}
                   onChange={(e) => this.setInputValue('nid_name', e.target.value)}
-                  required
+                  
                 ></Form.Control>
               </Col>
               <Col md={3}>
@@ -215,7 +226,7 @@ class NameAndAddresses extends Component {
                   placeholder="Enter Address Line 1 (As per NID)"
                   value={this.state.nid_address1}
                   onChange={(e) => this.setInputValue('nid_address1', e.target.value)}
-                  required
+                  
                 ></Form.Control>
               </Col>
               <Col md={3}>
@@ -225,7 +236,7 @@ class NameAndAddresses extends Component {
                     placeholder="Enter Address Line 2 (As per NID)"
                     value={this.state.nid_address2}
                     onChange={(e) => this.setInputValue('nid_address2', e.target.value)}
-                    required
+                    
                   ></Form.Control>
               </Col>
             </Row>
@@ -242,7 +253,7 @@ class NameAndAddresses extends Component {
                   placeholder="Thana (As per NID)"
                   value={this.state.nid_thana}
                   onChange={(e) => this.setInputValue('nid_thana', e.target.value)}
-                  required
+                  
                 ></Form.Control>
               </Col>
               <Col md={3}>
@@ -252,7 +263,7 @@ class NameAndAddresses extends Component {
                     placeholder="District (As per NID)"
                     value={this.state.nid_district}
                     onChange={(e) => this.setInputValue('nid_district', e.target.value)}
-                    required
+                    
                   ></Form.Control>
               </Col>
             </Row>
@@ -346,8 +357,8 @@ class NameAndAddresses extends Component {
                   type="text"
                   placeholder="Enter 2nd phone number"
                   className="form_field"
-                  value={this.state.secondPhone}
-                  onChange={(e) => this.setInputValue('secondPhone', e.target.value)}
+                  value={this.state.phonenumber}
+                  onChange={(e) => this.setInputValue('phonenumber', e.target.value)}
                   required
                 ></Form.Control>
               </Col>

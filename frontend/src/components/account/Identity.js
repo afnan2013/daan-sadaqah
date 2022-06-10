@@ -22,6 +22,8 @@ class Identity extends Component {
       isLoading: false,
       OTP: '',
       OTPid: '',
+      verify_status_nid: false,
+      verify_status_phone: false,
       showValidateOTPForm: false
     };
   }
@@ -41,31 +43,41 @@ class Identity extends Component {
       fileReader.onload = (FileLoadEvent) => {
         const srcData = FileLoadEvent.target.result;
         this.setInputValue(imageState, srcData);
-        console.log(srcData);
+        //console.log(srcData);
       };
       fileReader.readAsDataURL(selectedFile);
     }
   };
 
   getIdentityData = async ()=> {
+    console.log("Fires Identity")
     try {
       
       const { data } = await apiCall({
         method: 'post',
         URL: 'http://www.daansadaqah.com:8443/getIdentity',
-        payload: {},
-        publicAccess: false,
-        token: AuthUtil.getToken()
+        payload: {
+          p_userid: AuthUtil.getPhone()
+        }
       });
-      console.log(data.returnTables);
-      if (data.returnTables) {
-        
-
-        console.log(data);
-        this.setState({
-          enable: '',
-          loading: false,
-        });
+      // console.log(data.returnTables);
+      const identity = data.returnTables[0][0];
+      console.log(identity);
+      if (identity) {
+        console.log("got identity");
+        if (identity.profile_pic)
+           this.setInputValue("profile_pic", identity.profile_pic);
+        if(identity.nid_profile_pic)
+           this.setInputValue("nid_profile_pic", identity.nid_profile_pic);
+        if(identity.nid_front_page)
+            this.setInputValue("nid_front_page", identity.nid_front_page);
+        if(identity.nid_back_page)
+            this.setInputValue("nid_back_page", identity.nid_back_page);
+        this.setInputValue("verify_status_nid", identity.verify_status_nid);
+        this.setInputValue("verify_status_phone", identity.verify_status_phone);
+        this.setInputValue("phone", identity.userid);
+        this.setInputValue("nid", identity.nid);
+    
     
       } else {
         this.setInputValue('error', 'Invalid Credentials');
@@ -102,8 +114,12 @@ class Identity extends Component {
           this.setInputValue('isLoading', false);
           this.setInputValue('OTPid', data.otpid);
           this.setInputValue('showValidateOTPForm', true);
-        } else if (data.status === 'USER1') {
-          this.setInputValue('message', 'User Already Exists');
+        } else if (data.status === 'TIMES') {
+          this.setInputValue('isLoading', false);
+          this.setInputValue('message', data.message);
+        }else{
+          this.setInputValue('isLoading', false);
+          this.setInputValue('message', data.message);
         }
       } catch (err) {
         console.log(err);
@@ -124,22 +140,21 @@ class Identity extends Component {
     this.setInputValue('isLoading', true);
     try {
       const identity = {
-        phone: this.state.phone,
-        nid: this.state.nid,
-        profile_pic: this.state.profile_pic,
-        nid_profile_pic: this.state.nid_profile_pic,
-        nid_front_page: this.state.nid_front_page,
-        nid_back_page: this.state.nid_back_page,
-        otp: this.state.OTP,
-        otpid: this.state.OTPid
+        p_userid : this.state.phone,
+        p_profile_pic: this.state.profile_pic,
+        p_nid : this.state.nid,
+        p_nid_front_page : this.state.nid_front_page,
+        p_nid_back_page : this.state.nid_back_page,
+        p_otp: this.state.OTP,
+        p_otpid: this.state.OTPid
       }
       console.log(identity);
       const { data } = await apiCall({
         method: 'post',
         URL: 'http://www.daansadaqah.com:8443/updateIdentity',
-        payload: identity,
-        publicAccess: false,
-        token: AuthUtil.getToken()
+        payload: identity
+        // publicAccess: false,
+        // token: AuthUtil.getToken()
       });
       console.log(data.returnTables);
       if (data.returnTables) {
@@ -228,7 +243,8 @@ class Identity extends Component {
                 ></Form.Control>
               </Col>
               <Col md={3}>
-                <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span>
+                
+                {/* <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span> */}
                 
               </Col>
             </Row>
@@ -250,7 +266,9 @@ class Identity extends Component {
                 ></Form.Control>
               </Col>
               <Col md={3}>
-                <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span>
+                  {this.state.verify_status_phone ? 
+                    <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span> :
+                    <span><i className="fa-solid fa-circle-xmark" style={{color: 'red'}}></i>  Not Verified</span>}
               </Col>
             </Row>
           </Form.Group>
@@ -271,7 +289,9 @@ class Identity extends Component {
                 ></Form.Control>
               </Col>
               <Col md={3}>
-                <span><i className="fa-solid fa-circle-xmark" style={{color: 'red'}}></i>  Not Verified</span>
+                  {this.state.verify_status_nid ? 
+                    <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span> :
+                    <span><i className="fa-solid fa-circle-xmark" style={{color: 'red'}}></i>  Not Verified</span>}
               </Col>
             </Row>
           </Form.Group>

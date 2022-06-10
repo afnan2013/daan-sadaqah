@@ -13,17 +13,42 @@ class PaymentMethod extends Component {
     super(props);
     this.state = {
       error: undefined,
-      mfs_details: {},
-      bank_details:{},
-      accountNumber:'',
-      bankName:'',
-      branch:'',
-      routingNumber:'',
-      chequeLeafPic:'',
+      mfs_number: AuthUtil.getPhone(),
+      mfs_preferred: '',
+      mfs_name_bkash: "BKash",
+      mfs_icon_bkash: "",
+      mfs_link_bkash: "",
+      isValidated_bkash: "No",
+      mfs_name_nagad: "Nagad",
+      mfs_icon_nagad: "",
+      mfs_link_nagad: "",
+      isValidated_nagad: "No",
+      mfs_name_rocket: "Rocket",
+      mfs_icon_rocket: "",
+      mfs_link_rocket: "",
+      isValidated_rocket: "No",
+      mfs_name_tap: "Tap",
+      mfs_icon_tap: "",
+      mfs_link_tap: "",
+      isValidated_tap: "No",
+      mfs_name_mycash: "MyCash",
+      mfs_icon_mycash: "",
+      mfs_link_mycash: "",
+      isValidated_mycash: "No",
+      mfs_name_okwallet: "OkWallet",
+      mfs_icon_okwallet: "",
+      mfs_link_okwallet: "",
+      isValidated_okwallet: "No",
+      bank_label:"",
+      bank_account_number: "",
+      bank_name: '',
+      bank_branch: "",
+      bank_routing_number: '',
+      bank_check_leaf_image: "",
       message: undefined,
       isLoading: false,
-      otp: '',
-      otpId: '',
+      OTP: '',
+      OTPid: '',
       showValidateOTPForm: false
     };
   }
@@ -39,19 +64,19 @@ class PaymentMethod extends Component {
     try {
       
       const { data } = await apiCall({
-        method: 'get',
-        URL: '/api/payments',
-        payload: {},
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/getPaymentData',
+        payload: {p_userid: AuthUtil.getPhone()},
       });
       // console.log("Payment Data - ", data);
       if (data) {
-        this.setInputValue("mfs_details", data.mfsDetails);
-        this.setInputValue("bank_details", data.bankDetails);
-        this.setInputValue("accountNumber", data.bankDetails.account_number);
-        this.setInputValue("bankName", data.bankDetails.bank_name);
-        this.setInputValue("branch", data.bankDetails.branch);
-        this.setInputValue("routingNumber", data.bankDetails.routing_number);
-        this.setInputValue("chequeLeafPic", data.bankDetails.check_leaf_image);
+        // this.setInputValue("mfs_details", data.mfsDetails);
+        // this.setInputValue("bank_details", data.bankDetails);
+        // this.setInputValue("accountNumber", data.bankDetails.account_number);
+        // this.setInputValue("bankName", data.bankDetails.bank_name);
+        // this.setInputValue("branch", data.bankDetails.branch);
+        // this.setInputValue("routingNumber", data.bankDetails.routing_number);
+        // this.setInputValue("chequeLeafPic", data.bankDetails.check_leaf_image);
         this.setInputValue('isLoading', false);
     
       } else {
@@ -66,7 +91,7 @@ class PaymentMethod extends Component {
             ? error.response.data.message
             : error.response,
         enable: '',
-        loading: false,
+        isLoading: false,
       });
     }
   }
@@ -107,23 +132,48 @@ class PaymentMethod extends Component {
     }
 
     try {
-      const bankDetails = {
-        accountNumber: this.state.accountNumber,
-        bankName: this.state.bankName,
-        branch: this.state.branch,
-        routingNumber: this.state.routingNumber,
-        chequeLeafPic: this.state.chequeLeafPic,
-        phone: AuthUtil.getPhone(),
-        otp: this.state.OTP,
-        otpid: this.state.OTPid
+      const paymentData = {
+        p_mfs_number: this.state.mfs_number, 
+        p_mfs_name_bkash: this.state.mfs_name_bkash, 
+        p_mfs_icon_bkash: this.state.mfs_icon_bkash, 
+        p_mfs_link_bkash: this.state.mfs_link_bkash, 
+        p_isValidated_bkash: this.state.isValidated_bkash,
+        p_mfs_name_nagad: this.state.mfs_name_nagad, 
+        p_mfs_icon_nagad: this.state.mfs_icon_nagad, 
+        p_mfs_link_nagad: this.state.mfs_link_nagad, 
+        p_isValidated_nagad: this.state.isValidated_nagad,
+        p_mfs_name_rocket: this.state.mfs_name_rocket, 
+        p_mfs_icon_rocket: this.state.mfs_icon_rocket, 
+        p_mfs_link_rocket: this.state.mfs_link_rocket, 
+        p_isValidated_rocket: this.state.isValidated_rocket,
+        p_mfs_name_tap: this.state.mfs_name_tap, 
+        p_mfs_icon_tap: this.state.mfs_icon_tap, 
+        p_mfs_link_tap: this.state.isValidated_tap, 
+        p_isValidated_tap: this.state.isValidated_tap, 
+        p_mfs_name_mycash: this.state.mfs_name_mycash, 
+        p_mfs_icon_mycash: this.state.mfs_icon_mycash, 
+        p_mfs_link_mycash: this.state.mfs_link_mycash, 
+        p_isValidated_mycash: this.state.isValidated_mycash,
+        p_mfs_name_okwallet: this.state.mfs_name_okwallet, 
+        p_mfs_icon_okwallet: this.state.mfs_icon_okwallet, 
+        p_mfs_link_okwallet: this.state.mfs_link_okwallet, 
+        p_isValidated_okwallet: this.state.isValidated_okwallet,
+        p_mfs_preferred: this.state.mfs_preferred,
+        p_bank_label: this.state.bank_label,
+        p_bank_account_number: this.state.bank_account_number,
+        p_bank_name: this.state.bank_name,
+        p_bank_branch: this.state.bank_branch,
+        p_bank_routing_number: this.state.bank_routing_number,
+        p_bank_check_leaf_image: this.state.bank_check_leaf_image,
+        p_userid: AuthUtil.getPhone(),
+        p_otp: this.state.OTP,
+        p_otpid: this.state.OTPid
       }
-      console.log(bankDetails);
+      console.log(paymentData);
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/updateBankDetails',
-        payload: bankDetails,
-        publicAccess: false,
-        token: AuthUtil.getToken()
+        URL: 'http://www.daansadaqah.com:8443/updatePaymentData',
+        payload: paymentData,
       });
       console.log(data.returnTables);
       if (data.returnTables) {
@@ -160,14 +210,15 @@ class PaymentMethod extends Component {
   componentDidMount(){
     this.getPaymentMethodData();
   }
+
+  onClickRadioHandler =(e)=>{
+    if(e.target.value){
+      
+      this.setInputValue("mfs_preferred", e.target.value);
+    };
+  }
   render() {
-
-    const mfs_data = this.state.mfs_details;
-    const bank_data = this.state.bank_details;
-    
-    console.log(mfs_data);
-  
-
+    console.log(this.state.mfs_preferred)
     return (
       <Row className='account_container'>
         {this.state.error && (
@@ -183,41 +234,111 @@ class PaymentMethod extends Component {
         <Row className='my-2 form_row'>
           <Col md={3}>
             <div className='payment_label'>
-              <span>{mfs_data.mfs_label}</span>
+              <span>MFS Account</span>
             </div>
             <div className='payment_label'>
-              <span>{mfs_data.mfs_number}</span>
+              <span>{this.state.mfs_number}</span>
             </div>
           </Col>
           <Col md={9}>
             <Table striped bordered hover>
               <thead>
                 <tr>
-                  {mfs_data.mfs_companies && mfs_data.mfs_companies.length !== 0 &&
-                    mfs_data.mfs_companies.map(company => 
-                      <th key={company.serial}>
-                        <Link to={company.mfs_link}>
-                          <span className="common_link_hover">{company.mfs_name}</span>
-                        </Link>
-                      </th>
-                    )
-                  } 
+                  <th>
+                    <Link to={this.state.mfs_link_bkash}>
+                      <span className="common_link_hover">{this.state.mfs_name_bkash} </span>
+                    </Link>
+                  </th>
+                  <th>
+                    <Link to={this.state.mfs_link_nagad}>
+                      <span className="common_link_hover">{this.state.mfs_name_nagad}</span>
+                    </Link>
+                  </th>
+
+                  <th>
+                    <Link to={this.state.mfs_link_rocket}>
+                      <span className="common_link_hover">{this.state.mfs_name_rocket}</span>
+                    </Link>
+                  </th>
+
+                  <th>
+                    <Link to={this.state.mfs_link_mycash}>
+                      <span className="common_link_hover">{this.state.mfs_name_mycash}</span>
+                    </Link>
+                  </th>
+                  <th>
+                    <Link to={this.state.mfs_link_tap}>
+                      <span className="common_link_hover">{this.state.mfs_name_tap}</span>
+                    </Link>
+                  </th>
+                  <th>
+                    <Link to={this.state.mfs_link_okwallet}>
+                      <span className="common_link_hover">{this.state.mfs_name_okwallet}</span>
+                    </Link>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  {mfs_data.mfs_companies && mfs_data.mfs_companies.length !== 0 &&
-                    mfs_data.mfs_companies.map(company => 
-                      <td key={company.serial}>
-                        {company.isValidated ? 
-                          <span>Yes</span>:
-                          <span>No</span>
-                        }
-                      </td>
-                    )
-                  } 
+               
+                  <td>
+                    <input type="radio" className="radio" name="mfs" onChange={this.onClickRadioHandler} value={this.state.mfs_name_bkash} checked={this.state.mfs_preferred === "BKash"}/>
+                  </td>
+                  <td>
+                    <input type="radio" className="radio" name="mfs"  onChange={this.onClickRadioHandler} value={this.state.mfs_name_nagad} checked={this.state.mfs_preferred === "Nagad"}/>
+                  </td>
+                  <td>
+                    <input type="radio" className="radio" name="mfs"  onChange={this.onClickRadioHandler} value={this.state.mfs_name_rocket}/>
+                  </td>
+                  <td>
+                    <input type="radio" className="radio" name="mfs"  onChange={this.onClickRadioHandler} value={this.state.mfs_name_mycash}/>
+                  </td>
+                  <td>
+                    <input type="radio" className="radio" name="mfs"  onChange={this.onClickRadioHandler} value={this.state.mfs_name_tap}/>
+                  </td>
+                  <td>
+                    <input type="radio" className="radio" name="mfs"  onChange={this.onClickRadioHandler} value={this.state.mfs_name_okwallet}/>
+                  </td>
+
                 </tr>
-          
+                <tr>
+                  <td>
+                    {this.state.isValidated_bkash ? 
+                      <span>Yes</span>:
+                      <span>No</span>
+                    }
+                  </td>
+                  <td>
+                    {this.state.isValidated_nagad ? 
+                      <span>Yes</span>:
+                      <span>No</span>
+                    }
+                  </td>
+                  <td>
+                    {this.state.isValidated_rocket ? 
+                      <span>Yes</span>:
+                      <span>No</span>
+                    }
+                  </td>
+                  <td>
+                    {this.state.isValidated_mycash ? 
+                      <span>Yes</span>:
+                      <span>No</span>
+                    }
+                  </td>
+                  <td>
+                    {this.state.isValidated_tap ? 
+                      <span>Yes</span>:
+                      <span>No</span>
+                    }
+                  </td>
+                  <td>
+                    {this.state.isValidated_okwallet ? 
+                      <span>Yes</span>:
+                      <span>No</span>
+                    }
+                  </td>
+                </tr>
               </tbody>
             </Table>
           
@@ -228,12 +349,12 @@ class PaymentMethod extends Component {
         <Row className='my-2 form_row'>
           <Col md={3}>
             <div className='payment_label'>
-              <span>{bank_data.bank_label}</span>
+              <span>{this.state.bank_label}</span>
             </div>
           </Col>
         </Row>
         <Form onSubmit={this.sendOTPHandler}>
-          <Form.Group controlId="accountNumber">
+          <Form.Group controlId="bank_account_number">
             <Row className='my-2 form_row'>
               <Col md={3}>
                 <p>Account Number</p>
@@ -243,8 +364,8 @@ class PaymentMethod extends Component {
                   type="text"
                   placeholder=""
                   className="form_field"
-                  value={this.state.accountNumber}
-                  onChange={(e) => this.setInputValue('accountNumber', e.target.value)}
+                  value={this.state.bank_account_number}
+                  onChange={(e) => this.setInputValue('bank_account_number', e.target.value)}
                   required
                 ></Form.Control>
               </Col>
@@ -254,7 +375,7 @@ class PaymentMethod extends Component {
             </Row>
           </Form.Group>
 
-          <Form.Group controlId="bankName">
+          <Form.Group controlId="bank_name">
             <Row className='my-2 form_row'>
               <Col md={3}>
                 <p>Bank Name</p>
@@ -264,8 +385,8 @@ class PaymentMethod extends Component {
                   type="text"
                   placeholder=""
                   className="form_field"
-                  value={this.state.bankName}
-                  onChange={(e) => this.setInputValue('bankName', e.target.value)}
+                  value={this.state.bank_name}
+                  onChange={(e) => this.setInputValue('bank_name', e.target.value)}
                   required
                 ></Form.Control>
               </Col>
@@ -275,7 +396,7 @@ class PaymentMethod extends Component {
             </Row>
           </Form.Group>
 
-          <Form.Group controlId="branch">
+          <Form.Group controlId="bank_branch">
             <Row className='my-2 form_row'>
               <Col md={3}>
                 <p>Branch</p>
@@ -285,15 +406,15 @@ class PaymentMethod extends Component {
                   type="text"
                   className="form_field"
                   placeholder=""
-                  value={this.state.branch}
-                  onChange={(e) => this.setInputValue('branch', e.target.value)}
+                  value={this.state.bank_branch}
+                  onChange={(e) => this.setInputValue('bank_branch', e.target.value)}
                   required
                 ></Form.Control>
               </Col>
             </Row>
           </Form.Group>
 
-          <Form.Group controlId="routingNumber">
+          <Form.Group controlId="bank_routing_number">
             <Row className='my-2 form_row'>
               <Col md={3}>
                 <p>Routing Number</p>
@@ -303,21 +424,21 @@ class PaymentMethod extends Component {
                   type="text"
                   className="form_field"
                   placeholder=""
-                  value={this.state.routingNumber}
-                  onChange={(e) => this.setInputValue('routingNumber', e.target.value)}
+                  value={this.state.bank_routing_number}
+                  onChange={(e) => this.setInputValue('bank_routing_number', e.target.value)}
                   required
                 ></Form.Control>
               </Col>
             </Row>
           </Form.Group>
 
-          <Form.Group controlId="chequeLeafPic">
+          <Form.Group controlId="bank_check_leaf_image">
             <Row className='my-2 form_row'>
               <Col md={3}>
                 <p>Cheque Leaf (Pic)</p>
               </Col>
               <Col md={6}>
-                {this.state.chequeLeafPic && <img src={this.state.chequeLeafPic} className='form_image'/>}
+                {this.state.bank_check_leaf_image && <img src={this.state.bank_check_leaf_image} className='form_image'/>}
                 <Form.Control
                   type="file"
                   className="form_field"
