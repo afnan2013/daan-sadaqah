@@ -11,14 +11,15 @@ class Identity extends Component {
     super(props);
     this.state = {
       error: undefined,
+      message: undefined,
+      success: undefined,
+      isLoading: false,
       profile_pic: '',
       nid_profile_pic: '',
       phone: '',
       nid: '',
       nid_front_page: '',
       nid_back_page: '',
-      message: undefined,
-      isLoading: false,
       OTP: '',
       OTPid: '',
       verify_status_nid: false,
@@ -42,14 +43,14 @@ class Identity extends Component {
       fileReader.onload = (FileLoadEvent) => {
         const srcData = FileLoadEvent.target.result;
         this.setInputValue(imageState, srcData);
-        //console.log(srcData);
+        console.log(srcData);
       };
       fileReader.readAsDataURL(selectedFile);
     }
   };
 
   getIdentityData = async () => {
-    console.log('Fires Identity');
+    // console.log('Fires Identity');
     try {
       const { data } = await apiCall({
         method: 'post',
@@ -62,15 +63,28 @@ class Identity extends Component {
       const identity = data.returnTables[0][0];
       console.log(identity);
       if (identity) {
-        console.log('got identity');
+        // console.log('got identity');
+
         if (identity.profile_pic)
-          this.setInputValue('profile_pic', identity.profile_pic);
+          this.setInputValue(
+            'profile_pic',
+            String.fromCharCode(...identity.profile_pic.data)
+          );
         if (identity.nid_profile_pic)
-          this.setInputValue('nid_profile_pic', identity.nid_profile_pic);
+          this.setInputValue(
+            'nid_profile_pic',
+            String.fromCharCode(...identity.nid_profile_pic.data)
+          );
         if (identity.nid_front_page)
-          this.setInputValue('nid_front_page', identity.nid_front_page);
+          this.setInputValue(
+            'nid_front_page',
+            String.fromCharCode(...identity.nid_front_page.data)
+          );
         if (identity.nid_back_page)
-          this.setInputValue('nid_back_page', identity.nid_back_page);
+          this.setInputValue(
+            'nid_back_page',
+            String.fromCharCode(...identity.nid_back_page.data)
+          );
         this.setInputValue('verify_status_nid', identity.verify_status_nid);
         this.setInputValue('verify_status_phone', identity.verify_status_phone);
         this.setInputValue('phone', identity.userid);
@@ -96,6 +110,8 @@ class Identity extends Component {
   sendOTPHandler = async (e) => {
     e.preventDefault();
     this.setInputValue('isLoading', true);
+    this.setInputValue('message', '');
+    this.setInputValue('error', '');
     // return;
     if (AuthUtil.getPhone()) {
       try {
@@ -134,6 +150,8 @@ class Identity extends Component {
       return this.props.navigate(`/login?redirect=${redirect}`);
     }
     this.setInputValue('isLoading', true);
+    this.setInputValue('message', '');
+    this.setInputValue('error', '');
     try {
       const identity = {
         p_userid: this.state.phone,
@@ -144,7 +162,7 @@ class Identity extends Component {
         p_otp: this.state.OTP,
         p_otpid: this.state.OTPid,
       };
-      console.log(identity);
+      // console.log(identity);
       const { data } = await apiCall({
         method: 'post',
         URL: 'http://www.daansadaqah.com:8443/updateIdentity',
@@ -152,12 +170,15 @@ class Identity extends Component {
         // publicAccess: false,
         // token: AuthUtil.getToken()
       });
-      console.log(data.returnTables);
-      if (data.returnTables) {
-        console.log(data);
+      const result = data.returnTables[0][0];
+      console.log(result);
+      if (result.message === 'SUCCESS') {
+        // console.log(data.returnTables);
         this.setState({
           enable: '',
+          success: 'Information Updated Successful!',
           isLoading: false,
+          showValidateOTPForm: false,
         });
       } else {
         this.setInputValue('error', 'Invalid Credentials');
@@ -172,7 +193,7 @@ class Identity extends Component {
             ? error.response.data.message
             : error.response,
         enable: '',
-        loading: false,
+        isLoading: false,
       });
     }
   };
@@ -189,7 +210,9 @@ class Identity extends Component {
         {this.state.message && (
           <Message variant={'danger'}>{this.state.message}</Message>
         )}
-        {/* {success && <Message variant={'success'}>Profile Updated!</Message>} */}
+        {this.state.success && (
+          <Message variant={'success'}>{this.state.success}</Message>
+        )}
         {this.state.isLoading ? (
           <Loader />
         ) : (

@@ -11,6 +11,9 @@ class NameAndAddresses extends Component {
     super(props);
     this.state = {
       error: undefined,
+      message: undefined,
+      success: undefined,
+      isLoading: false,
       nid_name: '',
       nid_address1: '',
       nid_address2: '',
@@ -27,8 +30,6 @@ class NameAndAddresses extends Component {
       sector: '',
       phonenumber: '',
       email: '',
-      message: undefined,
-      isLoading: false,
       OTP: '',
       OTPid: '',
       showValidateOTPForm: false,
@@ -53,11 +54,11 @@ class NameAndAddresses extends Component {
         // publicAccess: false,
         // token: AuthUtil.getToken()
       });
-      console.log(data.returnTables);
+      // console.log(data.returnTables);
       const nameandaddress = data.returnTables[0][0];
 
-      if (data.returnTables) {
-        console.log(data);
+      if (nameandaddress) {
+        // console.log(data);
         this.setInputValue('name', nameandaddress.name);
         this.setInputValue('address1', nameandaddress.address1);
         this.setInputValue('address2', nameandaddress.address2);
@@ -100,9 +101,14 @@ class NameAndAddresses extends Component {
 
         if (data.status === 'sent') {
           this.setInputValue('OTPid', data.otpid);
+          this.setInputValue('isLoading', false);
           this.setInputValue('showValidateOTPForm', true);
-        } else if (data.status === 'USER1') {
-          this.setInputValue('message', 'User Already Exists');
+        } else if (data.status === 'TIMES') {
+          this.setInputValue('isLoading', false);
+          this.setInputValue('message', data.message);
+        } else {
+          this.setInputValue('isLoading', false);
+          this.setInputValue('message', data.message);
         }
       } catch (err) {
         console.log(err);
@@ -118,7 +124,9 @@ class NameAndAddresses extends Component {
     if (!AuthUtil.getToken()) {
       return this.props.navigate(`/login?redirect=${redirect}`);
     }
-
+    this.setInputValue('message', '');
+    this.setInputValue('error', '');
+    this.setInputValue('isLoading', true);
     try {
       const nameandaddress = {
         p_name: this.state.name,
@@ -136,28 +144,25 @@ class NameAndAddresses extends Component {
         p_otp: this.state.OTP,
         p_otpid: this.state.OTPid,
       };
-      console.log(nameandaddress);
+      // console.log(nameandaddress);
       const { data } = await apiCall({
         method: 'post',
         URL: 'http://www.daansadaqah.com:8443/updateContact',
         payload: nameandaddress,
       });
-      console.log(data.returnTables);
-      if (data.returnTables) {
-        // const roles = data.returnTables[0];
-        // const menulist = data.returnTables[1];
-        // const [user] = data.returnTables[2];
-
-        // const rolelist = roles.map((role) => role.rolecode);
-
-        console.log(data);
+      const result = data.returnTables[0][0];
+      console.log(result);
+      if (result.message === 'SUCCESS') {
+        // console.log(data);
         this.setState({
           enable: '',
-          loading: false,
+          success: 'Information Updated Successfully!',
+          isLoading: false,
+          showValidateOTPForm: false,
         });
       } else {
         this.setInputValue('error', 'Invalid Credentials');
-        this.setInputValue('loading', false);
+        this.setInputValue('isLoading', false);
         this.resetForm();
       }
     } catch (error) {
@@ -168,7 +173,7 @@ class NameAndAddresses extends Component {
             ? error.response.data.message
             : error.response,
         enable: '',
-        loading: false,
+        isLoading: false,
       });
     }
   };
@@ -185,7 +190,9 @@ class NameAndAddresses extends Component {
         {this.state.message && (
           <Message variant={'danger'}>{this.state.message}</Message>
         )}
-        {/* {success && <Message variant={'success'}>Profile Updated!</Message>} */}
+        {this.state.success && (
+          <Message variant={'success'}>{this.state.success}</Message>
+        )}
         {this.state.isLoading ? (
           <Loader />
         ) : (
