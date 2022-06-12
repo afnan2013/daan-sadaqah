@@ -55,7 +55,7 @@ class Footer extends React.Component {
     let footerDesign = (
       <Container fluid>
         <Row className="align-items-center">
-          <Col sm={3} className="text-center">
+          <Col sm={3} className="text-center ">
             <Image
               src="/images/Daan-Sadaqah-65x80_PNG.png"
               className="footer_logo"

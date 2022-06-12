@@ -22,16 +22,24 @@ import OnlineSupportScreen from './screens/footerScreens/OnlineSupportScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import PostScreen from './screens/PostScreen';
 import ForgetPassScreen from './screens/ForgetPassScreen';
+import MyAccount from './components/profile/MyAccount';
+import Identity from './components/profile/myaccount/Identity';
+import NameAndAddresses from './components/profile/myaccount/NameAndAddresses';
+import Nominee from './components/profile/myaccount/Nominee';
+import PaymentMethod from './components/profile/myaccount/PaymentMethod';
+import MyPosts from './components/profile/MyPosts';
+import FeesAndDues from './components/profile/FeesAndDues';
+import CreatePost from './components/profile/CreatePost';
 
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
-  render(){
+  render() {
     return (
       <Router>
-        <Header/>
+        <Header />
         <Routes>
           {/* Footer Routes */}
           <Route path="/mobileapp" element={<MobileAppScreen />} />
@@ -48,10 +56,23 @@ class App extends React.Component {
           <Route path="/about" element={<AboutScreen />} />
 
           <Route path="/posts" element={<PostScreen />} />
-          
+
           {/* User Routes */}
           <Route path="/forgetpassword" element={<ForgetPassScreen />} />
-          <Route path="/profile" element={<ProfileScreen />} />
+          <Route path="/profile" element={<ProfileScreen />}>
+            <Route path="myaccount" element={<MyAccount />}>
+              <Route path="identity" element={<Identity />}></Route>
+              <Route
+                path="nameandaddress"
+                element={<NameAndAddresses />}
+              ></Route>
+              <Route path="paymentmethod" element={<PaymentMethod />}></Route>
+              <Route path="nominee" element={<Nominee />}></Route>
+            </Route>
+            <Route path="myposts" element={<MyPosts />}></Route>
+            <Route path="feesanddues" element={<FeesAndDues />}></Route>
+            <Route path="createpost" element={<CreatePost />}></Route>
+          </Route>
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/login" element={<LoginScreen />} />
 
