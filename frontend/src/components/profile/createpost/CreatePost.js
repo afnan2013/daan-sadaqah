@@ -6,7 +6,7 @@ import AuthUtil from '../../../utils/AuthUtil';
 import { apiCall } from '../../../utils/apiCall';
 import { withRouter } from '../../withRouter';
 
-class Nominee extends Component {
+class CreatePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -390,4 +390,4 @@ class Nominee extends Component {
   }
 }
 
-export default withRouter(Nominee);
+export default withRouter(CreatePost);

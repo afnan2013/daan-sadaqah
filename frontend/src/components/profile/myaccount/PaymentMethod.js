@@ -58,6 +58,21 @@ class PaymentMethod extends Component {
     });
   };
 
+  encodeImageFileURL = (event, imageState) => {
+    const filesSelect = event.target.files;
+    if (filesSelect.length > 0) {
+      let selectedFile = filesSelect[0];
+      let fileReader = new FileReader();
+
+      fileReader.onload = (FileLoadEvent) => {
+        const srcData = FileLoadEvent.target.result;
+        this.setInputValue(imageState, srcData);
+        // console.log(srcData);
+      };
+      fileReader.readAsDataURL(selectedFile);
+    }
+  };
+
   getPaymentMethodData = async () => {
     this.setInputValue('isLoading', true);
     try {
@@ -66,15 +81,21 @@ class PaymentMethod extends Component {
         URL: 'http://www.daansadaqah.com:8443/getPaymentData',
         payload: { p_userid: AuthUtil.getPhone() },
       });
-      // console.log("Payment Data - ", data);
-      if (data) {
-        // this.setInputValue("mfs_details", data.mfsDetails);
-        // this.setInputValue("bank_details", data.bankDetails);
-        // this.setInputValue("accountNumber", data.bankDetails.account_number);
-        // this.setInputValue("bankName", data.bankDetails.bank_name);
-        // this.setInputValue("branch", data.bankDetails.branch);
-        // this.setInputValue("routingNumber", data.bankDetails.routing_number);
-        // this.setInputValue("chequeLeafPic", data.bankDetails.check_leaf_image);
+      console.log("Payment Data - ", data);
+      const paymentData = data.returnTables[0][0];
+      if (paymentData) {
+        this.setInputValue("mfs_preferred", paymentData.mfs_preferred);
+        this.setInputValue("bank_account_number", paymentData.bank_account_number);
+        this.setInputValue("bank_branch", paymentData.mfs_preferred);
+        this.setInputValue("bank_name", paymentData.bank_name);
+        this.setInputValue("bank_routing_number", paymentData.bank_routing_number);
+        this.setInputValue("bank_check_leaf_image", String.fromCharCode(...paymentData.bank_check_leaf_image.data));
+        this.setInputValue("isValidated_bkash", String.fromCharCode(paymentData.isValidated_bkash));
+        this.setInputValue("isValidated_mycash", String.fromCharCode(paymentData.isValidated_mycash));
+        this.setInputValue("isValidated_nagad", String.fromCharCode(paymentData.isValidated_nagad));
+        this.setInputValue("isValidated_okwallet", String.fromCharCode(paymentData.isValidated_okwallet));
+        this.setInputValue("isValidated_rocket", String.fromCharCode(paymentData.isValidated_rocket));
+      
         this.setInputValue('isLoading', false);
       } else {
         this.setInputValue('error', 'Invalid Credentials');
@@ -397,7 +418,7 @@ class PaymentMethod extends Component {
             <Row className="my-2 form_row">
               <Col md={3}>
                 <div className="payment_label">
-                  <span>{this.state.bank_label}</span>
+                  <span>Bank Account Details</span>
                 </div>
               </Col>
             </Row>
@@ -506,7 +527,7 @@ class PaymentMethod extends Component {
                       type="file"
                       className="form_field"
                       onChange={(event) =>
-                        this.encodeImageFileURL(event, 'chequeLeafPic')
+                        this.encodeImageFileURL(event, 'bank_check_leaf_image')
                       }
                     ></Form.Control>
                   </Col>
