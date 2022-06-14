@@ -81,21 +81,45 @@ class PaymentMethod extends Component {
         URL: 'http://www.daansadaqah.com:8443/getPaymentData',
         payload: { p_userid: AuthUtil.getPhone() },
       });
-      console.log("Payment Data - ", data);
+      console.log('Payment Data - ', data);
       const paymentData = data.returnTables[0][0];
       if (paymentData) {
-        this.setInputValue("mfs_preferred", paymentData.mfs_preferred);
-        this.setInputValue("bank_account_number", paymentData.bank_account_number);
-        this.setInputValue("bank_branch", paymentData.mfs_preferred);
-        this.setInputValue("bank_name", paymentData.bank_name);
-        this.setInputValue("bank_routing_number", paymentData.bank_routing_number);
-        this.setInputValue("bank_check_leaf_image", String.fromCharCode(...paymentData.bank_check_leaf_image.data));
-        this.setInputValue("isValidated_bkash", String.fromCharCode(paymentData.isValidated_bkash));
-        this.setInputValue("isValidated_mycash", String.fromCharCode(paymentData.isValidated_mycash));
-        this.setInputValue("isValidated_nagad", String.fromCharCode(paymentData.isValidated_nagad));
-        this.setInputValue("isValidated_okwallet", String.fromCharCode(paymentData.isValidated_okwallet));
-        this.setInputValue("isValidated_rocket", String.fromCharCode(paymentData.isValidated_rocket));
-      
+        this.setInputValue('mfs_preferred', paymentData.mfs_preferred);
+        this.setInputValue(
+          'bank_account_number',
+          paymentData.bank_account_number
+        );
+        this.setInputValue('bank_branch', paymentData.mfs_preferred);
+        this.setInputValue('bank_name', paymentData.bank_name);
+        this.setInputValue(
+          'bank_routing_number',
+          paymentData.bank_routing_number
+        );
+        this.setInputValue(
+          'bank_check_leaf_image',
+          String.fromCharCode(...paymentData.bank_check_leaf_image.data)
+        );
+        this.setInputValue(
+          'isValidated_bkash',
+          String.fromCharCode(paymentData.isValidated_bkash)
+        );
+        this.setInputValue(
+          'isValidated_mycash',
+          String.fromCharCode(paymentData.isValidated_mycash)
+        );
+        this.setInputValue(
+          'isValidated_nagad',
+          String.fromCharCode(paymentData.isValidated_nagad)
+        );
+        this.setInputValue(
+          'isValidated_okwallet',
+          String.fromCharCode(paymentData.isValidated_okwallet)
+        );
+        this.setInputValue(
+          'isValidated_rocket',
+          String.fromCharCode(paymentData.isValidated_rocket)
+        );
+
         this.setInputValue('isLoading', false);
       } else {
         this.setInputValue('error', 'Invalid Credentials');

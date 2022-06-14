@@ -324,6 +324,18 @@ a{
   color: white;
 }
 
+.account_container .list-group {
+  margin: 15px 0px;
+}
+
+.account_container .list-group-item {
+  color: #073642;
+  margin: 0px 15px;
+  padding: 20px 15px;
+}
+
+
+
 /********** Extra Large devices only **********/
 @media (min-width: 1200px) {
   .offcanvas-start{

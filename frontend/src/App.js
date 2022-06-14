@@ -30,6 +30,8 @@ import PaymentMethod from './components/profile/myaccount/PaymentMethod';
 import MyPosts from './components/profile/MyPosts';
 import FeesAndDues from './components/profile/FeesAndDues';
 import CreatePost from './components/profile/CreatePost';
+import PostRules from './components/profile/createpost/PostRules';
+import PostForm from './components/profile/createpost/PostForm';
 
 class App extends React.Component {
   constructor(props) {
@@ -71,7 +73,10 @@ class App extends React.Component {
             </Route>
             <Route path="myposts" element={<MyPosts />}></Route>
             <Route path="feesanddues" element={<FeesAndDues />}></Route>
-            <Route path="createpost" element={<CreatePost />}></Route>
+            <Route path="createpost" element={<CreatePost />}>
+              <Route path="rules" element={<PostRules />}></Route>
+              <Route path="form" element={<PostForm />}></Route>
+            </Route>
           </Route>
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/login" element={<LoginScreen />} />

@@ -1,33 +1,29 @@
 import React, { Component } from 'react';
+import { withRouter } from '../../withRouter';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import Message from '../../Message';
 import Loader from '../../Loader';
 import AuthUtil from '../../../utils/AuthUtil';
 import { apiCall } from '../../../utils/apiCall';
-import { withRouter } from '../../withRouter';
 
-class CreatePost extends Component {
+class PostForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       error: undefined,
-      name: '',
-      relationship: '',
-      address1: '',
-      address2: '',
-      thana: '',
-      district: '',
-      nomineePhone: '',
-      email: '',
-      road: '',
-      sector: '',
-      status: 'inactive',
+      categories: [],
+      rules: [],
+      type: '',
+      shortTitle: '',
+      storyLine: '',
+      postImage: '',
+      postVideo: '',
+      status: 'draft',
+      isVerified: 'NO',
       message: undefined,
       success: undefined,
       isLoading: false,
-      OTP: '',
-      OTPId: '',
-      showValidateOTPForm: false,
+      isReviewedPost: false,
     };
   }
 
@@ -37,35 +33,40 @@ class CreatePost extends Component {
     });
   };
 
-  getIdentityData = async () => {
+  encodeImageFileURL = (event, imageState) => {
+    const filesSelect = event.target.files;
+    if (filesSelect.length > 0) {
+      let selectedFile = filesSelect[0];
+      let fileReader = new FileReader();
 
+      fileReader.onload = (FileLoadEvent) => {
+        const srcData = FileLoadEvent.target.result;
+        this.setInputValue(imageState, srcData);
+        // console.log(srcData);
+      };
+      fileReader.readAsDataURL(selectedFile);
+    }
+  };
+
+  getCategoryData = async () => {
     try {
       this.setInputValue('isLoading', true);
       const { data } = await apiCall({
-        method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getNominee',
-        payload: {
-          p_userid: AuthUtil.getPhone(),
-        },
+        method: 'get',
+        URL: '/api/postCategories',
+        // payload: {
+        //   p_userid: AuthUtil.getPhone(),
+        // },
       });
-      // console.log(data.returnTables);
-      const nominee = data.returnTables[0][0];
-      if (nominee) {
-        this.setInputValue('name', nominee.name);
-        this.setInputValue('relationship', nominee.relationship);
-        this.setInputValue('address1', nominee.address1);
-        this.setInputValue('address2', nominee.address2);
-        this.setInputValue('thana', nominee.thana);
-        this.setInputValue('district', nominee.district);
-        this.setInputValue('nomineePhone', nominee.phonenumber);
-        this.setInputValue('email', nominee.email);
+
+      console.log(data);
+      if (data) {
+        this.setInputValue('categories', data);
         this.setInputValue('isLoading', false);
       } else {
         this.setInputValue('error', 'Invalid Credentials');
         this.setInputValue('isLoading', false);
-        this.resetForm();
       }
-      
     } catch (error) {
       console.log(error);
       this.setState({
@@ -79,7 +80,7 @@ class CreatePost extends Component {
     }
   };
 
-  sendOTPHandler = async (e) => {
+  submitReviewHandler = async (e) => {
     e.preventDefault();
     if (AuthUtil.getPhone()) {
       try {
@@ -104,7 +105,7 @@ class CreatePost extends Component {
     }
   };
 
-  submitOTPHandler = async (e) => {
+  submitPostHandler = async (e) => {
     e.preventDefault();
     const redirect = '/profile';
     if (!AuthUtil.getToken()) {
@@ -147,11 +148,10 @@ class CreatePost extends Component {
           isLoading: false,
           showValidateOTPForm: false,
         });
-      }else if (result.message === "OTP MISMATCH"){
+      } else if (result.message === 'OTP MISMATCH') {
         this.setInputValue('error', 'Invalid OTP Entered!');
         this.setInputValue('isLoading', false);
-      } 
-      else {
+      } else {
         this.setInputValue('error', 'Invalid Credentials');
         this.setInputValue('isLoading', false);
         // this.resetForm();
@@ -170,9 +170,10 @@ class CreatePost extends Component {
   };
 
   componentDidMount() {
-    this.getIdentityData();
+    this.getCategoryData();
   }
   render() {
+    console.log(this.state.type);
     return (
       <Row className="account_container">
         {this.state.error && (
@@ -181,23 +182,58 @@ class CreatePost extends Component {
         {this.state.message && (
           <Message variant={'danger'}>{this.state.message}</Message>
         )}
-        {this.state.success && <Message variant={'success'}>{this.state.success}</Message>}
+        {this.state.success && (
+          <Message variant={'success'}>{this.state.success}</Message>
+        )}
         {this.state.isLoading ? (
           <Loader />
         ) : (
-          <Form onSubmit={this.sendOTPHandler}>
-            <Form.Group controlId="name">
+          <Form
+            onSubmit={
+              this.state.isReviewedPost
+                ? this.submitPostHandler
+                : this.submitReviewHandler
+            }
+          >
+            <Form.Group controlId="type">
               <Row className="my-2 form_row">
                 <Col md={3}>
-                  <p>Name</p>
+                  <p>Type</p>
+                </Col>
+                <Col md={6}>
+                  <Form.Select
+                    className="form_field"
+                    value={this.state.type}
+                    onChange={(e) => this.setInputValue('type', e.target.value)}
+                    required
+                  >
+                    <option defaultValue>Select Post Type</option>
+                    {this.state.categories.length !== 0 &&
+                      this.state.categories.map((cat, index) => (
+                        <option key={index} value={cat.categoryCode}>
+                          {cat.categoryName}
+                        </option>
+                      ))}
+                  </Form.Select>
+                </Col>
+                <Col md={3}></Col>
+              </Row>
+            </Form.Group>
+
+            <Form.Group controlId="shortTitle">
+              <Row className="my-2 form_row">
+                <Col md={3}>
+                  <p>Short Title</p>
                 </Col>
                 <Col md={6}>
                   <Form.Control
                     type="text"
-                    placeholder="Full name as per NID"
+                    placeholder="Enter a Short Title"
                     className="form_field"
-                    value={this.state.name}
-                    onChange={(e) => this.setInputValue('name', e.target.value)}
+                    value={this.state.shortTitle}
+                    onChange={(e) =>
+                      this.setInputValue('shortTitle', e.target.value)
+                    }
                     required
                   ></Form.Control>
                 </Col>
@@ -205,19 +241,20 @@ class CreatePost extends Component {
               </Row>
             </Form.Group>
 
-            <Form.Group controlId="relationship">
+            <Form.Group controlId="storyLine">
               <Row className="my-2 form_row">
                 <Col md={3}>
-                  <p>Relationship</p>
+                  <p>Details</p>
                 </Col>
                 <Col md={6}>
                   <Form.Control
                     type="text"
-                    placeholder=""
-                    className="form_field"
-                    value={this.state.relationship}
+                    as="textarea"
+                    rows="5"
+                    placeholder="Enter Story Details (Maximum 500 words)"
+                    value={this.state.storyLine}
                     onChange={(e) =>
-                      this.setInputValue('relationship', e.target.value)
+                      this.setInputValue('storyLine', e.target.value)
                     }
                     required
                   ></Form.Control>
@@ -226,131 +263,62 @@ class CreatePost extends Component {
               </Row>
             </Form.Group>
 
-            <Form.Group controlId="address1">
+            <Form.Group controlId="postImage">
               <Row className="my-2 form_row">
                 <Col md={3}>
-                  <p>Address</p>
+                  <p>Image</p>
                 </Col>
                 <Col md={6}>
+                  {this.state.postImage && (
+                    <img src={this.state.postImage} className="form_image" />
+                  )}
                   <Form.Control
-                    type="text"
+                    type="file"
                     className="form_field"
-                    placeholder="Enter Address Line 1"
-                    value={this.state.address1}
-                    onChange={(e) =>
-                      this.setInputValue('address1', e.target.value)
+                    onChange={(event) =>
+                      this.encodeImageFileURL(event, 'postImage')
                     }
-                    required
                   ></Form.Control>
                 </Col>
-                <Col md={3}>
-                  <Form.Control
-                    type="text"
-                    className="form_field"
-                    placeholder="Enter Address Line 2"
-                    value={this.state.address2}
-                    onChange={(e) =>
-                      this.setInputValue('address2', e.target.value)
-                    }
-                    required
-                  ></Form.Control>
-                </Col>
-              </Row>
-            </Form.Group>
-
-            <Form.Group controlId="thana">
-              <Row className="my-2 form_row">
                 <Col md={3}></Col>
-                <Col md={6}>
-                  <Form.Control
-                    type="text"
-                    className="form_field"
-                    placeholder="Thana"
-                    value={this.state.thana}
-                    onChange={(e) =>
-                      this.setInputValue('thana', e.target.value)
-                    }
-                    required
-                  ></Form.Control>
-                </Col>
-                <Col md={3}>
-                  <Form.Control
-                    type="text"
-                    className="form_field"
-                    placeholder="District"
-                    value={this.state.district}
-                    onChange={(e) =>
-                      this.setInputValue('district', e.target.value)
-                    }
-                    required
-                  ></Form.Control>
-                </Col>
               </Row>
             </Form.Group>
 
-            <Form.Group controlId="nomineePhone">
+            <Form.Group controlId="postVideo">
               <Row className="my-2 form_row">
                 <Col md={3}>
-                  <p>Mobile</p>
+                  <p>Video</p>
                 </Col>
                 <Col md={6}>
+                  {this.state.postVideo && (
+                    <video width="400px" controls>
+                      <source
+                        src={this.state.postVideo}
+                        type="video/mp4"
+                      ></source>
+                    </video>
+                  )}
                   <Form.Control
-                    type="text"
-                    placeholder="Enter phone number"
+                    type="file"
                     className="form_field"
-                    value={this.state.nomineePhone}
-                    onChange={(e) =>
-                      this.setInputValue('nomineePhone', e.target.value)
+                    onChange={(event) =>
+                      this.encodeImageFileURL(event, 'postVideo')
                     }
-                    required
                   ></Form.Control>
                 </Col>
-                <Col md={3}>
-                  <span>
-                    <i
-                      className="fa-solid fa-circle-check"
-                      style={{ color: 'green' }}
-                    ></i>{' '}
-                    OTP Verified
-                  </span>
-                </Col>
+                <Col md={3}></Col>
               </Row>
             </Form.Group>
-            <Form.Group controlId="email">
-              <Row className="my-2 form_row">
-                <Col md={3}>
-                  <p>Email</p>
-                </Col>
-                <Col md={6}>
-                  <Form.Control
-                    type="email"
-                    placeholder="Enter email"
-                    className="form_field"
-                    value={this.state.email}
-                    onChange={(e) =>
-                      this.setInputValue('email', e.target.value)
-                    }
-                    required
-                  ></Form.Control>
-                </Col>
-                <Col md={3}>
-                  <span>
-                    <i
-                      className="fa-solid fa-circle-check"
-                      style={{ color: 'green' }}
-                    ></i>{' '}
-                    OTP Verified
-                  </span>
-                </Col>
-              </Row>
-            </Form.Group>
+
             <Row className="text-center">
               <Button
                 type="submit"
                 variant="primary"
                 className="w-25 my-3 mx-auto"
               >
-                Update
+                {this.state.isReviewedPost
+                  ? 'Proceed To Create Post'
+                  : 'Review Post'}
               </Button>
             </Row>
           </Form>
@@ -390,4 +358,4 @@ class CreatePost extends Component {
   }
 }
 
-export default withRouter(CreatePost);
+export default withRouter(PostForm);

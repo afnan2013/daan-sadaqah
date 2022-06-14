@@ -35,7 +35,7 @@ class ProfileScreen extends React.Component {
             <Nav.Link className="common_inner_nav_link">Fees and Dues</Nav.Link>
           </LinkContainer>
 
-          <LinkContainer to={'/profile/createpost'}>
+          <LinkContainer to={'/profile/createpost/rules'}>
             <Nav.Link className="common_inner_nav_link">Create Post</Nav.Link>
           </LinkContainer>
         </Nav>

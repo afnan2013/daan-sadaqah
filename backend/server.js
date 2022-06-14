@@ -22,6 +22,7 @@ import postCategories from './data/postCategories.js';
 import footerLinks from './data/footerLinks.js';
 import account from './data/account.js';
 import payments from './data/payments.js';
+import createPostRules from './data/createPostRules.js';
 
 dotenv.config();
 
@@ -74,6 +75,10 @@ app.use('/api/footers', (req, res) => {
 
 app.use('/api/postCategories', (req, res) => {
   res.json(postCategories);
+});
+
+app.use('/api/postRules', (req, res) => {
+  res.json(createPostRules);
 });
 
 app.post('/api/users/login', async (req, res) => {
