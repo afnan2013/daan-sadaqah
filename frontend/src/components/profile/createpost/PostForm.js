@@ -13,13 +13,15 @@ class PostForm extends Component {
       error: undefined,
       categories: [],
       rules: [],
+      postid: '',
       type: '',
       shortTitle: '',
+      fundAmount: '',
+      fundRaisedAmount: 0,
       storyLine: '',
       postImage: '',
       postVideo: '',
       status: 'draft',
-      isVerified: 'NO',
       message: undefined,
       success: undefined,
       isLoading: false,
@@ -80,23 +82,48 @@ class PostForm extends Component {
     }
   };
 
-  submitReviewHandler = async (e) => {
+  submitPostHandler = async (e) => {
     e.preventDefault();
+    
     if (AuthUtil.getPhone()) {
       try {
+        const post = {
+          p_category: this.state.type,
+          p_shortTitle: this.state.shortTitle,
+          p_fundAmount: this.state.fundAmount,
+          p_fundRaisedAmount: this.state.fundRaisedAmount,
+          p_storyLine: this.state.storyLine,
+          p_postImage: this.state.postImage,
+          p_postVideo: this.state.postVideo,
+          p_status: "draft",
+          p_userid: AuthUtil.getPhone()
+        }
+
+        // If user reviews post
+        if(this.state.isReviewedPost ){
+          post.p_postid = this.state.postid;
+          post.p_status = "InApproval";
+        }
+
+        console.log(post);
+        if (this.state.isReviewedPost){
+          this.props.navigate('/profile/myposts')
+        }
+        this.setInputValue("isReviewedPost", true);
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/sendOTP',
-          payload: { p_userid: AuthUtil.getPhone() },
+          URL: 'http://www.daansadaqah.com:8443/savePost',
+          payload: post,
         });
-        console.log(data);
-
-        if (data.status === 'sent') {
-          this.setInputValue('OTPid', data.otpid);
-          this.setInputValue('showValidateOTPForm', true);
-        } else {
-          this.setInputValue('message', data.message);
-        }
+        
+        // console.log(data);
+        // const savedPost = data.returnTables[0][0];
+        // if (savedPost) {
+        //   this.setInputValue('postid', savedPost.id);
+        //   this.setInputValue('isReviewedPost', true);
+        // } else {
+        //   this.setInputValue('message', data.message);
+        // }
       } catch (err) {
         console.log(err);
       }
@@ -105,69 +132,6 @@ class PostForm extends Component {
     }
   };
 
-  submitPostHandler = async (e) => {
-    e.preventDefault();
-    const redirect = '/profile';
-    if (!AuthUtil.getToken()) {
-      return this.props.navigate(`/login?redirect=${redirect}`);
-    }
-
-    this.setInputValue('isLoading', true);
-    this.setInputValue('message', '');
-    this.setInputValue('error', '');
-    this.setInputValue('success', '');
-    try {
-      const nominee = {
-        p_userid: AuthUtil.getPhone(),
-        p_status: this.state.status,
-        p_name: this.state.name,
-        p_relationship: this.state.relationship,
-        p_address1: this.state.address1,
-        p_address2: this.state.address2,
-        p_thana: this.state.thana,
-        p_district: this.state.district,
-        p_road: this.state.road,
-        p_sector: this.state.sector,
-        p_phonenumber: this.state.nomineePhone,
-        p_email: this.state.email,
-        p_otp: this.state.OTP,
-        p_otpid: this.state.OTPid,
-      };
-      console.log(nominee);
-      const { data } = await apiCall({
-        method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/updateNominee',
-        payload: nominee,
-      });
-      const result = data.returnTables[0][0];
-      console.log(result);
-      if (result.message === 'SUCCESS') {
-        // console.log(data);
-        this.setState({
-          success: 'Information Updated Successfully!',
-          isLoading: false,
-          showValidateOTPForm: false,
-        });
-      } else if (result.message === 'OTP MISMATCH') {
-        this.setInputValue('error', 'Invalid OTP Entered!');
-        this.setInputValue('isLoading', false);
-      } else {
-        this.setInputValue('error', 'Invalid Credentials');
-        this.setInputValue('isLoading', false);
-        // this.resetForm();
-      }
-    } catch (error) {
-      console.log(error);
-      this.setState({
-        error:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.response,
-        enable: '',
-        isLoading: false,
-      });
-    }
-  };
 
   componentDidMount() {
     this.getCategoryData();
@@ -188,13 +152,26 @@ class PostForm extends Component {
         {this.state.isLoading ? (
           <Loader />
         ) : (
-          <Form
-            onSubmit={
-              this.state.isReviewedPost
-                ? this.submitPostHandler
-                : this.submitReviewHandler
-            }
-          >
+          <Form onSubmit={this.submitPostHandler}>
+            {this.state.isReviewedPost &&
+            <Form.Group controlId="type">
+              <Row className="my-2 form_row">
+                <Col md={3}>
+                  <p>Site ID</p>
+                </Col>
+                <Col md={6}>
+                  <Form.Control
+                    type="text"
+                    className="form_field"
+                    value={AuthUtil.getPhone()}
+                    required
+                    disabled
+                  ></Form.Control>
+                </Col>
+                <Col md={3}></Col>
+              </Row>
+            </Form.Group>}
+
             <Form.Group controlId="type">
               <Row className="my-2 form_row">
                 <Col md={3}>
@@ -233,6 +210,26 @@ class PostForm extends Component {
                     value={this.state.shortTitle}
                     onChange={(e) =>
                       this.setInputValue('shortTitle', e.target.value)
+                    }
+                    required
+                  ></Form.Control>
+                </Col>
+                <Col md={3}></Col>
+              </Row>
+            </Form.Group>
+            
+            <Form.Group controlId="fundAmount">
+              <Row className="my-2 form_row">
+                <Col md={3}>
+                  <p>Fund Amount</p>
+                </Col>
+                <Col md={6}>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Fund Amount"
+                    value={this.state.fundAmount}
+                    onChange={(e) =>
+                      this.setInputValue('fundAmount', e.target.value)
                     }
                     required
                   ></Form.Control>
@@ -317,42 +314,13 @@ class PostForm extends Component {
                 className="w-25 my-3 mx-auto"
               >
                 {this.state.isReviewedPost
-                  ? 'Proceed To Create Post'
+                  ? 'Submit For Approval'
                   : 'Review Post'}
               </Button>
             </Row>
           </Form>
         )}
 
-        {this.state.showValidateOTPForm && (
-          <Form onSubmit={this.submitOTPHandler}>
-            <Form.Group controlId="otp">
-              <Row className="my-2 form_row">
-                <Col md={3}></Col>
-                <Col md={6}>
-                  <Form.Control
-                    type="text"
-                    className="form_field"
-                    placeholder="Enter OTP"
-                    value={this.props.OTP}
-                    onChange={(e) => this.setInputValue('OTP', e.target.value)}
-                    required
-                  ></Form.Control>
-                </Col>
-                <Col md={3}></Col>
-              </Row>
-            </Form.Group>
-            <Row className="text-center">
-              <Button
-                type="submit"
-                variant="success"
-                className="w-25 my-3 mx-auto"
-              >
-                Validate OTP
-              </Button>
-            </Row>
-          </Form>
-        )}
       </Row>
     );
   }
