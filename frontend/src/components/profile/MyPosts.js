@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from '../withRouter';
 import {Table, Row, Button} from 'react-bootstrap';
 import {apiCall} from '../../utils/apiCall'
+import AuthUtil from '../../utils/AuthUtil';
 
 class MyPosts extends Component {
   constructor(props){
@@ -25,17 +26,17 @@ class MyPosts extends Component {
       this.setInputValue('isLoading', true);
 
       const { data } = await apiCall({
-        method: 'get',
-        URL: '/api/posts',
-        // payload: {
-        //   p_userid: AuthUtil.getPhone(),
-        // },
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/getMyPosts',
+        payload: {
+           p_userid: AuthUtil.getPhone(),
+        },
       });
       // const categoryData = data.returnTables[0][0];
 
       // console.log(data);
-      if (data) {
-        this.setInputValue('posts', data);
+      if (data && data.returnTables[0]) {
+        this.setInputValue('posts', data.returnTables[0]);
         this.setInputValue('isLoading', false);
       } else {
         this.setInputValue('error', 'Invalid Credentials');
@@ -92,7 +93,7 @@ class MyPosts extends Component {
           <span>{post.id}</span>
       </td>
       <td>
-         <span>{post.category}</span>
+         <span>{post.categoryname}</span>
       </td>
       <td>
       <span>{post.shortTitle}</span>
@@ -100,10 +101,10 @@ class MyPosts extends Component {
       </td>
       
       <td>
-          <span>{post.fundAmount}</span>
+          <span>{post.fundamount}</span>
       </td>
       <td>
-          <span>{post.postStatus}</span>
+          <span>{post.poststatus}</span>
       </td>
 
       <td>

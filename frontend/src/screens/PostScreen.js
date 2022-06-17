@@ -14,9 +14,11 @@ class PostScreen extends React.Component {
       postLists: [],
       postCategoryLists: [],
     };
-    this.onPostCategoryHandler = this.onPostCategoryHandler.bind(this);
-    this.setInputValue = this.setInputValue.bind(this);
-    this.getPostsCategory = this.getPostsCategory.bind(this);
+
+    this.onPostCategoryHandler	= this.onPostCategoryHandler.bind(this)	;
+    this.getPostsCategory		= this.getPostsCategory.bind(this)		;
+	this.getAllOpenPosts		= this.getAllOpenPosts.bind(this)		;
+    this.setInputValue			= this.setInputValue.bind(this)			;
   }
 
   setInputValue(property, val) {
@@ -24,6 +26,19 @@ class PostScreen extends React.Component {
       [property]: val,
     });
   }
+
+  getAllOpenPosts = async () => {
+    try {
+      const { data } = await apiCall({
+        method: 'get',
+        URL: "http://www.daansadaqah.com:8443/getOpenPosts",
+      });
+      console.log(data);
+      this.setInputValue('postLists', data.returnTables[0]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   onPostCategoryHandler = async (path) => {
     try {
@@ -43,11 +58,11 @@ class PostScreen extends React.Component {
     try {
       const { data } = await apiCall({
         method: 'get',
-        URL: '/api/postCategories',
+        URL: 'http://www.daansadaqah.com:8443/getPostCategories',
       });
       console.log(data);
 
-      this.setInputValue('postCategoryLists', data);
+      this.setInputValue('postCategoryLists', data.returnTables[0]);
     } catch (err) {
       console.error(err);
     }
@@ -55,6 +70,7 @@ class PostScreen extends React.Component {
 
   componentDidMount() {
     this.getPostsCategory();
+    this.getAllOpenPosts();
   }
 
   render() {
@@ -92,7 +108,7 @@ class PostScreen extends React.Component {
                   this.onPostCategoryHandler(`/${cat.postFetchingPath}`)
                 }
               >
-                <span>{cat.categoryName}</span>
+                <span>{cat.name}</span>
               </Nav.Link>
             ))}
         </Nav>

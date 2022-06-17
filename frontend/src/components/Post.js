@@ -18,15 +18,14 @@ class Post extends React.Component {
                 (<Card key={post.id} className="post_card">
                     <Row>
                         <Col md={2}>
-                            <Card>Category - {post.categoryCode}</Card>
+                            <Card>Category - {post.categoryname}</Card>
                         </Col>
                         <Col md={9}>
                             <Card>
-                                <div>Age: {post.age}</div> 
-                                <div>Sender: {post.postAuthor}</div> 
+                                <div>Sender: {post.userid}</div> 
                                 <div>Story Line: {post.storyLine}</div> 
                                 <div>Post Verified: {post.postVerified ? 'Yes' : 'No'}</div> 
-                                <div>Fund Amount: {post.fundAmount}</div> 
+                                <div>Fund Amount: {post.fundamount}</div> 
 
                             </Card>
                         </Col>
@@ -36,7 +35,7 @@ class Post extends React.Component {
                             <Card>100 views</Card>
                         </Col>
                         <Col md={9}>
-                            <ProgressBar now={(post.fundRaisedAmount/post.fundAmount)*100} label={`Collected ${(post.fundRaisedAmount/post.fundAmount)*100}%`} />
+                            <ProgressBar now={post.collectedPercentage} label={`Collected ${post.collectedPercentage}%`} />
                         </Col>
                     </Row>
                 </Card>)

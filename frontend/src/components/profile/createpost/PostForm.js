@@ -21,7 +21,7 @@ class PostForm extends Component {
       storyLine: '',
       postImage: '',
       postVideo: '',
-      status: 'draft',
+      status: 'DRAFT',
       message: undefined,
       success: undefined,
       isLoading: false,
@@ -55,15 +55,15 @@ class PostForm extends Component {
       this.setInputValue('isLoading', true);
       const { data } = await apiCall({
         method: 'get',
-        URL: '/api/postCategories',
+        URL: 'http://www.daansadaqah.com:8443/getPostCategories',
         // payload: {
         //   p_userid: AuthUtil.getPhone(),
         // },
       });
 
       console.log(data);
-      if (data) {
-        this.setInputValue('categories', data);
+      if (data && data.returnTables) {
+        this.setInputValue('categories', data.returnTables[0]);
         this.setInputValue('isLoading', false);
       } else {
         this.setInputValue('error', 'Invalid Credentials');
@@ -95,7 +95,7 @@ class PostForm extends Component {
           p_storyLine: this.state.storyLine,
           p_postImage: this.state.postImage,
           p_postVideo: this.state.postVideo,
-          p_status: "draft",
+          p_status: "DRAFT",
           p_userid: AuthUtil.getPhone()
         }
 
@@ -187,8 +187,8 @@ class PostForm extends Component {
                     <option defaultValue>Select Post Type</option>
                     {this.state.categories.length !== 0 &&
                       this.state.categories.map((cat, index) => (
-                        <option key={index} value={cat.categoryCode}>
-                          {cat.categoryName}
+                        <option key={index} value={cat.code}>
+                          {cat.name}
                         </option>
                       ))}
                   </Form.Select>
