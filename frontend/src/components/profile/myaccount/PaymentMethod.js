@@ -172,7 +172,7 @@ class PaymentMethod extends Component {
     if (!AuthUtil.getToken()) {
       return this.props.navigate(`/login?redirect=${redirect}`);
     }
-
+    this.setInputValue('isLoading', true);
     try {
       const paymentData = {
         p_mfs_number: this.state.mfs_number,
@@ -217,23 +217,16 @@ class PaymentMethod extends Component {
         URL: 'http://www.daansadaqah.com:8443/updatePaymentData',
         payload: paymentData,
       });
-      console.log(data.returnTables);
-      if (data.returnTables) {
-        // const roles = data.returnTables[0];
-        // const menulist = data.returnTables[1];
-        // const [user] = data.returnTables[2];
 
-        // const rolelist = roles.map((role) => role.rolecode);
-
+      if (data && data.returnTables.length !== 0) {
         console.log(data);
         this.setState({
           enable: '',
           loading: false,
         });
       } else {
-        this.setInputValue('error', 'Invalid Credentials');
-        this.setInputValue('loading', false);
-        this.resetForm();
+        this.setInputValue('error', 'Update Failed');
+        this.setInputValue('isLoading', false);
       }
     } catch (error) {
       console.log(error);
@@ -243,7 +236,7 @@ class PaymentMethod extends Component {
             ? error.response.data.message
             : error.response,
         enable: '',
-        loading: false,
+        isLoading: false,
       });
     }
   };

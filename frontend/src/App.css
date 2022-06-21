@@ -187,11 +187,7 @@ a{
 
 /********************* Fixed Donation Buttons *****************/
 
-.post_card{
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 10px;
-}
+
 
 /************************************************* START FOOTER ********************************************/
 
@@ -334,6 +330,27 @@ a{
   padding: 20px 15px;
 }
 
+
+/* POST List *****************/
+
+.post_card{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #FFF2CC;
+}
+
+.post_card img{
+  max-width: 100%;
+  height: auto;
+  padding: 15px;
+}
+
+.post_card .card {
+  border: none;
+  text-align: justify;
+  padding: 12px 0px
+}
 
 
 /********** Extra Large devices only **********/

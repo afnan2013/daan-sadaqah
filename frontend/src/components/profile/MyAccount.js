@@ -64,7 +64,6 @@ class MyAccount extends Component {
           {subNavbarDesign}
           <Outlet />
         </Col>
-        <Col md={1}></Col>
       </Row>
     );
   }

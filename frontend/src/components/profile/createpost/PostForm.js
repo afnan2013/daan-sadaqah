@@ -84,39 +84,38 @@ class PostForm extends Component {
 
   submitPostHandler = async (e) => {
     e.preventDefault();
-    
+
     if (AuthUtil.getPhone()) {
       try {
         const post = {
           p_category: this.state.type,
           p_shortTitle: this.state.shortTitle,
           p_fundAmount: this.state.fundAmount,
-          p_fundRaisedAmount: this.state.fundRaisedAmount,
           p_storyLine: this.state.storyLine,
           p_postImage: this.state.postImage,
           p_postVideo: this.state.postVideo,
-          p_status: "DRAFT",
-          p_userid: AuthUtil.getPhone()
-        }
+          p_status: 'DRAFT',
+          p_userid: AuthUtil.getPhone(),
+        };
 
         // If user reviews post
-        if(this.state.isReviewedPost ){
+        if (this.state.isReviewedPost) {
           post.p_postid = this.state.postid;
-          post.p_status = "InApproval";
+          post.p_status = 'InApproval';
         }
 
         console.log(post);
-        if (this.state.isReviewedPost){
-          this.props.navigate('/profile/myposts')
+        if (this.state.isReviewedPost) {
+          this.props.navigate('/profile/myposts');
         }
-        this.setInputValue("isReviewedPost", true);
+        this.setInputValue('isReviewedPost', true);
         const { data } = await apiCall({
           method: 'post',
           URL: 'http://www.daansadaqah.com:8443/savePost',
           payload: post,
         });
-        
-        // console.log(data);
+
+        console.log(data);
         // const savedPost = data.returnTables[0][0];
         // if (savedPost) {
         //   this.setInputValue('postid', savedPost.id);
@@ -131,7 +130,6 @@ class PostForm extends Component {
       this.setInputValue('message', 'Please Login First');
     }
   };
-
 
   componentDidMount() {
     this.getCategoryData();
@@ -153,24 +151,25 @@ class PostForm extends Component {
           <Loader />
         ) : (
           <Form onSubmit={this.submitPostHandler}>
-            {this.state.isReviewedPost &&
-            <Form.Group controlId="type">
-              <Row className="my-2 form_row">
-                <Col md={3}>
-                  <p>Site ID</p>
-                </Col>
-                <Col md={6}>
-                  <Form.Control
-                    type="text"
-                    className="form_field"
-                    value={AuthUtil.getPhone()}
-                    required
-                    disabled
-                  ></Form.Control>
-                </Col>
-                <Col md={3}></Col>
-              </Row>
-            </Form.Group>}
+            {this.state.isReviewedPost && (
+              <Form.Group controlId="type">
+                <Row className="my-2 form_row">
+                  <Col md={3}>
+                    <p>Site ID</p>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Control
+                      type="text"
+                      className="form_field"
+                      value={AuthUtil.getPhone()}
+                      required
+                      disabled
+                    ></Form.Control>
+                  </Col>
+                  <Col md={3}></Col>
+                </Row>
+              </Form.Group>
+            )}
 
             <Form.Group controlId="type">
               <Row className="my-2 form_row">
@@ -217,7 +216,7 @@ class PostForm extends Component {
                 <Col md={3}></Col>
               </Row>
             </Form.Group>
-            
+
             <Form.Group controlId="fundAmount">
               <Row className="my-2 form_row">
                 <Col md={3}>
@@ -320,7 +319,6 @@ class PostForm extends Component {
             </Row>
           </Form>
         )}
-
       </Row>
     );
   }

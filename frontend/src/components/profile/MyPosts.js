@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { withRouter } from '../withRouter';
-import {Table, Row, Button} from 'react-bootstrap';
-import {apiCall} from '../../utils/apiCall'
+import { Table, Row, Button } from 'react-bootstrap';
+import { apiCall } from '../../utils/apiCall';
 import AuthUtil from '../../utils/AuthUtil';
 
 class MyPosts extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      error:undefined,
+      error: undefined,
       message: undefined,
       posts: [],
-    }
+    };
   }
 
   setInputValue = (property, val) => {
@@ -29,12 +29,12 @@ class MyPosts extends Component {
         method: 'post',
         URL: 'http://www.daansadaqah.com:8443/getMyPosts',
         payload: {
-           p_userid: AuthUtil.getPhone(),
+          p_userid: AuthUtil.getPhone(),
         },
       });
       // const categoryData = data.returnTables[0][0];
 
-      // console.log(data);
+      console.log(data.returnTables[0][0]);
       if (data && data.returnTables[0]) {
         this.setInputValue('posts', data.returnTables[0]);
         this.setInputValue('isLoading', false);
@@ -55,66 +55,56 @@ class MyPosts extends Component {
     }
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.getAllPostsByUser();
   }
 
   render() {
     console.log(this.state.posts);
-    return <Row className="account_container">
-      <Table hover>
-    <thead>
-      <tr>
-        <th>
-          Post ID
-        </th>
-        <th>
-          Type
-        </th>
-        <th>
-          Short Title
-        </th>
-        <th>
-          Amount
-        </th>
-        <th>
-          Status
-        </th>
-        <th>
-          Details
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {this.state.posts && this.state.posts.length !== 0 &&
-      this.state.posts.map((post, index)=>(
-      <tr key={index}>
-        <td>
-          <span>{post.id}</span>
-      </td>
-      <td>
-         <span>{post.categoryname}</span>
-      </td>
-      <td>
-      <span>{post.shortTitle}</span>
+    return (
+      <Row className="account_container">
+        <Table hover>
+          <thead>
+            <tr>
+              <th>Post ID</th>
+              <th>Type</th>
+              <th>Short Title</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.posts &&
+              this.state.posts.length !== 0 &&
+              this.state.posts.map((post, index) => (
+                <tr key={index}>
+                  <td>
+                    <span>{post.id}</span>
+                  </td>
+                  <td>
+                    <span>{post.categoryname}</span>
+                  </td>
+                  <td>
+                    <span>{post.shortTitle}</span>
+                  </td>
 
-      </td>
-      
-      <td>
-          <span>{post.fundamount}</span>
-      </td>
-      <td>
-          <span>{post.poststatus}</span>
-      </td>
+                  <td>
+                    <span>{post.fundamount}</span>
+                  </td>
+                  <td>
+                    <span>{post.poststatus}</span>
+                  </td>
 
-      <td>
-          <Button>View</Button>
-      </td>
-        
-      </tr>
-      ))}
-    </tbody>
-  </Table></Row>;
+                  <td>
+                    <Button>View</Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </Row>
+    );
   }
 }
 

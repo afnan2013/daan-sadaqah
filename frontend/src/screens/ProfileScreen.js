@@ -34,10 +34,6 @@ class ProfileScreen extends React.Component {
           <LinkContainer to={'/profile/feesanddues'}>
             <Nav.Link className="common_inner_nav_link">Fees and Dues</Nav.Link>
           </LinkContainer>
-
-          <LinkContainer to={'/profile/createpost/rules'}>
-            <Nav.Link className="common_inner_nav_link">Create Post</Nav.Link>
-          </LinkContainer>
         </Nav>
       </>
     );
@@ -64,7 +60,12 @@ class ProfileScreen extends React.Component {
             {profileNavbarDesign}
             <Outlet />
           </Col>
-          <Col md={1}>
+          <Col md={2}>
+            <LinkContainer to={'/profile/createpost/rules'}>
+              <Nav.Link className="common_inner_nav_link">
+                <i class="fa-solid fa-plus"></i> Create Post
+              </Nav.Link>
+            </LinkContainer>
             <Button
               variant="primary"
               className="my-3 w-100"
