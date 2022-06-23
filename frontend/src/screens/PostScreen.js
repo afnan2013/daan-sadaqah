@@ -3,7 +3,7 @@ import ScreenContainer from '../components/ScreenContainer';
 import { Nav } from 'react-bootstrap';
 import { withRouter } from '../components/withRouter';
 
-import Post from '../components/Post';
+import Post from '../components/post/Post';
 import { apiCall } from '../utils/apiCall';
 
 class PostScreen extends React.Component {

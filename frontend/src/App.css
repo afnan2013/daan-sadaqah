@@ -309,6 +309,7 @@ a{
 .account_container .form_image{
   max-width: 200px;
   max-height: 200px;
+  margin: 8px;
 }
 
 .account_container .payment_label{
@@ -340,8 +341,9 @@ a{
   background-color: #FFF2CC;
 }
 
-.post_card img{
-  max-width: 100%;
+
+.post_card .post_author_image{
+  max-width: 50%;
   height: auto;
   padding: 15px;
 }
@@ -350,6 +352,10 @@ a{
   border: none;
   text-align: justify;
   padding: 12px 0px
+}
+
+.post_card .progress {
+  height: 38px;
 }
 
 

@@ -1,17 +1,18 @@
 import React from 'react';
 import { Card, Row, Col, ProgressBar, Image, Button } from 'react-bootstrap';
+import ReadMore from './ReadMore';
 
 class Post extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      sympathyIcon: '/images/transparent 1-01.png',
+      sympathyIcon: '/images/transparent 1-01 (1).png',
       isChecked: false,
     };
 
-    this.unchekedSympqathyIcon = '/images/transparent 1-01.png';
-    this.chekedSympqathyIcon = '/images/transparent 2-01-01.png';
+    this.unchekedSympqathyIcon = '/images/transparent 1-01 (1).png';
+    this.chekedSympqathyIcon = '/images/transparent 2-01-01 (1).png';
   }
 
   setInputValue(property, val) {
@@ -41,12 +42,24 @@ class Post extends React.Component {
             <Card key={post.id} className="post_card">
               <Row>
                 <Col md={2}>
-                  <Image src="/images/passport-sample.jpg" className=""></Image>
+                  <div>
+                 
+                      <Image src="/images/passport-sample.jpg" className="post_author_image"></Image>
+                   
+                    
+                    {/* <Col md={6}>
+                      <h4>Afnan</h4>
+                      <p>Mohakhali, Dhaka</p>
+                      <p>Bangladesh</p>
+                        
+                    </Col> */}
+                    
+                  </div>
                 </Col>
                 <Col md={8}>
                   <Card>
                     <h4>Title: {post.shortTitle}</h4>
-                    <section>
+                    <ReadMore maxCharacterCount={200}>
                       Story: It is a long established fact that a reader will be
                       distracted by the readable content of a page when looking
                       at its layout. The point of using Lorem Ipsum is that it
@@ -72,38 +85,53 @@ class Post extends React.Component {
                       on the theory of ethics, very popular during the
                       Renaissance. The first line of Lorem Ipsum, "Lorem ipsum
                       dolor sit amet..", comes from a line in section 1.10.32.
-                    </section>
+                    </ReadMore>
                   </Card>
                 </Col>
-                <Col md={2}></Col>
+                <Col md={2} style={{textAlign: "right"}}>
+                  <h4>Afnan</h4>
+                  <p>Mohakhali, Dhaka</p>
+                  <p>Bangladesh</p>
+                    
+                </Col>
               </Row>
               <Row>
                 <Col md={2}>
                   <div>Category - {post.categoryname}</div>
                   <div>Amount - {post.fundamount}</div>
                 </Col>
-                <Col md={9}>
-                  <img
-                    src={this.state.sympathyIcon}
-                    width="200px"
-                    onClick={() => {
-                      this.toggleSympathyIcon(this.state.isChecked);
-                    }}
-                  ></img>
+                <Col md={8}>
+                  <img src="/images/slider-1.jpg" className="form_image" />
+                  <img src="/images/slider-2.jpg" className="form_image" />
+                  <img src="/images/slider-3.jpg" className="form_image" />
+                  
+                </Col>
+                <Col md={2}>
+                <div className='text-center'>
+
+                <img
+                        src={this.state.sympathyIcon}
+                        onClick={() => {
+                          this.toggleSympathyIcon(this.state.isChecked);
+                        }}
+                        className="post_author_image"
+                        ></img>
+                        </div>
                 </Col>
               </Row>
               <Row>
                 <Col md={2}>
-                  <div>100 views</div>
+                  <Button className='w-100'>100 views</Button>
                 </Col>
                 <Col>
-                  <ProgressBar
-                    now={post.collectedPercentage}
-                    label={`Collected ${post.collectedPercentage}%`}
-                  />
+                  
+                  <div className="progress">
+                    <div role="progressbar" className="progress-bar" aria-valuenow={post.collectedPercentage} aria-valuemin="0" aria-valuemax="100" style={{"width": `${post.collectedPercentage}%`}}>Collected {post.collectedPercentage}%</div>
+                    <p className='text-center w-100' style={{"color": "white"}}>Need More {100 - post.collectedPercentage}%</p>                   
+                  </div>
                 </Col>
                 <Col md={2}>
-                  <Button>Shortlist</Button>
+                  <Button className='w-100'>Shortlist</Button>
                 </Col>
               </Row>
             </Card>
