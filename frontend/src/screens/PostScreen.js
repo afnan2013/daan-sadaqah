@@ -1,6 +1,6 @@
 import React from 'react';
 import ScreenContainer from '../components/ScreenContainer';
-import { Nav } from 'react-bootstrap';
+import { Nav, Row, Col, Form, FormControl, Button } from 'react-bootstrap';
 import { withRouter } from '../components/withRouter';
 
 import Post from '../components/post/Post';
@@ -13,12 +13,15 @@ class PostScreen extends React.Component {
       isLoading: true,
       postLists: [],
       postCategoryLists: [],
+      filterCategory: undefined,
+      filterDistrict: '',
+      filterThana: '',
     };
 
-    this.onPostCategoryHandler	= this.onPostCategoryHandler.bind(this)	;
-    this.getPostsCategory		= this.getPostsCategory.bind(this)		;
-	this.getAllOpenPosts		= this.getAllOpenPosts.bind(this)		;
-    this.setInputValue			= this.setInputValue.bind(this)			;
+    this.onPostCategoryHandler = this.onPostCategoryHandler.bind(this);
+    this.getPostsCategory = this.getPostsCategory.bind(this);
+    this.getAllOpenPosts = this.getAllOpenPosts.bind(this);
+    this.setInputValue = this.setInputValue.bind(this);
   }
 
   setInputValue(property, val) {
@@ -31,7 +34,7 @@ class PostScreen extends React.Component {
     try {
       const { data } = await apiCall({
         method: 'get',
-        URL: "http://www.daansadaqah.com:8443/getOpenPosts",
+        URL: 'http://www.daansadaqah.com:8443/getOpenPosts',
       });
       console.log(data);
       this.setInputValue('postLists', data.returnTables[0]);
@@ -40,15 +43,59 @@ class PostScreen extends React.Component {
     }
   };
 
-  onPostCategoryHandler = async (path) => {
+  onPostCategoryHandler = async (category) => {
     try {
-      console.log(`/api${path}`);
+      let queryString = '';
+      if (category) {
+        this.setInputValue('filterCategory', category);
+        queryString += `?category=${category}`;
+      }
       const { data } = await apiCall({
         method: 'get',
-        URL: `/api${path}`,
+        URL: queryString
+          ? `http://www.daansadaqah.com:8443/getOpenPosts${queryString}`
+          : 'http://www.daansadaqah.com:8443/getOpenPosts',
       });
       console.log(data);
-      this.setInputValue('postLists', data);
+      this.setInputValue('postLists', data.returnTables[0]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  onPostAddressHandler = async (e) => {
+    e.preventDefault();
+
+    let keypairs = [];
+
+    try {
+      if (this.state.filterThana) {
+        keypairs.push(`thana=${this.state.filterThana}`);
+      }
+
+      if (this.state.filterDistrict) {
+        keypairs.push(`district=${this.state.filterDistrict}`);
+      }
+
+      if (this.state.filterCategory) {
+        keypairs.push(`category=${this.state.filterCategory}`);
+      }
+
+      let queryString = '';
+      for (let i = 0; i < keypairs.length; i++) {
+        if (i === 0) {
+          queryString += '?' + keypairs[i];
+        } else {
+          queryString += '&' + keypairs[i];
+        }
+      }
+
+      const { data } = await apiCall({
+        method: 'get',
+        URL: `http://www.daansadaqah.com:8443/getOpenPosts${queryString}`,
+      });
+      console.log(data);
+      this.setInputValue('postLists', data.returnTables[0]);
     } catch (err) {
       console.error(err);
     }
@@ -76,43 +123,51 @@ class PostScreen extends React.Component {
   render() {
     return (
       <ScreenContainer>
-        <Nav className="ms-auto">
-          <Nav.Link
-            className="common_inner_nav_link"
-            onClick={() => this.onPostCategoryHandler('/posts')}
-          >
-            <span>All</span>
-          </Nav.Link>
-
-          <Nav.Link
-            className="common_inner_nav_link"
-            onClick={() => this.onPostCategoryHandler('/posts/newest')}
-          >
-            <span>Newest</span>
-          </Nav.Link>
-
-          <Nav.Link
-            className="common_inner_nav_link"
-            onClick={() => this.onPostCategoryHandler('/posts/urgent')}
-          >
-            <span>Urgent</span>
-          </Nav.Link>
-
-          {this.state.postCategoryLists &&
-            this.state.postCategoryLists.length !== 0 &&
-            this.state.postCategoryLists.map((cat) => (
-              <Nav.Link
-                key={cat.id}
-                className="common_inner_nav_link"
-                onClick={() =>
-                  this.onPostCategoryHandler(`/${cat.postFetchingPath}`)
+        <Row>
+          <Col md={9}>
+            <Nav className="ms-auto">
+              {this.state.postCategoryLists &&
+                this.state.postCategoryLists.length !== 0 &&
+                this.state.postCategoryLists.map((cat) => (
+                  <Nav.Link
+                    key={cat.id}
+                    className="common_inner_nav_link"
+                    onClick={() => this.onPostCategoryHandler(cat.code)}
+                  >
+                    <span>{cat.name}</span>
+                  </Nav.Link>
+                ))}
+            </Nav>
+          </Col>
+          <Col md={3}>
+            <Form
+              onSubmit={this.onPostAddressHandler}
+              className="d-flex common_search_form"
+            >
+              <FormControl
+                type="search"
+                placeholder="Thana"
+                aria-label="Thana"
+                value={this.state.filterThana}
+                onChange={(e) =>
+                  this.setInputValue('filterThana', e.target.value)
                 }
-              >
-                <span>{cat.name}</span>
-              </Nav.Link>
-            ))}
-        </Nav>
-
+              />
+              <FormControl
+                type="search"
+                placeholder="District"
+                aria-label="District"
+                value={this.state.filterDistrict}
+                onChange={(e) =>
+                  this.setInputValue('filterDistrict', e.target.value)
+                }
+              />
+              <Button variant="outline-success" type="submit">
+                <i className="fa-solid fa-magnifying-glass"></i>
+              </Button>
+            </Form>
+          </Col>
+        </Row>
         {this.state.postLists && this.state.postLists.length !== 0 && (
           <Post posts={this.state.postLists} />
         )}

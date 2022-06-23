@@ -22,7 +22,7 @@ class Post extends React.Component {
   }
 
   toggleSympathyIcon = (isChecked) => {
-    if (isChecked === true) {
+    if (isChecked === false) {
       // console.log("Checked")
       this.setInputValue('sympathyIcon', this.chekedSympqathyIcon);
     } else {
@@ -42,18 +42,17 @@ class Post extends React.Component {
             <Card key={post.id} className="post_card">
               <Row>
                 <Col md={2}>
-                  <div>
-                 
-                      <Image src="/images/passport-sample.jpg" className="post_author_image"></Image>
-                   
-                    
-                    {/* <Col md={6}>
+                  <div className="d-flex py-2">
+                    <Image
+                      src="/images/passport-sample.jpg"
+                      className="post_author_image"
+                    ></Image>
+
+                    <div>
                       <h4>Afnan</h4>
-                      <p>Mohakhali, Dhaka</p>
-                      <p>Bangladesh</p>
-                        
-                    </Col> */}
-                    
+                      <p>Mohakhali</p>
+                      <p>Dhaka</p>
+                    </div>
                   </div>
                 </Col>
                 <Col md={8}>
@@ -88,11 +87,10 @@ class Post extends React.Component {
                     </ReadMore>
                   </Card>
                 </Col>
-                <Col md={2} style={{textAlign: "right"}}>
-                  <h4>Afnan</h4>
-                  <p>Mohakhali, Dhaka</p>
-                  <p>Bangladesh</p>
-                    
+                <Col md={2}>
+                  <Button variant="success" className="w-100">
+                    Donate
+                  </Button>
                 </Col>
               </Row>
               <Row>
@@ -104,34 +102,42 @@ class Post extends React.Component {
                   <img src="/images/slider-1.jpg" className="form_image" />
                   <img src="/images/slider-2.jpg" className="form_image" />
                   <img src="/images/slider-3.jpg" className="form_image" />
-                  
                 </Col>
                 <Col md={2}>
-                <div className='text-center'>
-
-                <img
-                        src={this.state.sympathyIcon}
-                        onClick={() => {
-                          this.toggleSympathyIcon(this.state.isChecked);
-                        }}
-                        className="post_author_image"
-                        ></img>
-                        </div>
+                  <div className="text-center">
+                    <img
+                      src={this.state.sympathyIcon}
+                      onClick={() => {
+                        this.toggleSympathyIcon(this.state.isChecked);
+                      }}
+                      className="post_author_image"
+                    ></img>
+                  </div>
                 </Col>
               </Row>
               <Row>
                 <Col md={2}>
-                  <Button className='w-100'>100 views</Button>
+                  <Button className="w-100">100 views</Button>
                 </Col>
                 <Col>
-                  
                   <div className="progress">
-                    <div role="progressbar" className="progress-bar" aria-valuenow={post.collectedPercentage} aria-valuemin="0" aria-valuemax="100" style={{"width": `${post.collectedPercentage}%`}}>Collected {post.collectedPercentage}%</div>
-                    <p className='text-center w-100' style={{"color": "white"}}>Need More {100 - post.collectedPercentage}%</p>                   
+                    <div
+                      role="progressbar"
+                      className="progress-bar"
+                      aria-valuenow={post.collectedPercentage}
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      style={{ width: `${post.collectedPercentage}%` }}
+                    >
+                      Collected {post.collectedPercentage}%
+                    </div>
+                    <p className="text-center w-100" style={{ color: 'white' }}>
+                      Need More {100 - post.collectedPercentage}%
+                    </p>
                   </div>
                 </Col>
                 <Col md={2}>
-                  <Button className='w-100'>Shortlist</Button>
+                  <Button className="w-100">Shortlist</Button>
                 </Col>
               </Row>
             </Card>
