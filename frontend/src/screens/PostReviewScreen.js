@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { withRouter } from '../withRouter';
 import { Table, Row, Button } from 'react-bootstrap';
-import { apiCall } from '../../utils/apiCall';
-import AuthUtil from '../../utils/AuthUtil';
-import ScreenContainer from '../ScreenContainer';
+import ScreenContainer from '../components/ScreenContainer';
+import { withRouter } from '../components/withRouter';
+import { apiCall } from '../utils/apiCall';
+import AuthUtil from '../utils/AuthUtil';
 
-class MyPosts extends Component {
+class PostReviewScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,11 +27,9 @@ class MyPosts extends Component {
       this.setInputValue('isLoading', true);
 
       const { data } = await apiCall({
-        method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getMyPosts',
-        payload: {
-          p_userid: AuthUtil.getPhone(),
-        },
+        method: 'get',
+        URL: 'http://www.daansadaqah.com:8443/getInReviewPosts',
+    
       });
       // const categoryData = data.returnTables[0][0];
 
@@ -63,8 +61,7 @@ class MyPosts extends Component {
   render() {
     console.log(this.state.posts);
     return (
-      <ScreenContainer>
-      <Row className="account_container">
+    <ScreenContainer><Row className="account_container">
         <Table hover>
           <thead>
             <tr>
@@ -107,8 +104,9 @@ class MyPosts extends Component {
         </Table>
       </Row>
       </ScreenContainer>
+      
     );
   }
 }
 
-export default withRouter(MyPosts);
+export default withRouter(PostReviewScreen);

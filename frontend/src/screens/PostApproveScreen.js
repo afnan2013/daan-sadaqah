@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter } from '../withRouter';
 import { Table, Row, Button } from 'react-bootstrap';
-import { apiCall } from '../../utils/apiCall';
-import AuthUtil from '../../utils/AuthUtil';
-import ScreenContainer from '../ScreenContainer';
+import { withRouter } from '../components/withRouter';
+import { apiCall } from '../utils/apiCall';
+import ScreenContainer from '../components/ScreenContainer';
 
-class MyPosts extends Component {
+class PostApproveScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,11 +26,8 @@ class MyPosts extends Component {
       this.setInputValue('isLoading', true);
 
       const { data } = await apiCall({
-        method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getMyPosts',
-        payload: {
-          p_userid: AuthUtil.getPhone(),
-        },
+        method: 'get',
+        URL: 'http://www.daansadaqah.com:8443/getInApprovePosts',
       });
       // const categoryData = data.returnTables[0][0];
 
@@ -111,4 +107,4 @@ class MyPosts extends Component {
   }
 }
 
-export default withRouter(MyPosts);
+export default withRouter(PostApproveScreen);

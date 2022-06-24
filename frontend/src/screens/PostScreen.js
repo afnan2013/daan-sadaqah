@@ -5,6 +5,7 @@ import { withRouter } from '../components/withRouter';
 
 import Post from '../components/post/Post';
 import { apiCall } from '../utils/apiCall';
+import AuthUtil from '../utils/AuthUtil';
 
 class PostScreen extends React.Component {
   constructor(props) {
@@ -33,8 +34,9 @@ class PostScreen extends React.Component {
   getAllOpenPosts = async () => {
     try {
       const { data } = await apiCall({
-        method: 'get',
+        method: 'post',
         URL: 'http://www.daansadaqah.com:8443/getOpenPosts',
+        payload: { p_userid: AuthUtil.getPhone() }
       });
       console.log(data);
       this.setInputValue('postLists', data.returnTables[0]);

@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
 const FormContainer = ({ children }) => {
+
   return (
     <Container fluid>
       <Row className="common_form_margin justify-content-md-center">

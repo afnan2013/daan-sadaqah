@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Button, Card, Image, Form } from 'react-bootstrap';
 import {withRouter} from '../components/withRouter'
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import ScreenContainer from '../components/ScreenContainer';
+import { Link } from 'react-router-dom';
+import ReadMore from '../components/post/ReadMore';
+import {apiCall} from '../utils/apiCall'
+import FormContainer from '../components/FormContainer';
+import AuthUtil from '../utils/AuthUtil';
 
 class DonateScreen extends Component {
 
@@ -11,16 +16,72 @@ class DonateScreen extends Component {
         super(props);
     
         this.state = {
-          
+          post: {},
+          donateAmount: undefined 
         };
       }
+  
+      setInputValue(property, val) {
+        this.setState({
+          [property]: val,
+        });
+      }
+
+  getPostById = async ()=> {
+    try {
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/getPostById',
+        payload: {
+          p_id: this.props.params.id
+        }
+      });
+
+      const post = data.returnTables[0][0];
+
+      if(post){
+        console.log(post);
+        this.setInputValue("post", post);
+      }
+    } catch (error) {
+      
+    }
+  }
+
+  donateHandler = async (e)=> {
+    e.preventDefault();
+    try {
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/donate',
+        payload: {
+          p_userid: AuthUtil.getPhone(),
+          p_postid: this.state.post.id,
+          p_amount: this.state.donateAmount
+        }
+      });
+
+      const post = data.returnTables[0][0];
+
+      if(post){
+        console.log(post);
+        this.setInputValue("post", post);
+      }
+    } catch (error) {
+      
+    }
+
+  }
+
 
   componentDidMount(){
-
+    this.getPostById();
   }
   render() {
     console.log(this.props.params.id)    
+    const post = this.state.post;
     return (
+      
         <ScreenContainer>
         <Row className="account_container">
         {this.state.error && (
@@ -35,217 +96,110 @@ class DonateScreen extends Component {
         {this.state.isLoading ? (
           <Loader />
         ) : (
-          <Form onSubmit={this.sendOTPHandler}>
-            <Form.Group controlId="profile_pic">
-              <Row className="my-2 form_row">
-                <Col md={3}>
-                  <p>Name</p>
-                </Col>
-                <Col md={6}>
-                  {this.state.profile_pic && (
-                    <img src={this.state.profile_pic} className="form_image" />
-                  )}
-                  <Form.Control
-                    type="file"
-                    className="form_field"
-                    onChange={(event) =>
-                      this.encodeImageFileURL(event, 'profile_pic')
-                    }
-                  ></Form.Control>
-                </Col>
-                <Col md={3}></Col>
-              </Row>
-            </Form.Group>
+          <>
+          <Card key={post.id} className="post_card">
+              <Row>
+                <Col md={2}>
+                  <div className="d-flex py-2">
+                    <Image
+                      src="/images/passport-sample.jpg"
+                      className="post_author_image"
+                    ></Image>
 
-            <Form.Group controlId="seeker_pic">
-              <Row className="my-2 form_row">
-                <Col md={3}>
-                  <p>Picture per NID (Mandatory for Seeker)**</p>
+                    <div>
+                      <h4>Afnan</h4>
+                      <p>Mohakhali</p>
+                      <p>Dhaka</p>
+                    </div>
+                  </div>
                 </Col>
-                <Col md={6}>
-                  {this.state.nid_profile_pic && (
+                <Col md={8}>
+                  <Card>
+                    <h4>Title: {post.shortTitle}</h4>
+                    <ReadMore maxCharacterCount={200}>
+                      Story: {post.storyLine}
+                    </ReadMore>
+                  </Card>
+                </Col>
+                <Col md={2}>
+                  <Link to={`/donate/${post.id}`}>
+                  <Button variant="success" className="w-100">
+                    Donate
+                  </Button>
+                  </Link>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={2}>
+                  <div>Category - {post.categoryname}</div>
+                  <div>Amount - {post.fundamount}</div>
+                </Col>
+                <Col md={8}>
+                  <img src="/images/slider-1.jpg" className="form_image" />
+                  <img src="/images/slider-2.jpg" className="form_image" />
+                  <img src="/images/slider-3.jpg" className="form_image" />
+                </Col>
+                <Col md={2}>
+                  <div className="text-center">
+
                     <img
-                      src={this.state.nid_profile_pic}
-                      className="form_image"
-                    />
-                  )}
-                  <Form.Control
-                    type="file"
-                    className="form_field"
-                    onChange={(event) =>
-                      this.encodeImageFileURL(event, 'nid_profile_pic')
-                    }
-                  ></Form.Control>
-                </Col>
-                <Col md={3}>
-                  {/* <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span> */}
+                      src={post.sympathized ? this.chekedSympqathyIcon :this.unchekedSympqathyIcon}
+                      onClick={() => {
+                        this.toggleSympathyIcon(post.id, post.sympathized);
+                      }}
+                      className="post_author_image"
+                    ></img>
+                  </div>
                 </Col>
               </Row>
-            </Form.Group>
-
-            <Form.Group controlId="phone">
-              <Row className="my-2 form_row">
-                <Col md={3}>
-                  <p>Mobile</p>
+              <Row>
+                <Col md={2}>
+                  <Button className="w-100">100 views</Button>
                 </Col>
-                <Col md={6}>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter phone number"
-                    className="form_field"
-                    value={this.state.phone}
-                    onChange={(e) =>
-                      this.setInputValue('phone', e.target.value)
-                    }
-                    required
-                  ></Form.Control>
+                <Col>
+                  <div className="progress">
+                    <div
+                      role="progressbar"
+                      className="progress-bar"
+                      aria-valuenow={post.collectedPercentage}
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      style={{ width: `${post.collectedPercentage}%` }}
+                    >
+                      Collected {post.collectedPercentage}%
+                    </div>
+                    <p className="text-center w-100" style={{ color: 'white' }}>
+                      Need More {100 - post.collectedPercentage}%
+                    </p>
+                  </div>
                 </Col>
-                <Col md={3}>
-                  {this.state.verify_status_phone ? (
-                    <span>
-                      <i
-                        className="fa-solid fa-circle-check"
-                        style={{ color: 'green' }}
-                      ></i>{' '}
-                      OTP Verified
-                    </span>
-                  ) : (
-                    <span>
-                      <i
-                        className="fa-solid fa-circle-xmark"
-                        style={{ color: 'red' }}
-                      ></i>{' '}
-                      Not Verified
-                    </span>
-                  )}
+                <Col md={2}>
+                  <Button className="w-100">Shortlist</Button>
                 </Col>
               </Row>
-            </Form.Group>
-
-            <Form.Group controlId="nid">
-              <Row className="my-2 form_row">
-                <Col md={3}>
-                  <p>NID</p>
-                </Col>
-                <Col md={6}>
-                  <Form.Control
-                    type="text"
-                    className="form_field"
-                    placeholder="Enter NID Number"
-                    value={this.state.nid}
-                    onChange={(e) => this.setInputValue('nid', e.target.value)}
-                    required
-                  ></Form.Control>
-                </Col>
-                <Col md={3}>
-                  {this.state.verify_status_nid ? (
-                    <span>
-                      <i
-                        className="fa-solid fa-circle-check"
-                        style={{ color: 'green' }}
-                      ></i>{' '}
-                      OTP Verified
-                    </span>
-                  ) : (
-                    <span>
-                      <i
-                        className="fa-solid fa-circle-xmark"
-                        style={{ color: 'red' }}
-                      ></i>{' '}
-                      Not Verified
-                    </span>
-                  )}
-                </Col>
-              </Row>
-            </Form.Group>
-
-            <Form.Group controlId="nid_front_page">
-              <Row className="my-2 form_row">
-                <Col md={3}>
-                  <p>Copy of NID: JPEG (Front page)</p>
-                </Col>
-                <Col md={6}>
-                  {this.state.nid_front_page && (
-                    <img
-                      src={this.state.nid_front_page}
-                      className="form_image"
-                    />
-                  )}
-                  <Form.Control
-                    type="file"
-                    className="form_field"
-                    onChange={(event) =>
-                      this.encodeImageFileURL(event, 'nid_front_page')
-                    }
-                  ></Form.Control>
-                </Col>
-                <Col md={3}></Col>
-              </Row>
-            </Form.Group>
-
-            <Form.Group controlId="nid_back_page">
-              <Row className="my-2 form_row">
-                <Col md={3}>
-                  <p>Copy of NID: JPEG (Back page)</p>
-                </Col>
-                <Col md={6}>
-                  {this.state.nid_back_page && (
-                    <img
-                      src={this.state.nid_back_page}
-                      className="form_image"
-                    />
-                  )}
-                  <Form.Control
-                    type="file"
-                    className="form_field"
-                    onChange={(event) =>
-                      this.encodeImageFileURL(event, 'nid_back_page')
-                    }
-                  ></Form.Control>
-                </Col>
-                <Col md={3}></Col>
-              </Row>
-            </Form.Group>
-            <Row className="text-center">
-              <Button
-                type="submit"
-                variant="primary"
-                className="w-25 my-3 mx-auto"
-              >
-                Update
-              </Button>
-            </Row>
+            </Card>
+            <FormContainer>
+            <Form onSubmit={this.donateHandler}>
+              <Form.Group controlId="phone" className="form_field">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Donate Amount"
+                  value={this.state.donateAmount}
+                  onChange={(e) => this.setInputValue('donateAmount', e.target.value)}
+                  required
+                ></Form.Control>
+              </Form.Group>
+            <Button
+              type="submit"
+              variant="info"
+              className="w-100 form_submit_button"
+              // onClick={(e) => this.doLogin(e)}
+            >
+              Donate
+            </Button>
           </Form>
-        )}
-
-        {this.state.showValidateOTPForm && (
-          <Form onSubmit={this.submitOTPHandler}>
-            <Form.Group controlId="otp">
-              <Row className="my-2 form_row">
-                <Col md={3}></Col>
-                <Col md={6}>
-                  <Form.Control
-                    type="text"
-                    className="form_field"
-                    placeholder="Enter OTP"
-                    value={this.props.OTP}
-                    onChange={(e) => this.setInputValue('OTP', e.target.value)}
-                    required
-                  ></Form.Control>
-                </Col>
-                <Col md={3}></Col>
-              </Row>
-            </Form.Group>
-            <Row className="text-center">
-              <Button
-                type="submit"
-                variant="success"
-                className="w-25 my-3 mx-auto"
-              >
-                Validate OTP
-              </Button>
-            </Row>
-          </Form>
+            </FormContainer>
+            </>
         )}
       </Row>
       </ScreenContainer>

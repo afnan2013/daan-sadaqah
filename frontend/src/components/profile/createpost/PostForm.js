@@ -21,7 +21,7 @@ class PostForm extends Component {
       storyLine: '',
       postImage: '',
       postVideo: '',
-      status: '',
+      status: undefined,
       message: undefined,
       success: undefined,
       isLoading: false,
@@ -53,36 +53,51 @@ class PostForm extends Component {
     let submitButton = '';
 
     if (AuthUtil.getRolePresence(['user']) === true) {
-      if (this.state.productid){
+      if (!this.state.postid && !this.state.status){
+        submitButton = (
+          <Button
+                type="submit"
+                variant="primary"
+                className="w-25 my-3 mx-auto"
+                onClick={(e)=>this.submitPostHandler(e)}
+              >
+                  Create
+          </Button>
+        );
+        
+      }else if (this.state.postid && (!this.state.status || this.state.status === "DRAFT")){
         submitButton = (
           <>
           <Button
                 type="submit"
                 variant="primary"
                 className="w-25 my-3 mx-auto"
+                onClick={(e)=>this.submitPostHandler(e)}
               >
                   Save
           </Button>
-        <Button
-          type="submit"
-          variant="primary"
-          className="w-25 my-3 mx-auto"
-            >
-              Submit For Review
-        </Button>
-        </>
+          <Button
+            type="submit"
+            variant="primary"
+            className="w-25 my-3 mx-auto"
+            onClick={(e)=>this.submitPostReviewHandler(e)}
+              >
+                Submit For Post Review
+          </Button>
+          </>
         );
-      }else{
+      } else if(this.state.postid && this.state.status === "SUBMIT_FOR_REVIEW"){
         submitButton = (
           <Button
-                type="submit"
-                variant="primary"
-                className="w-25 my-3 mx-auto"
+            type="submit"
+            variant="primary"
+            className="w-25 my-3 mx-auto"
+            onClick={(e)=>this.closePostHandler(e)}
               >
-                  Create
+                Close
           </Button>
-        );
-      } 
+        )
+      }
     }
     return submitButton;
   }
@@ -136,30 +151,24 @@ class PostForm extends Component {
         };
 
         // If user reviews post
-        if (this.state.isReviewedPost) {
-          post.p_postid = this.state.postid;
-          post.p_status = 'InApproval';
+        if (this.state.postid) {
+          post.p_id = this.state.postid;
         }
 
-        console.log(post);
-        if (this.state.isReviewedPost) {
-          this.props.navigate('/profile/myposts');
-        }
-        this.setInputValue('isReviewedPost', true);
         const { data } = await apiCall({
           method: 'post',
           URL: 'http://www.daansadaqah.com:8443/savePost',
           payload: post,
         });
 
-        console.log(data);
-        // const savedPost = data.returnTables[0][0];
-        // if (savedPost) {
-        //   this.setInputValue('postid', savedPost.id);
-        //   this.setInputValue('isReviewedPost', true);
-        // } else {
-        //   this.setInputValue('message', data.message);
-        // }
+        const savedPost = data.returnTables[0][0];
+        console.log(savedPost.post_id);
+        if (savedPost.post_id !== -1) {
+          this.setInputValue('postid', savedPost.post_id);
+          this.setInputValue('status', savedPost.postStatus)
+        } else {
+          this.setInputValue('message', data.message);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -168,11 +177,72 @@ class PostForm extends Component {
     }
   };
 
+  submitPostReviewHandler = async (e)=> {
+    e.preventDefault();
+    try {
+      const post = {
+        p_postid: this.state.postid,
+        p_userid: AuthUtil.getPhone(),
+      };
+
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/submitPostForReview',
+        payload: post,
+      });
+
+      const savedPost = data.returnTables[0][0];
+      if (savedPost) {
+        this.setInputValue('postid', savedPost.postId);
+        this.setInputValue('status', savedPost.postStatus)
+      } else {
+        this.setInputValue('message', data.message);
+      }
+
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
+  closePostHandler = async (e)=> {
+    e.preventDefault();
+
+    try {
+      const post = {
+        p_postid: this.state.postid,
+        p_userid: AuthUtil.getPhone(),
+      };
+
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/closeByUser',
+        payload: post,
+      });
+
+      const savedPost = data.returnTables[0][0];
+      if (savedPost) {
+        this.setInputValue('postid', savedPost.postId);
+        this.setInputValue('status', savedPost.postStatus)
+      } else {
+        this.setInputValue('message', data.message);
+      }
+
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
   componentDidMount() {
     this.getCategoryData();
   }
   render() {
-    console.log(this.state.type);
+    const submitButton = this.getFormSubmitDesign();
+    console.log(this.state.postid);
     return (
       <Row className="account_container">
         {this.state.error && (
@@ -188,17 +258,17 @@ class PostForm extends Component {
           <Loader />
         ) : (
           <Form onSubmit={this.submitPostHandler}>
-            {this.state.isReviewedPost && (
+            {this.state.postid && (
               <Form.Group controlId="type">
                 <Row className="my-2 form_row">
                   <Col md={3}>
-                    <p>Site ID</p>
+                    <p>Post ID</p>
                   </Col>
                   <Col md={6}>
                     <Form.Control
                       type="text"
                       className="form_field"
-                      value={AuthUtil.getPhone()}
+                      value={this.state.postid}
                       required
                       disabled
                     ></Form.Control>
@@ -344,16 +414,7 @@ class PostForm extends Component {
             </Form.Group>
 
             <Row className="text-center">
-              
-              <Button
-                type="submit"
-                variant="primary"
-                className="w-25 my-3 mx-auto"
-              >
-                {this.state.isReviewedPost
-                  ? 'Submit For Post Review'
-                  : 'Create'}
-              </Button>
+              {submitButton}
             </Row>
           </Form>
         )}

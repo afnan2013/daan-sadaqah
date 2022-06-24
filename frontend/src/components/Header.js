@@ -99,6 +99,79 @@ class Header extends React.Component {
       );
       return menuDesign;
     }
+
+    if (AuthUtil.getRolePresence(['reviewer']) === true) {
+      console.log('Admin Menu Populated');
+      const menus = AuthUtil.getMenu();
+      let menuDesign = (
+        <>
+          <Nav className="justify-content-end flex-grow-1 pe-3">
+            {menus.map((menu) => (
+              menu !== undefined &&
+              menu.menucode !== undefined &&
+              menu.menuposition === 'left' &&(
+              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
+                <Nav.Link className="common_sidenav_items">
+                  <i className={menu.menuicon}></i>
+                  <span>{menu.menuname}</span>
+                </Nav.Link>
+              </LinkContainer>
+              )
+            ))}
+          </Nav>
+        </>
+      );
+      return menuDesign;
+    }
+
+    if (AuthUtil.getRolePresence(['approver']) === true) {
+      console.log('Approver Menu Populated');
+      const menus = AuthUtil.getMenu();
+      let menuDesign = (
+        <>
+          <Nav className="justify-content-end flex-grow-1 pe-3">
+            {menus.map((menu) => (
+              menu !== undefined &&
+              menu.menucode !== undefined &&
+              menu.menuposition === 'left' &&(
+              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
+                <Nav.Link className="common_sidenav_items">
+                  <i className={menu.menuicon}></i>
+                  <span>{menu.menuname}</span>
+                </Nav.Link>
+              </LinkContainer>
+              )
+            ))}
+          </Nav>
+        </>
+      );
+      return menuDesign;
+    }
+
+    if (AuthUtil.getRolePresence(['disburser']) === true) {
+      console.log('Admin Menu Populated');
+      const menus = AuthUtil.getMenu();
+      let menuDesign = (
+        <>
+          <Nav className="justify-content-end flex-grow-1 pe-3">
+            {menus.map((menu) => (
+              menu !== undefined &&
+              menu.menucode !== undefined &&
+              menu.menuposition === 'left' &&(
+              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
+                <Nav.Link className="common_sidenav_items">
+                  <i className={menu.menuicon}></i>
+                  <span>{menu.menuname}</span>
+                </Nav.Link>
+              </LinkContainer>
+              )
+            ))}
+          </Nav>
+        </>
+      );
+      return menuDesign;
+    }
+
     console.log('Default Menu Populated - ');
     console.log(this.state.menuList);
     return (
