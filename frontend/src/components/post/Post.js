@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, Row, Col, ProgressBar, Image, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import ReadMore from './ReadMore';
+import {withRouter} from '../withRouter'
 
 class Post extends React.Component {
   constructor(props) {
@@ -33,7 +35,7 @@ class Post extends React.Component {
 
   render() {
     const posts = this.props.posts;
-
+    
     return (
       <Row className="account_container">
         {posts &&
@@ -88,9 +90,11 @@ class Post extends React.Component {
                   </Card>
                 </Col>
                 <Col md={2}>
+                  <Link to={`/donate/${post.id}`}>
                   <Button variant="success" className="w-100">
                     Donate
                   </Button>
+                  </Link>
                 </Col>
               </Row>
               <Row>
@@ -147,4 +151,4 @@ class Post extends React.Component {
   }
 }
 
-export default Post;
+export default withRouter(Post);

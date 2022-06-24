@@ -31,16 +31,16 @@ class PostRules extends Component {
 
       const { data } = await apiCall({
         method: 'get',
-        URL: '/api/postRules',
+        URL: 'http://www.daansadaqah.com:8443/postRules',
         // payload: {
         //   p_userid: AuthUtil.getPhone(),
         // },
       });
       // const categoryData = data.returnTables[0][0];
 
-      console.log(data);
-      if (data) {
-        this.setInputValue('rules', data.rules);
+      // console.log(data);
+      if (data.result.rules) {
+        this.setInputValue('rules', data.result.rules);
         this.setInputValue('isLoading', false);
       } else {
         this.setInputValue('error', 'Invalid Credentials');

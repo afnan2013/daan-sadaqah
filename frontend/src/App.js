@@ -32,6 +32,7 @@ import FeesAndDues from './components/profile/FeesAndDues';
 import CreatePost from './components/profile/CreatePost';
 import PostRules from './components/profile/createpost/PostRules';
 import PostForm from './components/profile/createpost/PostForm';
+import DonateScreen from './screens/DonateScreen';
 
 class App extends React.Component {
   constructor(props) {
@@ -58,6 +59,7 @@ class App extends React.Component {
           <Route path="/about" element={<AboutScreen />} />
 
           <Route path="/posts" element={<PostScreen />} />
+          <Route path="/donate/:id" element={<DonateScreen />} />
 
           {/* User Routes */}
           <Route path="/forgetpassword" element={<ForgetPassScreen />} />
