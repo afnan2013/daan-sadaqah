@@ -11,10 +11,13 @@ class DonateScreen extends Component {
         super(props);
     
         this.state = {
-          sympathyIcon: '/images/transparent 1-01 (1).png',
-          isChecked: false,
+          
         };
       }
+
+  componentDidMount(){
+
+  }
   render() {
     console.log(this.props.params.id)    
     return (
@@ -36,7 +39,7 @@ class DonateScreen extends Component {
             <Form.Group controlId="profile_pic">
               <Row className="my-2 form_row">
                 <Col md={3}>
-                  <p>Profile Picture</p>
+                  <p>Name</p>
                 </Col>
                 <Col md={6}>
                   {this.state.profile_pic && (

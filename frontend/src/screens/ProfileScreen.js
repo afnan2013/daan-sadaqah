@@ -17,6 +17,20 @@ class ProfileScreen extends React.Component {
     }
   };
 
+  checkIfUser = ()=> {
+    let createPostButton = '';
+    if (AuthUtil.getRolePresence(['user']) === true) {
+      createPostButton = (
+        <LinkContainer to={'/profile/createpost/rules'}>
+              <Nav.Link className="common_inner_nav_link">
+                <i class="fa-solid fa-plus"></i> Create Post
+              </Nav.Link>
+        </LinkContainer>
+      );
+      return createPostButton;
+    }
+  }
+
   getProfileNavBarDesign = () => {
     let navbarDesign = (
       <>
@@ -45,6 +59,7 @@ class ProfileScreen extends React.Component {
     this.checkLoggedInUser();
   };
 
+
   render() {
     const redirect = '/profile';
     // const { loading, error } = this.state;
@@ -52,6 +67,7 @@ class ProfileScreen extends React.Component {
       return <Navigate to={`/login?redirect=${redirect}`} />;
     }
     const profileNavbarDesign = this.getProfileNavBarDesign();
+    const createPostButton = this.checkIfUser();
 
     return (
       <ScreenContainer>
@@ -61,11 +77,7 @@ class ProfileScreen extends React.Component {
             <Outlet />
           </Col>
           <Col md={2}>
-            <LinkContainer to={'/profile/createpost/rules'}>
-              <Nav.Link className="common_inner_nav_link">
-                <i class="fa-solid fa-plus"></i> Create Post
-              </Nav.Link>
-            </LinkContainer>
+            {createPostButton}
             <Button
               variant="primary"
               className="my-3 w-100"

@@ -13,7 +13,7 @@ class PostForm extends Component {
       error: undefined,
       categories: [],
       rules: [],
-      postid: '',
+      postid: undefined,
       type: '',
       shortTitle: '',
       fundAmount: '',
@@ -21,7 +21,7 @@ class PostForm extends Component {
       storyLine: '',
       postImage: '',
       postVideo: '',
-      status: 'DRAFT',
+      status: '',
       message: undefined,
       success: undefined,
       isLoading: false,
@@ -44,11 +44,48 @@ class PostForm extends Component {
       fileReader.onload = (FileLoadEvent) => {
         const srcData = FileLoadEvent.target.result;
         this.setInputValue(imageState, srcData);
-        // console.log(srcData);
       };
       fileReader.readAsDataURL(selectedFile);
     }
   };
+
+  getFormSubmitDesign = ()=> {
+    let submitButton = '';
+
+    if (AuthUtil.getRolePresence(['user']) === true) {
+      if (this.state.productid){
+        submitButton = (
+          <>
+          <Button
+                type="submit"
+                variant="primary"
+                className="w-25 my-3 mx-auto"
+              >
+                  Save
+          </Button>
+        <Button
+          type="submit"
+          variant="primary"
+          className="w-25 my-3 mx-auto"
+            >
+              Submit For Review
+        </Button>
+        </>
+        );
+      }else{
+        submitButton = (
+          <Button
+                type="submit"
+                variant="primary"
+                className="w-25 my-3 mx-auto"
+              >
+                  Create
+          </Button>
+        );
+      } 
+    }
+    return submitButton;
+  }
 
   getCategoryData = async () => {
     try {
@@ -88,13 +125,13 @@ class PostForm extends Component {
     if (AuthUtil.getPhone()) {
       try {
         const post = {
-          p_category: this.state.type,
+          p_categoryCode: this.state.type,
           p_shortTitle: this.state.shortTitle,
           p_fundAmount: this.state.fundAmount,
           p_storyLine: this.state.storyLine,
           p_postImage: this.state.postImage,
-          p_postVideo: this.state.postVideo,
-          p_status: 'DRAFT',
+          p_postVideo: this.state.postVideo, 
+          p_postStatus: this.state.status,
           p_userid: AuthUtil.getPhone(),
         };
 
@@ -307,14 +344,15 @@ class PostForm extends Component {
             </Form.Group>
 
             <Row className="text-center">
+              
               <Button
                 type="submit"
                 variant="primary"
                 className="w-25 my-3 mx-auto"
               >
                 {this.state.isReviewedPost
-                  ? 'Submit For Approval'
-                  : 'Review Post'}
+                  ? 'Submit For Post Review'
+                  : 'Create'}
               </Button>
             </Row>
           </Form>
