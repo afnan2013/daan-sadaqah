@@ -538,6 +538,7 @@ class PaymentMethod extends Component {
                       <img
                         src={this.state.bank_check_leaf_image}
                         className="form_image"
+						alt="check leaf"
                       />
                     )}
                     <Form.Control

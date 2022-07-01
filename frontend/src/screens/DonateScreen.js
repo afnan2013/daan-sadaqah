@@ -135,14 +135,15 @@ class DonateScreen extends Component {
                   <div>Amount - {post.fundamount}</div>
                 </Col>
                 <Col md={8}>
-                  <img src="/images/slider-1.jpg" className="form_image" />
-                  <img src="/images/slider-2.jpg" className="form_image" />
-                  <img src="/images/slider-3.jpg" className="form_image" />
+                  <img src="/images/slider-1.jpg" className="form_image" alt="slider 1"/>
+                  <img src="/images/slider-2.jpg" className="form_image" alt="slider 2"/>
+                  <img src="/images/slider-3.jpg" className="form_image" alt="slider 3"/>
                 </Col>
                 <Col md={2}>
                   <div className="text-center">
 
                     <img
+						alt="author"
                       src={post.sympathized ? this.chekedSympqathyIcon :this.unchekedSympqathyIcon}
                       onClick={() => {
                         this.toggleSympathyIcon(post.id, post.sympathized);

@@ -373,7 +373,7 @@ class PostForm extends Component {
                 </Col>
                 <Col md={6}>
                   {this.state.postImage && (
-                    <img src={this.state.postImage} className="form_image" />
+                    <img src={this.state.postImage} className="form_image" alt="post"/>
                   )}
                   <Form.Control
                     type="file"

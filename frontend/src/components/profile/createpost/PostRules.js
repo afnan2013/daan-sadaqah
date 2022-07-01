@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ListGroup, Row, Button } from 'react-bootstrap';
-import Message from '../../Message';
-import Loader from '../../Loader';
+//import Message from '../../Message';
+//import Loader from '../../Loader';
 import { apiCall } from '../../../utils/apiCall';
 import { withRouter } from '../../withRouter';
 import { Link } from 'react-router-dom';

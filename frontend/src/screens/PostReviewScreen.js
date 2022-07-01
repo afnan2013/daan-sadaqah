@@ -3,7 +3,10 @@ import { Table, Row, Button } from 'react-bootstrap';
 import ScreenContainer from '../components/ScreenContainer';
 import { withRouter } from '../components/withRouter';
 import { apiCall } from '../utils/apiCall';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
+=======
+>>>>>>> 242d07122730d8431225fd9ca68d4e691b3c6383
 
 class PostReviewScreen extends Component {
   constructor(props) {
