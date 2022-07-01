@@ -1,28 +1,53 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Image, Button } from 'react-bootstrap';
+import { Row, Col, Image, Button, Card } from 'react-bootstrap';
+import { apiCall } from '../utils/apiCall';
 
-const NotificationPanel = ({ show }) => {
+const read = async (id) =>{
+  try {
+    const { data } = await apiCall({
+      method: 'post',
+      URL: 'http://www.daansadaqah.com:8443/readNotification',
+      payload: {
+        p_id: id
+      },
+    });
+    
+  } catch (error) {
+    
+  }
+}
+
+const NotificationPanel = (props) => {
+
+ 
   return (
-    <div className={show ? 'notification_panel active' : 'notification_panel'}>
+    <div className={props.show ? 'notification_panel active' : 'notification_panel'}>
       <h2>Notifications</h2>
-      <Button>All</Button> <Button>Unread</Button>
+     
       <ul>
+        {(props.notifications && props.notifications.length !== 0) ? props.notifications.map((notif => (
+
+       
         <li>
-          <Link to={'/'}>
+            <Card>
             <Row>
-              <Col sm={3}>
+              <Col sm={2}>
                 <Image src="/images/Daan-Sadaqah-65x80_PNG.png" fluid></Image>
               </Col>
-              <Col sm={8}>
-                <span>I just posted to Facebook have a relax.</span>
+              <Col sm={7}>
+                <span>{notif.message}</span>
                 <br />
-                <span>14 mins ago</span>
+                <span>{notif.datetimecreated}</span>
               </Col>
-              <Col sm={1}></Col>
+              <Col sm={2}>
+                {!notif.datetimeread && 
+                <Button onClick={()=> read(notif.id)}>Read</Button>}
+              </Col>
             </Row>
-          </Link>
+            </Card>
         </li>
+        ))): (<p className='my-3 text-center'>No Notification</p>)}
       </ul>
     </div>
   );

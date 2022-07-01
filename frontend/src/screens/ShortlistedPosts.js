@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Row, Col, ProgressBar, Image, Button } from 'react-bootstrap';
+import { Card, Row, Col, Image, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReadMore from './ReadMore';
 import {withRouter} from '../withRouter'
@@ -47,7 +47,7 @@ class Post extends React.Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/shortlist',
+        URL: 'http://www.daansadaqah.com:8443/sympathize',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_postid: postid
@@ -145,13 +145,9 @@ class Post extends React.Component {
                   </div>
                 </Col>
                 <Col md={2}>
-                  {post.shortlisted ? 
-                  <Button variant="success" className="w-100" onClick={() => {
+                  <Button className="w-100" onClick={() => {
                         this.toggleShortList(post.id, post.shortlisted);
-                      }}>Shortlisted</Button>
-                   : <Button className="w-100" onClick={() => {
-                    this.toggleShortList(post.id, post.shortlisted);
-                  }}>Shortlist</Button>}
+                      }}>Shortlist</Button>
                 </Col>
               </Row>
             </Card>

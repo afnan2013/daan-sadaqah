@@ -9,6 +9,7 @@ import AuthUtil from '../utils/AuthUtil';
 class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
+    
   }
 
   checkLoggedInUser = () => {

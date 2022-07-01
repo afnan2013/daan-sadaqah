@@ -3,6 +3,7 @@ import { Table, Row, Button } from 'react-bootstrap';
 import { withRouter } from '../components/withRouter';
 import { apiCall } from '../utils/apiCall';
 import ScreenContainer from '../components/ScreenContainer';
+import { Link } from 'react-router-dom';
 
 class PostApproveScreen extends Component {
   constructor(props) {
@@ -95,7 +96,15 @@ class PostApproveScreen extends Component {
                   </td>
 
                   <td>
-                    <Button>View</Button>
+                  <Link to={`/profile/myposts/${post.id}`}>
+                      <Button
+                        type="submit"
+                        variant="primary"
+                        className="w-50 my-3 mx-auto"
+                      >
+                        View
+                      </Button>
+                    </Link>
                   </td>
                 </tr>
               ))}

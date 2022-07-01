@@ -13,7 +13,6 @@ class SinglePost extends Component {
     this.state = {
       error: undefined,
       categories: [],
-      rules: [],
       postid: undefined,
       type: '',
       shortTitle: '',
@@ -50,23 +49,39 @@ class SinglePost extends Component {
     }
   };
 
+  getPostById = async ()=> {
+    try {
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/getPostById',
+        payload: {
+          p_id: this.props.params.id
+        }
+      });
+
+      const post = data.returnTables[0][0];
+
+      if(post){
+        this.setInputValue("status", post.poststatus);
+        this.setInputValue("type", post.categorycode);
+        this.setInputValue("postid", post.id);
+        this.setInputValue("shortTitle", post.shortTitle);
+        this.setInputValue("fundAmount", post.fundamount);
+        this.setInputValue("fundRaisedAmount", post.fundRaisedAmount);
+        this.setInputValue("storyLine", post.storyLine);
+        this.setInputValue("postImage", post.postImage);
+        this.setInputValue("postVideo", post.postVideo);
+      }
+    } catch (error) {
+      
+    }
+  }
+
   getFormSubmitDesign = ()=> {
     let submitButton = '';
-
+    
     if (AuthUtil.getRolePresence(['user']) === true) {
-      if (!this.state.postid && !this.state.status){
-        submitButton = (
-          <Button
-                type="submit"
-                variant="primary"
-                className="w-25 my-3 mx-auto"
-                onClick={(e)=>this.submitPostHandler(e)}
-              >
-                  Create
-          </Button>
-        );
-        
-      }else if (this.state.postid && (!this.state.status || this.state.status === "DRAFT")){
+      if (this.state.postid &&  this.state.status === "DRAFT"){
         submitButton = (
           <>
           <Button
@@ -75,7 +90,7 @@ class SinglePost extends Component {
                 className="w-25 my-3 mx-auto"
                 onClick={(e)=>this.submitPostHandler(e)}
               >
-                  Save
+                Save
           </Button>
           <Button
             type="submit"
@@ -87,7 +102,7 @@ class SinglePost extends Component {
           </Button>
           </>
         );
-      } else if(this.state.postid && this.state.status === "SUBMIT_FOR_REVIEW"){
+      } else if(this.state.postid && this.state.status === "OPEN"){
         submitButton = (
           <Button
             type="submit"
@@ -95,11 +110,62 @@ class SinglePost extends Component {
             className="w-25 my-3 mx-auto"
             onClick={(e)=>this.closePostHandler(e)}
               >
-                Close
+                Close Post
           </Button>
         )
       }
     }
+
+    else if (AuthUtil.getRolePresence(['reviewer']) === true) {
+      if (this.state.postid &&  this.state.status === "SUBMIT_FOR_REVIEW"){
+        submitButton = (
+          <>
+          <Button
+                type="submit"
+                variant="primary"
+                className="w-25 my-3 mx-auto"
+                onClick={(e)=>this.onAcceptReviewer(e)}
+              >
+                Accept
+          </Button>
+          <Button
+            type="submit"
+            variant="primary"
+            className="w-25 my-3 mx-auto"
+            onClick={(e)=>this.onRejectPost(e)}
+              >
+                Reject
+          </Button>
+          </>
+        );
+      }
+    }
+
+    else if (AuthUtil.getRolePresence(['approver']) === true) {
+      if (this.state.postid &&  this.state.status === "SUBMIT_FOR_APPROVAL"){
+        submitButton = (
+          <>
+          <Button
+                type="submit"
+                variant="primary"
+                className="w-25 my-3 mx-auto"
+                onClick={(e)=>this.onAcceptApprover(e)}
+              >
+                Approve
+          </Button>
+          <Button
+            type="submit"
+            variant="primary"
+            className="w-25 my-3 mx-auto"
+            onClick={(e)=>this.onRejectPost(e)}
+              >
+                Reject
+          </Button>
+          </>
+        );
+      }
+    }
+  
     return submitButton;
   }
 
@@ -134,6 +200,54 @@ class SinglePost extends Component {
       });
     }
   };
+
+  onAcceptReviewer = async ()=> {
+    try {
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/submitPostForApproval',
+        payload: {
+          p_userid: AuthUtil.getPhone(),
+          p_postid: this.state.postid
+        },
+      });
+
+    } catch (error) {
+      
+    }
+  }
+
+  onAcceptApprover = async ()=> {
+    try {
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/approvePost',
+        payload: {
+          p_userid: AuthUtil.getPhone(),
+          p_postid: this.state.postid
+        },
+      });
+
+    } catch (error) {
+      
+    }
+  }
+
+  onRejectPost = async ()=> {
+    try {
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/rejectPost',
+        payload: {
+          p_userid: AuthUtil.getPhone(),
+          p_postid: this.state.postid
+        },
+      });
+
+    } catch (error) {
+      
+    }
+  }
 
   submitPostHandler = async (e) => {
     e.preventDefault();
@@ -206,8 +320,6 @@ class SinglePost extends Component {
     }
   }
 
-
-
   closePostHandler = async (e)=> {
     e.preventDefault();
 
@@ -240,10 +352,12 @@ class SinglePost extends Component {
 
   componentDidMount() {
     this.getCategoryData();
+    this.getPostById();
   }
   render() {
+
     const submitButton = this.getFormSubmitDesign();
-    console.log(this.state.postid);
+
     return (
       <Row className="account_container">
         {this.state.error && (

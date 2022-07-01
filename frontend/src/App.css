@@ -276,7 +276,7 @@ a{
   height: 85vh;
   border-radius: 10px;
   transition: all 0.5s;
-  background: #FFFFFF;
+  background: snow;
   z-index: 10;
 }
 
@@ -366,6 +366,10 @@ a{
     width: 460px;
   }
 
+  .notification_panel.active {
+    top: 16%;
+  }
+
 }
 
 
@@ -394,6 +398,10 @@ a{
 
   .footer_row {
     font-size: 1.3rem;
+  }
+
+  .notification_panel.active {
+    top: 28%;
   }
 }
 

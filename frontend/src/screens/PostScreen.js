@@ -21,8 +21,6 @@ class PostScreen extends React.Component {
       filterDistrict: '',
       filterThana: '',
     };
-
-  
   }
 
   setInputValue(property, val) {

@@ -25,9 +25,29 @@ class Header extends React.Component {
       showNotification: false,
       isLoading: false,
       menuList: [],
+      notifications: []
     };
     this.getMenu = this.getMenu.bind(this);
     this.getMenuDesign = this.getMenuDesign.bind(this);
+  }
+
+  getNotifications = async () => {
+    this.setState({
+      isLoading: true,
+    });
+
+    const { data } = await apiCall({
+      method: 'post',
+      URL: 'http://www.daansadaqah.com:8443/getNotificationDaan',
+      payload: {
+        p_userid: AuthUtil.getPhone()
+      },
+    });
+    console.log(data.returnTables[0]);
+    this.setState({
+      notifications: data.returnTables[0],
+      isLoading: false,
+    });
   }
 
   getMenu = async () => {
@@ -220,6 +240,7 @@ class Header extends React.Component {
 
   componentDidMount() {
     this.getMenu();
+    this.getNotifications();
   }
 
   render() {
@@ -337,7 +358,7 @@ class Header extends React.Component {
           </Container>
         </Navbar>
         <div className="d-none d-lg-block">
-          <NotificationPanel show={this.state.showNotification} />
+          <NotificationPanel show={this.state.showNotification} notifications={this.state.notifications}/>
         </div>
       </header>
     );
