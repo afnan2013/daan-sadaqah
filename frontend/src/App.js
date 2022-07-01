@@ -28,6 +28,8 @@ import NameAndAddresses from './components/profile/myaccount/NameAndAddresses';
 import Nominee from './components/profile/myaccount/Nominee';
 import PaymentMethod from './components/profile/myaccount/PaymentMethod';
 import MyPosts from './components/profile/MyPosts';
+import MyPostsLists from './components/profile/myposts/MyPostsLists';
+import SinglePost from './components/profile/myposts/SinglePost';
 import FeesAndDues from './components/profile/FeesAndDues';
 import CreatePost from './components/profile/CreatePost';
 import PostRules from './components/profile/createpost/PostRules';
@@ -79,7 +81,10 @@ class App extends React.Component {
               <Route path="paymentmethod" element={<PaymentMethod />}></Route>
               <Route path="nominee" element={<Nominee />}></Route>
             </Route>
-            <Route path="myposts" element={<MyPosts />}></Route>
+            <Route path="myposts" element={<MyPosts />}>
+              <Route path="lists" element={<MyPostsLists />}></Route>
+              <Route path=":id" element={<SinglePost />}></Route>
+            </Route>
             <Route path="feesanddues" element={<FeesAndDues />}></Route>
             <Route path="createpost" element={<CreatePost />}>
               <Route path="rules" element={<PostRules />}></Route>
