@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card, Row, Col, Image, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import ReadMore from './ReadMore';
-import {withRouter} from '../withRouter'
-import AuthUtil from '../../utils/AuthUtil';
-import {apiCall} from '../../utils/apiCall'
+import ReadMore from '../components/post/ReadMore';
+import {withRouter} from '../components/withRouter'
+import AuthUtil from '../utils/AuthUtil';
+import {apiCall} from '../utils/apiCall';
 
 class Post extends React.Component {
   constructor(props) {
@@ -13,6 +13,7 @@ class Post extends React.Component {
     this.state = {
       sympathyIcon: '',
       isChecked: false,
+      shortListedPosts: []
     };
 
     this.unchekedSympqathyIcon = '/images/transparent 1-01 (1).png';
@@ -25,6 +26,26 @@ class Post extends React.Component {
     });
   }
 
+  getShortlistedPosts = async ()=> {
+    try {
+        const { data } = await apiCall({
+          method: 'post',
+          URL: 'http://www.daansadaqah.com:8443/getMyShortlist',
+          payload: {
+            p_userid: AuthUtil.getPhone()
+          }
+        });
+        
+        if(data.returnTables[0]){
+          this.setInputValue("shortListedPosts", data.returnTables[0])
+        }
+        
+      } catch (error) {
+        
+      }
+  }
+
+
   toggleSympathyIcon = async (postid, status) => {
     try {
       const { data } = await apiCall({
@@ -35,7 +56,9 @@ class Post extends React.Component {
           p_postid: postid
         }
       });
-    
+      if(data){
+        console.log(data);
+      }
       
     } catch (error) {
       
@@ -47,21 +70,28 @@ class Post extends React.Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/sympathize',
+        URL: 'http://www.daansadaqah.com:8443/shortlist',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_postid: postid
         }
       });
-    
+      if(data){
+        console.log(data);
+      }
       
     } catch (error) {
       
     }
   }
 
+  componentDidMount (){
+    this.getShortlistedPosts();
+  }
+  
+
   render() {
-    const posts = this.props.posts;
+    const posts = this.state.shortListedPosts;
     
     return (
       <Row className="account_container">
@@ -106,9 +136,9 @@ class Post extends React.Component {
                   <div>Amount - {post.fundamount}</div>
                 </Col>
                 <Col md={8}>
-                  <img src="/images/slider-1.jpg" className="form_image" />
-                  <img src="/images/slider-2.jpg" className="form_image" />
-                  <img src="/images/slider-3.jpg" className="form_image" />
+                  <img src="/images/slider-1.jpg" className="form_image" alt="slider 1"/>
+                  <img src="/images/slider-2.jpg" className="form_image" alt="slider 2"/>
+                  <img src="/images/slider-3.jpg" className="form_image" alt="slider 3"/>
                 </Col>
                 <Col md={2}>
                   <div className="text-center">
@@ -118,7 +148,7 @@ class Post extends React.Component {
                       onClick={() => {
                         this.toggleSympathyIcon(post.id, post.sympathized);
                       }}
-                      className="post_author_image"
+                      className="post_author_image" alt="sympathize"
                     ></img>
                   </div>
                 </Col>

@@ -39,6 +39,7 @@ import PostReviewScreen from './screens/PostReviewScreen';
 import PostApproveScreen from './screens/PostApproveScreen';
 //import PostDisburseScreen from './screens/PostDisburseScreen';
 import PersonalCategoryScreen from './screens/PersonalCategoryScreen';
+import ShortlistedPosts from './screens/ShortlistedPosts';
 
 class App extends React.Component {
   constructor(props) {
@@ -70,6 +71,7 @@ class App extends React.Component {
           <Route path="/approvepostlist" element={<PostApproveScreen />} />
           <Route path="/disbursependings" element={<PostReviewScreen />} />
           <Route path="/personalcategory" element={<PersonalCategoryScreen />} />
+          <Route path="/shortlist" element={<ShortlistedPosts />} />
 
           {/* User Routes */}
           <Route path="/forgetpassword" element={<ForgetPassScreen />} />
