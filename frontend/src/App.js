@@ -37,7 +37,7 @@ import PostForm from './components/profile/createpost/PostForm';
 import DonateScreen from './screens/DonateScreen';
 import PostReviewScreen from './screens/PostReviewScreen';
 import PostApproveScreen from './screens/PostApproveScreen';
-import PostDisburseScreen from './screens/PostDisburseScreen';
+//import PostDisburseScreen from './screens/PostDisburseScreen';
 import PersonalCategoryScreen from './screens/PersonalCategoryScreen';
 
 class App extends React.Component {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Row, Col, ProgressBar, Image, Button } from 'react-bootstrap';
+import { Card, Row, Col, Image, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReadMore from './ReadMore';
 import {withRouter} from '../withRouter'
@@ -36,7 +36,7 @@ class Post extends React.Component {
         }
       });
     
-      
+		console.log(data);
     } catch (error) {
       
     }
@@ -91,9 +91,9 @@ class Post extends React.Component {
                   <div>Amount - {post.fundamount}</div>
                 </Col>
                 <Col md={8}>
-                  <img src="/images/slider-1.jpg" className="form_image" />
-                  <img src="/images/slider-2.jpg" className="form_image" />
-                  <img src="/images/slider-3.jpg" className="form_image" />
+                  <img src="/images/slider-1.jpg" className="form_image" alt="slider 1"/>
+                  <img src="/images/slider-2.jpg" className="form_image" alt="slider 2"/>
+                  <img src="/images/slider-3.jpg" className="form_image" alt="slider 3"/>
                 </Col>
                 <Col md={2}>
                   <div className="text-center">
@@ -103,6 +103,7 @@ class Post extends React.Component {
                       onClick={() => {
                         this.toggleSympathyIcon(post.id, post.sympathized);
                       }}
+					  alt="sympathize"
                       className="post_author_image"
                     ></img>
                   </div>

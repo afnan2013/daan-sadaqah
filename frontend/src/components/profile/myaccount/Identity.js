@@ -224,7 +224,7 @@ class Identity extends Component {
                 </Col>
                 <Col md={6}>
                   {this.state.profile_pic && (
-                    <img src={this.state.profile_pic} className="form_image" />
+                    <img src={this.state.profile_pic} className="form_image" alt="profile pic"/>
                   )}
                   <Form.Control
                     type="file"
@@ -248,6 +248,7 @@ class Identity extends Component {
                     <img
                       src={this.state.nid_profile_pic}
                       className="form_image"
+					  alt="NID profile"
                     />
                   )}
                   <Form.Control
@@ -348,6 +349,7 @@ class Identity extends Component {
                 <Col md={6}>
                   {this.state.nid_front_page && (
                     <img
+						alt="nid front page"
                       src={this.state.nid_front_page}
                       className="form_image"
                     />
@@ -372,6 +374,7 @@ class Identity extends Component {
                 <Col md={6}>
                   {this.state.nid_back_page && (
                     <img
+					alt="nid back page"
                       src={this.state.nid_back_page}
                       className="form_image"
                     />
