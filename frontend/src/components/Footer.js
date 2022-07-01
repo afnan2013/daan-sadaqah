@@ -141,7 +141,7 @@ class Footer extends React.Component {
         <hr />
         <Row>
           <Col className="commom_footer_styles py-3">
-            Copyright &copy; 2022 DaanSadaqah Social Welfare | Part of LynOrg
+            Copyright &copy; 2022 DaanSadaqah | Part of LynOrg
             Inc.
           </Col>
           <Col className="commom_footer_styles footer_right_panel py-3">

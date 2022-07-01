@@ -2,7 +2,8 @@ import React from 'react';
 import ScreenContainer from '../components/ScreenContainer';
 import { Nav, Row, Col, Form, FormControl, Button } from 'react-bootstrap';
 import { withRouter } from '../components/withRouter';
-
+import Message from '../components/Message';
+import Loader from '../components/Loader';
 import Post from '../components/post/Post';
 import { apiCall } from '../utils/apiCall';
 import AuthUtil from '../utils/AuthUtil';
@@ -12,6 +13,8 @@ class PostScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+      error: undefined,
+      message: '',
       postLists: [],
       postCategoryLists: [],
       filterCategory: undefined,
@@ -19,10 +22,7 @@ class PostScreen extends React.Component {
       filterThana: '',
     };
 
-    this.onPostCategoryHandler = this.onPostCategoryHandler.bind(this);
-    this.getPostsCategory = this.getPostsCategory.bind(this);
-    this.getAllOpenPosts = this.getAllOpenPosts.bind(this);
-    this.setInputValue = this.setInputValue.bind(this);
+  
   }
 
   setInputValue(property, val) {
@@ -33,71 +33,32 @@ class PostScreen extends React.Component {
 
   getAllOpenPosts = async () => {
     try {
-      const { data } = await apiCall({
-        method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getOpenPosts',
-        payload: { p_userid: AuthUtil.getPhone() }
-      });
-      console.log(data);
-      this.setInputValue('postLists', data.returnTables[0]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
-  onPostCategoryHandler = async (category) => {
-    try {
-      let queryString = '';
-      if (category) {
-        this.setInputValue('filterCategory', category);
-        queryString += `?category=${category}`;
-      }
-      const { data } = await apiCall({
-        method: 'get',
-        URL: queryString
-          ? `http://www.daansadaqah.com:8443/getOpenPosts${queryString}`
-          : 'http://www.daansadaqah.com:8443/getOpenPosts',
-      });
-      console.log(data);
-      this.setInputValue('postLists', data.returnTables[0]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  onPostAddressHandler = async (e) => {
-    e.preventDefault();
-
-    let keypairs = [];
-
-    try {
+      const searchParams = {
+        p_userid: AuthUtil.getPhone()
+      };
       if (this.state.filterThana) {
-        keypairs.push(`thana=${this.state.filterThana}`);
+        searchParams.p_thana = this.state.filterThana;
       }
 
       if (this.state.filterDistrict) {
-        keypairs.push(`district=${this.state.filterDistrict}`);
+        searchParams.p_district = this.state.filterDistrict;
       }
 
       if (this.state.filterCategory) {
-        keypairs.push(`category=${this.state.filterCategory}`);
-      }
-
-      let queryString = '';
-      for (let i = 0; i < keypairs.length; i++) {
-        if (i === 0) {
-          queryString += '?' + keypairs[i];
-        } else {
-          queryString += '&' + keypairs[i];
-        }
+        searchParams.p_category = this.state.filterCategory;
       }
 
       const { data } = await apiCall({
-        method: 'get',
-        URL: `http://www.daansadaqah.com:8443/getOpenPosts${queryString}`,
+        method: 'post',
+        URL: 'http://www.daansadaqah.com:8443/getOpenPosts',
+        payload: searchParams
       });
-      console.log(data);
-      this.setInputValue('postLists', data.returnTables[0]);
+    
+      if(data.returnTables && data.returnTables[0]){
+        this.setInputValue('isLoading', false);
+        this.setInputValue('postLists', data.returnTables[0]);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -116,6 +77,11 @@ class PostScreen extends React.Component {
       console.error(err);
     }
   };
+
+  onPostCategoryHandler = (category)=> {
+    this.setInputValue('filterCategory', category);
+    this.getAllOpenPosts();
+  }
 
   componentDidMount() {
     this.getPostsCategory();
@@ -143,7 +109,7 @@ class PostScreen extends React.Component {
           </Col>
           <Col md={3}>
             <Form
-              onSubmit={this.onPostAddressHandler}
+              onSubmit={this.getAllOpenPosts}
               className="d-flex common_search_form"
             >
               <FormControl
@@ -170,9 +136,22 @@ class PostScreen extends React.Component {
             </Form>
           </Col>
         </Row>
+        {this.state.error && (
+          <Message variant={'danger'}>{this.state.error}</Message>
+        )}
+        {this.state.message && (
+          <Message variant={'danger'}>{this.state.message}</Message>
+        )}
+        {this.state.success && (
+          <Message variant={'success'}>{this.state.success}</Message>
+        )}
+        {this.state.isLoading ? (
+          <Loader />
+        ) : <>
         {this.state.postLists && this.state.postLists.length !== 0 && (
           <Post posts={this.state.postLists} />
         )}
+        </>}
       </ScreenContainer>
     );
   }

@@ -86,7 +86,7 @@ class PostForm extends Component {
           </Button>
           </>
         );
-      } else if(this.state.postid && this.state.status === "SUBMIT_FOR_REVIEW"){
+      } else if(this.state.postid && this.state.status === "OPEN"){
         submitButton = (
           <Button
             type="submit"

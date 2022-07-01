@@ -23,7 +23,7 @@ class ProfileScreen extends React.Component {
       createPostButton = (
         <LinkContainer to={'/profile/createpost/rules'}>
           <Nav.Link className="common_inner_nav_link">
-            <i class="fa-solid fa-plus"></i> Create Post
+            <i className="fa-solid fa-plus"></i> Create Post
           </Nav.Link>
         </LinkContainer>
       );

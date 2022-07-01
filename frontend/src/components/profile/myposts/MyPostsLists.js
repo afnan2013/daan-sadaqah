@@ -3,7 +3,7 @@ import { withRouter } from '../../withRouter';
 import { Table, Row, Button } from 'react-bootstrap';
 import { apiCall } from '../../../utils/apiCall';
 import AuthUtil from '../../../utils/AuthUtil';
-import ScreenContainer from '../../ScreenContainer';
+import { Link } from 'react-router-dom';
 
 class MyPostsList extends Component {
   constructor(props) {
@@ -98,7 +98,15 @@ class MyPostsList extends Component {
                   </td>
 
                   <td>
-                    <Button>View</Button>
+                  <Link to={`/profile/myposts/${post.id}`}>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-50 my-3 mx-auto"
+                    >
+                      View
+                    </Button>
+                  </Link>
                   </td>
                 </tr>
               ))}

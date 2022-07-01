@@ -52,8 +52,8 @@ class Header extends React.Component {
       return <Loader />;
     }
 
-    if (AuthUtil.getRolePresence(['admin']) === true) {
-      console.log('Admin Menu Populated');
+    if (AuthUtil.getRolePresence(['user']) === true) {
+      console.log('User Menu Populated');
       const menus = AuthUtil.getMenu();
       let menuDesign = (
         <>
@@ -62,7 +62,31 @@ class Header extends React.Component {
               menu !== undefined &&
               menu.menucode !== undefined &&
               menu.menuposition === 'left' &&(
-              <LinkContainer key={menu.menucode} to="/">
+              <LinkContainer key={menu.menucode} to={menu.menucode}>
+                <Nav.Link className="common_sidenav_items">
+                  <i className={menu.menuicon}></i>
+                  <span>{menu.menuname}</span>
+                </Nav.Link>
+              </LinkContainer>
+              )
+            ))}
+          </Nav>
+        </>
+      );
+      return menuDesign;
+    }
+
+    if (AuthUtil.getRolePresence(['admin']) === true) {
+        console.log('Admin Menu Populated');
+      const menus = AuthUtil.getMenu();
+      let menuDesign = (
+        <>
+          <Nav className="justify-content-end flex-grow-1 pe-3">
+            {menus.map((menu) => (
+              menu !== undefined &&
+              menu.menucode !== undefined &&
+              menu.menuposition === 'left' &&(
+              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
                 <Nav.Link className="common_sidenav_items">
                   <i className={menu.menuicon}></i>
                   <span>{menu.menuname}</span>
@@ -86,7 +110,7 @@ class Header extends React.Component {
               menu !== undefined &&
               menu.menucode !== undefined &&
               menu.menuposition === 'left' &&(
-              <LinkContainer key={menu.menucode} to="/">
+              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
                 <Nav.Link className="common_sidenav_items">
                   <i className={menu.menuicon}></i>
                   <span>{menu.menuname}</span>
@@ -180,7 +204,7 @@ class Header extends React.Component {
           this.state.menuList.map(
             (menu) =>
               menu !== undefined &&
-              menu.menucode !== undefined &&
+              menu.menucode !== undefined && menu.open === 1 &&
               menu.menuposition === 'left' && (
                 <LinkContainer key={menu.menucode} to={menu.menucode}>
                   <Nav.Link className="common_sidenav_items">
