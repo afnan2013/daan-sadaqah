@@ -1,21 +1,25 @@
 import React from 'react';
-import { Card, Row, Col, Image, Button } from 'react-bootstrap';
+import { Card, Row, Col, Image, Button, Form, FormControl } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReadMore from '../components/post/ReadMore';
 import {withRouter} from '../components/withRouter'
 import AuthUtil from '../utils/AuthUtil';
 import {apiCall} from '../utils/apiCall';
+import ScreenContainer from '../components/ScreenContainer';
 
-class Post extends React.Component {
+class ShortlistedPosts extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       sympathyIcon: '',
       isChecked: false,
-      shortListedPosts: []
+      shortListedPosts: [],
+      selectedAmount: 0,
+      donationAmount: undefined
     };
 
+    this.selectedPosts = [];
     this.unchekedSympqathyIcon = '/images/transparent 1-01 (1).png';
     this.chekedSympqathyIcon = '/images/transparent 2-01-01 (1).png';
   }
@@ -24,6 +28,20 @@ class Post extends React.Component {
     this.setState({
       [property]: val,
     });
+  }
+
+
+  editSelectedItems = async (id, amount)=> {
+    let previousSelectedAmount = this.state.selectedAmount;
+    if(this.selectedPosts.includes(id)){
+        this.selectedPosts = this.selectedPosts.filter(x=> x !== id );
+        previousSelectedAmount = previousSelectedAmount - amount; 
+    }else{
+        this.selectedPosts.push(id);
+        previousSelectedAmount = previousSelectedAmount + amount;
+    }
+    this.setInputValue("selectedAmount", previousSelectedAmount);
+    console.log(this.selectedPosts);
   }
 
   getShortlistedPosts = async ()=> {
@@ -39,7 +57,6 @@ class Post extends React.Component {
         if(data.returnTables[0]){
           this.setInputValue("shortListedPosts", data.returnTables[0])
         }
-        
       } catch (error) {
         
       }
@@ -85,6 +102,35 @@ class Post extends React.Component {
     }
   }
 
+  onDonateHandler = async (e)=> {
+    e.preventDefault();
+
+    try {
+        let postIDs = '';
+        for (let i=0; i< this.selectedPosts.length; i++){
+            postIDs += this.selectedPosts[i];
+            postIDs+= ','
+        }
+        postIDs = postIDs.substring(0, postIDs.length - 1)
+        console.log(postIDs)
+        const { data } = await apiCall({
+            method: 'post',
+            URL: 'http://www.daansadaqah.com:8443/donatemultiple',
+            payload: {
+              p_userid: AuthUtil.getPhone(),
+              p_amount: this.state.donationAmount,
+              p_postids: postIDs
+            }
+          });
+          if(data){
+            console.log(data);
+          }
+        
+    } catch (error) {
+        
+    }
+  }
+
   componentDidMount (){
     this.getShortlistedPosts();
   }
@@ -94,12 +140,37 @@ class Post extends React.Component {
     const posts = this.state.shortListedPosts;
     
     return (
+    <ScreenContainer>
+
+        <Form onSubmit={this.onDonateHandler} className="d-flex common_search_form">
+
+            <FormControl
+                type="text"
+                placeholder="Selected Sum Amount"
+                value={this.state.selectedAmount}
+                onChange={(e) => this.setInputValue('selectedAmount', e.target.value)}
+                required
+            />
+            <FormControl
+                type="text"
+                placeholder="Please enter your donation"
+                value={this.state.donationAmount}
+                onChange={(e) => this.setInputValue('donationAmount', e.target.value)}
+                required
+            />
+
+            <Button type="submit" variant="outline-success">
+                Donate
+            </Button>
+        </Form>
       <Row className="account_container">
         {posts &&
           posts.length !== 0 &&
           posts.map((post) => (
             <Card key={post.id} className="post_card">
+                
               <Row>
+                
                 <Col md={2}>
                   <div className="d-flex py-2">
                     <Image
@@ -179,12 +250,15 @@ class Post extends React.Component {
                         this.toggleShortList(post.id, post.shortlisted);
                       }}>Shortlist</Button>
                 </Col>
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={()=> this.editSelectedItems(post.id, post.fundamount)}/>
               </Row>
             </Card>
           ))}
+          
       </Row>
+      </ScreenContainer>
     );
   }
 }
 
-export default withRouter(Post);
+export default withRouter(ShortlistedPosts);

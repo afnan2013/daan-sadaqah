@@ -280,6 +280,10 @@ a{
   z-index: 10;
 }
 
+.form-check-input{
+  background-color: #FF0000;
+}
+
 .notification_panel.active {
   top: 12%;
   right: 1%;
