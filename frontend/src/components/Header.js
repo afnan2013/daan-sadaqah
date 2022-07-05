@@ -67,6 +67,33 @@ class Header extends React.Component {
     });
   };
 
+  getMenuTemplate = (menus) => {
+    const template = (
+      <Nav className="justify-content-end flex-grow-1 pe-3">
+        {menus.map(
+          (menu) =>
+            menu !== undefined &&
+            menu.menucode !== undefined &&
+            menu.menuposition === 'left' && (
+              <LinkContainer key={menu.menucode} to={menu.menucode}>
+                <Nav.Link className="common_sidenav_items">
+                  <Row>
+                    <Col md={3} className="text-center">
+                      <i className={menu.menuicon}></i>
+                    </Col>
+                    <Col md={9}>
+                      <span>{menu.menuname}</span>
+                    </Col>
+                  </Row>
+                </Nav.Link>
+              </LinkContainer>
+            )
+        )}
+      </Nav>
+    );
+    return template;
+  };
+
   getMenuDesign = () => {
     if (this.state.isLoading) {
       return <Loader />;
@@ -75,180 +102,60 @@ class Header extends React.Component {
     if (AuthUtil.getRolePresence(['user']) === true) {
       console.log('User Menu Populated');
       const menus = AuthUtil.getMenu();
-      let menuDesign = (
-        <>
-          <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map(
-              (menu) =>
-                menu !== undefined &&
-                menu.menucode !== undefined &&
-                menu.menuposition === 'left' && (
-                  <LinkContainer key={menu.menucode} to={menu.menucode}>
-                    <Nav.Link className="common_sidenav_items">
-                      <i className={menu.menuicon}></i>
-                      <span>{menu.menuname}</span>
-                    </Nav.Link>
-                  </LinkContainer>
-                )
-            )}
-          </Nav>
-        </>
-      );
+      let menuDesign = this.getMenuTemplate(menus);
       return menuDesign;
     }
 
     if (AuthUtil.getRolePresence(['admin']) === true) {
       console.log('Admin Menu Populated');
       const menus = AuthUtil.getMenu();
-      let menuDesign = (
-        <>
-          <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map(
-              (menu) =>
-                menu !== undefined &&
-                menu.menucode !== undefined &&
-                menu.menuposition === 'left' && (
-                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                    <Nav.Link className="common_sidenav_items">
-                      <i className={menu.menuicon}></i>
-                      <span>{menu.menuname}</span>
-                    </Nav.Link>
-                  </LinkContainer>
-                )
-            )}
-          </Nav>
-        </>
-      );
+      let menuDesign = this.getMenuTemplate(menus);
       return menuDesign;
     }
 
     if (AuthUtil.getRolePresence(['developer']) === true) {
       console.log('developer Menu Populated');
       const menus = AuthUtil.getMenu();
-      let menuDesign = (
-        <>
-          <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map(
-              (menu) =>
-                menu !== undefined &&
-                menu.menucode !== undefined &&
-                menu.menuposition === 'left' && (
-                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                    <Nav.Link className="common_sidenav_items">
-                      <i className={menu.menuicon}></i>
-                      <span>{menu.menuname}</span>
-                    </Nav.Link>
-                  </LinkContainer>
-                )
-            )}
-          </Nav>
-        </>
-      );
+      let menuDesign = this.getMenuTemplate(menus);
       return menuDesign;
     }
 
     if (AuthUtil.getRolePresence(['reviewer']) === true) {
       console.log('Admin Menu Populated');
       const menus = AuthUtil.getMenu();
-      let menuDesign = (
-        <>
-          <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map(
-              (menu) =>
-                menu !== undefined &&
-                menu.menucode !== undefined &&
-                menu.menuposition === 'left' && (
-                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                    <Nav.Link className="common_sidenav_items">
-                      <i className={menu.menuicon}></i>
-                      <span>{menu.menuname}</span>
-                    </Nav.Link>
-                  </LinkContainer>
-                )
-            )}
-          </Nav>
-        </>
-      );
+      let menuDesign = this.getMenuTemplate(menus);
       return menuDesign;
     }
 
     if (AuthUtil.getRolePresence(['approver']) === true) {
       console.log('Approver Menu Populated');
       const menus = AuthUtil.getMenu();
-      let menuDesign = (
-        <>
-          <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map(
-              (menu) =>
-                menu !== undefined &&
-                menu.menucode !== undefined &&
-                menu.menuposition === 'left' && (
-                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                    <Nav.Link className="common_sidenav_items">
-                      <i className={menu.menuicon}></i>
-                      <span>{menu.menuname}</span>
-                    </Nav.Link>
-                  </LinkContainer>
-                )
-            )}
-          </Nav>
-        </>
-      );
+      let menuDesign = this.getMenuTemplate(menus);
       return menuDesign;
     }
 
     if (AuthUtil.getRolePresence(['disburser']) === true) {
       console.log('Admin Menu Populated');
       const menus = AuthUtil.getMenu();
-      let menuDesign = (
-        <>
-          <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map(
-              (menu) =>
-                menu !== undefined &&
-                menu.menucode !== undefined &&
-                menu.menuposition === 'left' && (
-                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                    <Nav.Link className="common_sidenav_items">
-                      <i className={menu.menuicon}></i>
-                      <span>{menu.menuname}</span>
-                    </Nav.Link>
-                  </LinkContainer>
-                )
-            )}
-          </Nav>
-        </>
-      );
+      let menuDesign = this.getMenuTemplate(menus);
       return menuDesign;
     }
 
     console.log('Default Menu Populated - ');
     console.log(this.state.menuList);
-    return (
-      <Nav className="justify-content-end flex-grow-1 pe-3">
-        {this.state.menuList &&
-          this.state.menuList.map(
-            (menu) =>
-              menu !== undefined &&
-              menu.menucode !== undefined &&
-              menu.open === 1 &&
-              menu.menuposition === 'left' && (
-                <LinkContainer key={menu.menucode} to={menu.menucode}>
-                  <Nav.Link className="common_sidenav_items">
-                    <i className={menu.menuicon}></i>
-                    <span>{menu.menuname}</span>
-                  </Nav.Link>
-                </LinkContainer>
-              )
-          )}
-      </Nav>
-    );
+    return this.getMenuTemplate(this.state.menuList);
   };
 
   componentDidMount() {
     this.getMenu();
     this.getNotifications();
   }
+
+  onBlurNotification = (e) => {
+    this.setState({
+      showNotification: !this.state.showNotification,
+    });
+  };
 
   render() {
     const expand = false;
@@ -268,6 +175,7 @@ class Header extends React.Component {
                   id={`offcanvasNavbar-expand-${expand}`}
                   aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
                   placement="start"
+                  // onBlur={(e) => this.onBlurOffCanvas(e)}
                 >
                   <Offcanvas.Header closeButton>
                     <Offcanvas.Title
@@ -315,7 +223,7 @@ class Header extends React.Component {
                   style={{ flexDirection: 'row-reverse' }}
                 >
                   {AuthUtil.getToken() ? (
-                    <LinkContainer to="/profile">
+                    <LinkContainer to="/profile/myaccount/identity">
                       <Nav.Link className="common_nav_items">
                         <i className="fa-solid fa-user"></i>
                         <br />
@@ -340,6 +248,7 @@ class Header extends React.Component {
                           showNotification: !this.state.showNotification,
                         });
                       }}
+                      onBlur={(e) => this.onBlurNotification(e)}
                     >
                       <i
                         className="fa-solid fa-bell"

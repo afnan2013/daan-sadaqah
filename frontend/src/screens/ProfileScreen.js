@@ -9,8 +9,16 @@ import AuthUtil from '../utils/AuthUtil';
 class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
-    
+    this.state = {
+      selectedMenu: undefined,
+    };
   }
+
+  setInputValue = (property, val) => {
+    this.setState({
+      [property]: val,
+    });
+  };
 
   checkLoggedInUser = () => {
     if (!AuthUtil.getToken()) {
@@ -32,28 +40,69 @@ class ProfileScreen extends React.Component {
     }
   };
 
+  onChangeProfileMenu = (profileMenu) => {
+    this.setInputValue('selectedMenu', profileMenu);
+  };
+
   getProfileNavBarDesign = () => {
     let navbarDesign = (
       <>
-        <Nav className="ms-auto">
-          <LinkContainer to={'/profile/myaccount'}>
-            <Nav.Link className="common_inner_nav_link">My Account</Nav.Link>
-          </LinkContainer>
-
-          <LinkContainer to={'/profile/myposts/lists'}>
-            <Nav.Link className="common_inner_nav_link">
-              My Posts History
-            </Nav.Link>
-          </LinkContainer>
-
-          <LinkContainer to={'/profile/feesanddues'}>
-            <Nav.Link className="common_inner_nav_link">Fees and Dues</Nav.Link>
-          </LinkContainer>
+        <Nav className="ms-auto" style={{ display: 'block' }}>
+          <Row className="profile_menu text-center">
+            <Col md={3}>
+              <LinkContainer to={'/profile/myaccount/identity'}>
+                <Nav.Link
+                  className={
+                    this.state.selectedMenu === 'myaccount'
+                      ? 'common_inner_nav_link active'
+                      : 'common_inner_nav_link'
+                  }
+                  onClick={() => this.onChangeProfileMenu('myaccount')}
+                >
+                  My Account
+                </Nav.Link>
+              </LinkContainer>
+            </Col>
+            <Col md={3}>
+              <LinkContainer to={'/profile/myposts/lists'}>
+                <Nav.Link
+                  className={
+                    this.state.selectedMenu === 'myposts'
+                      ? 'common_inner_nav_link active'
+                      : 'common_inner_nav_link'
+                  }
+                  onClick={() => this.onChangeProfileMenu('myposts')}
+                >
+                  My Posts History
+                </Nav.Link>
+              </LinkContainer>
+            </Col>
+            <Col md={3}>
+              <LinkContainer to={'/profile/feesanddues'}>
+                <Nav.Link
+                  className={
+                    this.state.selectedMenu === 'feesanddues'
+                      ? 'common_inner_nav_link active'
+                      : 'common_inner_nav_link'
+                  }
+                  onClick={() => this.onChangeProfileMenu('feesanddues')}
+                >
+                  Fees and Dues
+                </Nav.Link>
+              </LinkContainer>
+            </Col>
+          </Row>
         </Nav>
       </>
     );
     return navbarDesign;
   };
+
+  componentDidMount() {
+    const currentPathName = this.props.location.pathname;
+    const menu = currentPathName.split('/')[2];
+    this.setInputValue('selectedMenu', menu);
+  }
 
   logout = () => {
     AuthUtil.resetTokenDetail();

@@ -19,26 +19,35 @@ class MyAccount extends Component {
   getProfileSubNavBarDesign = () => {
     let subNavbarDesign = (
       <>
-        <Nav className="ms-auto">
-          <LinkContainer to={'/profile/myaccount/identity'}>
-            <Nav.Link className="common_inner_nav_link">Identity</Nav.Link>
-          </LinkContainer>
+        <Nav className="ms-auto" style={{ display: 'block' }}>
+          <Row className="profile_menu text-center">
+            <Col>
+              <LinkContainer to={'/profile/myaccount/identity'}>
+                <Nav.Link className="common_inner_nav_link">Identity</Nav.Link>
+              </LinkContainer>
+            </Col>
 
-          <LinkContainer to={'/profile/myaccount/nameandaddress'}>
-            <Nav.Link className="common_inner_nav_link">
-              Name and Address
-            </Nav.Link>
-          </LinkContainer>
+            <Col>
+              <LinkContainer to={'/profile/myaccount/nameandaddress'}>
+                <Nav.Link className="common_inner_nav_link">
+                  Name and Address
+                </Nav.Link>
+              </LinkContainer>
+            </Col>
+            <Col>
+              <LinkContainer to={'/profile/myaccount/paymentmethod'}>
+                <Nav.Link className="common_inner_nav_link">
+                  Payment Method
+                </Nav.Link>
+              </LinkContainer>
+            </Col>
 
-          <LinkContainer to={'/profile/myaccount/paymentmethod'}>
-            <Nav.Link className="common_inner_nav_link">
-              Payment Method
-            </Nav.Link>
-          </LinkContainer>
-
-          <LinkContainer to={'/profile/myaccount/nominee'}>
-            <Nav.Link className="common_inner_nav_link">Nominee</Nav.Link>
-          </LinkContainer>
+            <Col>
+              <LinkContainer to={'/profile/myaccount/nominee'}>
+                <Nav.Link className="common_inner_nav_link">Nominee</Nav.Link>
+              </LinkContainer>
+            </Col>
+          </Row>
         </Nav>
       </>
     );
