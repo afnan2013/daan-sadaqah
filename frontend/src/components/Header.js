@@ -25,7 +25,7 @@ class Header extends React.Component {
       showNotification: false,
       isLoading: false,
       menuList: [],
-      notifications: []
+      notifications: [],
     };
     this.getMenu = this.getMenu.bind(this);
     this.getMenuDesign = this.getMenuDesign.bind(this);
@@ -40,7 +40,7 @@ class Header extends React.Component {
       method: 'post',
       URL: 'http://www.daansadaqah.com:8443/getNotificationDaan',
       payload: {
-        p_userid: AuthUtil.getPhone()
+        p_userid: AuthUtil.getPhone(),
       },
     });
     console.log(data.returnTables[0]);
@@ -48,7 +48,7 @@ class Header extends React.Component {
       notifications: data.returnTables[0],
       isLoading: false,
     });
-  }
+  };
 
   getMenu = async () => {
     this.setState({
@@ -78,18 +78,19 @@ class Header extends React.Component {
       let menuDesign = (
         <>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map((menu) => (
-              menu !== undefined &&
-              menu.menucode !== undefined &&
-              menu.menuposition === 'left' &&(
-              <LinkContainer key={menu.menucode} to={menu.menucode}>
-                <Nav.Link className="common_sidenav_items">
-                  <i className={menu.menuicon}></i>
-                  <span>{menu.menuname}</span>
-                </Nav.Link>
-              </LinkContainer>
-              )
-            ))}
+            {menus.map(
+              (menu) =>
+                menu !== undefined &&
+                menu.menucode !== undefined &&
+                menu.menuposition === 'left' && (
+                  <LinkContainer key={menu.menucode} to={menu.menucode}>
+                    <Nav.Link className="common_sidenav_items">
+                      <i className={menu.menuicon}></i>
+                      <span>{menu.menuname}</span>
+                    </Nav.Link>
+                  </LinkContainer>
+                )
+            )}
           </Nav>
         </>
       );
@@ -97,23 +98,24 @@ class Header extends React.Component {
     }
 
     if (AuthUtil.getRolePresence(['admin']) === true) {
-        console.log('Admin Menu Populated');
+      console.log('Admin Menu Populated');
       const menus = AuthUtil.getMenu();
       let menuDesign = (
         <>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map((menu) => (
-              menu !== undefined &&
-              menu.menucode !== undefined &&
-              menu.menuposition === 'left' &&(
-              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                <Nav.Link className="common_sidenav_items">
-                  <i className={menu.menuicon}></i>
-                  <span>{menu.menuname}</span>
-                </Nav.Link>
-              </LinkContainer>
-              )
-            ))}
+            {menus.map(
+              (menu) =>
+                menu !== undefined &&
+                menu.menucode !== undefined &&
+                menu.menuposition === 'left' && (
+                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
+                    <Nav.Link className="common_sidenav_items">
+                      <i className={menu.menuicon}></i>
+                      <span>{menu.menuname}</span>
+                    </Nav.Link>
+                  </LinkContainer>
+                )
+            )}
           </Nav>
         </>
       );
@@ -126,18 +128,19 @@ class Header extends React.Component {
       let menuDesign = (
         <>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map((menu) => (
-              menu !== undefined &&
-              menu.menucode !== undefined &&
-              menu.menuposition === 'left' &&(
-              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                <Nav.Link className="common_sidenav_items">
-                  <i className={menu.menuicon}></i>
-                  <span>{menu.menuname}</span>
-                </Nav.Link>
-              </LinkContainer>
-              )
-            ))}
+            {menus.map(
+              (menu) =>
+                menu !== undefined &&
+                menu.menucode !== undefined &&
+                menu.menuposition === 'left' && (
+                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
+                    <Nav.Link className="common_sidenav_items">
+                      <i className={menu.menuicon}></i>
+                      <span>{menu.menuname}</span>
+                    </Nav.Link>
+                  </LinkContainer>
+                )
+            )}
           </Nav>
         </>
       );
@@ -150,18 +153,19 @@ class Header extends React.Component {
       let menuDesign = (
         <>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map((menu) => (
-              menu !== undefined &&
-              menu.menucode !== undefined &&
-              menu.menuposition === 'left' &&(
-              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                <Nav.Link className="common_sidenav_items">
-                  <i className={menu.menuicon}></i>
-                  <span>{menu.menuname}</span>
-                </Nav.Link>
-              </LinkContainer>
-              )
-            ))}
+            {menus.map(
+              (menu) =>
+                menu !== undefined &&
+                menu.menucode !== undefined &&
+                menu.menuposition === 'left' && (
+                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
+                    <Nav.Link className="common_sidenav_items">
+                      <i className={menu.menuicon}></i>
+                      <span>{menu.menuname}</span>
+                    </Nav.Link>
+                  </LinkContainer>
+                )
+            )}
           </Nav>
         </>
       );
@@ -174,18 +178,19 @@ class Header extends React.Component {
       let menuDesign = (
         <>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map((menu) => (
-              menu !== undefined &&
-              menu.menucode !== undefined &&
-              menu.menuposition === 'left' &&(
-              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                <Nav.Link className="common_sidenav_items">
-                  <i className={menu.menuicon}></i>
-                  <span>{menu.menuname}</span>
-                </Nav.Link>
-              </LinkContainer>
-              )
-            ))}
+            {menus.map(
+              (menu) =>
+                menu !== undefined &&
+                menu.menucode !== undefined &&
+                menu.menuposition === 'left' && (
+                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
+                    <Nav.Link className="common_sidenav_items">
+                      <i className={menu.menuicon}></i>
+                      <span>{menu.menuname}</span>
+                    </Nav.Link>
+                  </LinkContainer>
+                )
+            )}
           </Nav>
         </>
       );
@@ -198,18 +203,19 @@ class Header extends React.Component {
       let menuDesign = (
         <>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-            {menus.map((menu) => (
-              menu !== undefined &&
-              menu.menucode !== undefined &&
-              menu.menuposition === 'left' &&(
-              <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
-                <Nav.Link className="common_sidenav_items">
-                  <i className={menu.menuicon}></i>
-                  <span>{menu.menuname}</span>
-                </Nav.Link>
-              </LinkContainer>
-              )
-            ))}
+            {menus.map(
+              (menu) =>
+                menu !== undefined &&
+                menu.menucode !== undefined &&
+                menu.menuposition === 'left' && (
+                  <LinkContainer key={menu.menucode} to={`/${menu.menucode}`}>
+                    <Nav.Link className="common_sidenav_items">
+                      <i className={menu.menuicon}></i>
+                      <span>{menu.menuname}</span>
+                    </Nav.Link>
+                  </LinkContainer>
+                )
+            )}
           </Nav>
         </>
       );
@@ -224,7 +230,8 @@ class Header extends React.Component {
           this.state.menuList.map(
             (menu) =>
               menu !== undefined &&
-              menu.menucode !== undefined && menu.open === 1 &&
+              menu.menucode !== undefined &&
+              menu.open === 1 &&
               menu.menuposition === 'left' && (
                 <LinkContainer key={menu.menucode} to={menu.menucode}>
                   <Nav.Link className="common_sidenav_items">
@@ -269,10 +276,10 @@ class Header extends React.Component {
                       <LinkContainer to="/">
                         <Navbar.Brand className="common_navbar_brand">
                           <Image
-                            src="/images/Daan-Sadaqah-65x80_PNG.png"
+                            src="/images/logo_png_5_test.png"
                             fluid
                           ></Image>
-                          <span>DaanSadaqah</span>
+                          {/* <span>DaanSadaqah</span> */}
                         </Navbar.Brand>
                       </LinkContainer>
                     </Offcanvas.Title>
@@ -284,11 +291,8 @@ class Header extends React.Component {
                 </Navbar.Offcanvas>
                 <LinkContainer to="/">
                   <Navbar.Brand className="common_navbar_brand">
-                    <Image
-                      src="/images/Daan-Sadaqah-65x80_PNG.png"
-                      fluid
-                    ></Image>
-                    <span>DaanSadaqah</span>
+                    <Image src="/images/logo_png_5_test.png" fluid></Image>
+                    {/* <span>DaanSadaqah</span> */}
                   </Navbar.Brand>
                 </LinkContainer>
               </Col>
@@ -358,7 +362,10 @@ class Header extends React.Component {
           </Container>
         </Navbar>
         <div className="d-none d-lg-block">
-          <NotificationPanel show={this.state.showNotification} notifications={this.state.notifications}/>
+          <NotificationPanel
+            show={this.state.showNotification}
+            notifications={this.state.notifications}
+          />
         </div>
       </header>
     );

@@ -57,7 +57,7 @@ class Footer extends React.Component {
         <Row className="align-items-center">
           <Col sm={3} className="text-center ">
             <Image
-              src="/images/Daan-Sadaqah-65x80_PNG.png"
+              src="/images/logo_only.png"
               className="footer_logo"
               fluid
             ></Image>{' '}
@@ -136,13 +136,16 @@ class Footer extends React.Component {
           </Col>
         </Row>
         <Row>
-          <h1>DaanSadaqah</h1>
+          <Image
+            className="footer_logo_brand"
+            src="/images/logo_text_only_white.png"
+            fluid
+          ></Image>
         </Row>
         <hr />
         <Row>
           <Col className="commom_footer_styles py-3">
-            Copyright &copy; 2022 DaanSadaqah | Part of LynOrg
-            Inc.
+            Copyright &copy; 2022 DaanSadaqah | Part of LynOrg Inc.
           </Col>
           <Col className="commom_footer_styles footer_right_panel py-3">
             <Link to={``} className="px-5">

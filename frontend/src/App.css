@@ -201,6 +201,11 @@ a{
   margin: 35px 0px;
 }
 
+.footer_logo_brand {
+  width: 40vw;
+  height: auto;
+  margin: 15px 5px;
+}
 
 .footer_right_panel{
   display: flex;
@@ -382,7 +387,7 @@ a{
   /* HEADER PAGE */
   #common_hamBurger_Icon{
     margin: 15px;
-  font-size: 20px;
+    font-size: 20px;
   }
 
   .common_navbar_brand img {
@@ -451,6 +456,11 @@ a{
 /********** Medium devices only **********/
 @media (min-width: 768px) and (max-width: 991px) {
   
+  #common_hamBurger_Icon{
+    margin: 15px 5px;
+    font-size: 15px;
+  }
+
   .carousel {
     height: 530px;
   }
@@ -469,7 +479,11 @@ a{
 
 /********** Small devices only **********/
 @media (min-width: 576px) and (max-width: 767.98px) {
-      
+  #common_hamBurger_Icon{
+    margin: 15px 5px;
+    font-size: 15px;
+  }
+  
   .carousel {
     height: 430px;
   }
@@ -483,6 +497,15 @@ a{
 
 /************ Extra small devices (portrait phones, less than 576px) **********/
 @media (max-width: 575.98px) {
+
+  #common_hamBurger_Icon{
+    margin: 15px 10px;
+    font-size: 15px;
+  }
+
+  .common_navbar_brand img {
+    max-height: 65px;
+  }
   .carousel {
     height: 200px;
   }
