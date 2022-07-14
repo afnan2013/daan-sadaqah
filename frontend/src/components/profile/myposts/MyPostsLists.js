@@ -102,7 +102,7 @@ class MyPostsList extends Component {
                     <Button
                       type="submit"
                       variant="primary"
-                      className="w-50 my-3 mx-auto"
+                      className="mx-auto"
                     >
                       View
                     </Button>

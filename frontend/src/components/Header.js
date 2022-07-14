@@ -31,10 +31,24 @@ class Header extends React.Component {
     this.getMenuDesign = this.getMenuDesign.bind(this);
   }
 
-  getNotifications = async () => {
+  setInputValue = (property, val) => {
     this.setState({
-      isLoading: true,
+      [property]: val,
     });
+  };
+
+  checkLoggedInUser = () => {
+    if (!AuthUtil.getToken()) {
+      this.props.navigate('/login');
+    }
+  };
+
+  logout = ()=> {
+    AuthUtil.resetTokenDetail();
+  }
+
+  getNotifications = async () => {
+    this.setInputValue("isLoading", true);
 
     const { data } = await apiCall({
       method: 'post',
@@ -44,10 +58,10 @@ class Header extends React.Component {
       },
     });
     console.log(data.returnTables[0]);
-    this.setState({
-      notifications: data.returnTables[0],
-      isLoading: false,
-    });
+    if(data.returnTables[0]){
+      this.setInputValue("isLoading", false);
+      this.setInputValue("notifications", data.returnTables[0]);
+    }
   };
 
   getMenu = async () => {
@@ -75,6 +89,7 @@ class Header extends React.Component {
             menu !== undefined &&
             menu.menucode !== undefined &&
             menu.menuposition === 'left' && (
+              menu.menucode !== 'logout' ?
               <LinkContainer key={menu.menucode} to={menu.menucode}>
                 <Nav.Link className="common_sidenav_items">
                   <Row>
@@ -87,7 +102,18 @@ class Header extends React.Component {
                   </Row>
                 </Nav.Link>
               </LinkContainer>
-            )
+          : <LinkContainer key={menu.menucode} to={'login'}>
+            <Nav.Link className="common_sidenav_items" onClick={()=> this.logout()}>
+              <Row>
+                <Col md={3} className="text-center">
+                  <i className={menu.menuicon}></i>
+                </Col>
+                <Col md={9}>
+                  <span>{menu.menuname}</span>
+                </Col>
+              </Row>
+            </Nav.Link>
+          </LinkContainer>)
         )}
       </Nav>
     );
@@ -143,7 +169,28 @@ class Header extends React.Component {
 
     console.log('Default Menu Populated - ');
     console.log(this.state.menuList);
-    return this.getMenuTemplate(this.state.menuList);
+    return (<Nav className="justify-content-end flex-grow-1 pe-3">
+        {this.state.menuList.map(
+          (menu) =>
+            menu !== undefined &&
+            menu.menucode !== undefined &&
+            menu.menuposition === 'left' &&
+            menu.open ===1  && (
+              <LinkContainer key={menu.menucode} to={menu.menucode}>
+                <Nav.Link className="common_sidenav_items">
+                  <Row>
+                    <Col xs={3} className="text-center">
+                      <i className={menu.menuicon}></i>
+                    </Col>
+                    <Col xs={9}>
+                      <span>{menu.menuname}</span>
+                    </Col>
+                  </Row>
+                </Nav.Link>
+              </LinkContainer>
+            )
+        )}
+      </Nav>);
   };
 
   componentDidMount() {
@@ -254,12 +301,14 @@ class Header extends React.Component {
                         className="fa-solid fa-bell"
                         style={{ position: 'relative' }}
                       >
+                        {this.state.notifications && this.state.notifications.length !==0 &&
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                          9+
+                          {this.state.notifications.length}
                           <span className="visually-hidden">
                             unread messages
                           </span>
                         </span>
+                      }
                       </i>{' '}
                       <br />
                       <span>Notification</span>

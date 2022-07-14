@@ -91,6 +91,17 @@ class ProfileScreen extends React.Component {
                 </Nav.Link>
               </LinkContainer>
             </Col>
+            <Col md={3}>
+            <LinkContainer to={'/login'}>
+                <Nav.Link
+                  className="common_inner_nav_link btn-primary"
+                  onClick={() => this.logout()}
+                >
+                  Logout
+                </Nav.Link>
+              </LinkContainer>
+              
+            </Col>
           </Row>
         </Nav>
       </>
@@ -127,13 +138,6 @@ class ProfileScreen extends React.Component {
           </Col>
           <Col md={2}>
             {createPostButton}
-            <Button
-              variant="primary"
-              className="my-3 w-100"
-              onClick={() => this.logout()}
-            >
-              Logout
-            </Button>
           </Col>
         </Row>
       </ScreenContainer>

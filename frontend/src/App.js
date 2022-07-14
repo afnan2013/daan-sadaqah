@@ -79,6 +79,7 @@ class App extends React.Component {
           <Route path="/test" element={<TestScreen />} />
 
           {/* User Routes */}
+          <Route path="/resetpassword" element={<ForgetPassScreen />} />
           <Route path="/forgetpassword" element={<ForgetPassScreen />} />
           <Route path="/profile" element={<ProfileScreen />}>
             <Route path="myaccount" element={<MyAccount />}>
@@ -103,6 +104,7 @@ class App extends React.Component {
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/login" element={<LoginScreen />} />
 
+          <Route path="/home" element={<HomeScreen />} />
           <Route path="/" element={<HomeScreen />} />
         </Routes>
         <Footer />

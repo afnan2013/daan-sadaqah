@@ -29,6 +29,37 @@ class Nominee extends Component {
       OTPId: '',
       showValidateOTPForm: false,
     };
+
+    this.relationships = [
+      {
+        "name": "Wife",
+        "code": "wife"
+      },
+      {
+        "name": "Husband",
+        "code": "husband"
+      },
+      {
+        "name": "Son",
+        "code": "son"
+      },
+      {
+        "name": "Daughter",
+        "code": "daughter"
+      },
+      {
+        "name": "Mother",
+        "code": "mother"
+      },
+      {
+        "name": "Father",
+        "code": "father"
+      },
+      {
+        "name": "Brother",
+        "code": "brother"
+      },
+    ]
   }
 
   setInputValue = (property, val) => {
@@ -194,7 +225,7 @@ class Nominee extends Component {
                 <Col md={6}>
                   <Form.Control
                     type="text"
-                    placeholder="Full name as per NID"
+                    placeholder="Full name"
                     className="form_field"
                     value={this.state.name}
                     onChange={(e) => this.setInputValue('name', e.target.value)}
@@ -205,26 +236,31 @@ class Nominee extends Component {
               </Row>
             </Form.Group>
 
-            <Form.Group controlId="relationship">
+            <Form.Group controlId="type">
               <Row className="my-2 form_row">
                 <Col md={3}>
                   <p>Relationship</p>
                 </Col>
                 <Col md={6}>
-                  <Form.Control
-                    type="text"
-                    placeholder=""
+                  <Form.Select
                     className="form_field"
                     value={this.state.relationship}
-                    onChange={(e) =>
-                      this.setInputValue('relationship', e.target.value)
-                    }
+                    onChange={(e) => this.setInputValue('relationship', e.target.value)}
                     required
-                  ></Form.Control>
+                  >
+                    <option defaultValue>Select Relationship Type</option>
+                    {this.relationships.length !== 0 &&
+                      this.relationships.map((rel, index) => (
+                        <option key={index} value={rel.code}>
+                          {rel.name}
+                        </option>
+                      ))}
+                  </Form.Select>
                 </Col>
                 <Col md={3}></Col>
               </Row>
             </Form.Group>
+          
 
             <Form.Group controlId="address1">
               <Row className="my-2 form_row">

@@ -15,7 +15,7 @@ class Identity extends Component {
       success: undefined,
       isLoading: false,
       profile_pic: '',
-      nid_profile_pic: '',
+      nid_profile_pic: '/images/nid_pic.jpg',
       phone: '',
       nid: '',
       nid_front_page: '',
@@ -70,11 +70,11 @@ class Identity extends Component {
             'profile_pic',
             String.fromCharCode(...identity.profile_pic.data)
           );
-        if (identity.nid_profile_pic)
-          this.setInputValue(
-            'nid_profile_pic',
-            String.fromCharCode(...identity.nid_profile_pic.data)
-          );
+        // if (identity.nid_profile_pic)
+        //   this.setInputValue(
+        //     'nid_profile_pic',
+        //     String.fromCharCode(...identity.nid_profile_pic.data)
+        //   );
         if (identity.nid_front_page)
           this.setInputValue(
             'nid_front_page',
@@ -243,25 +243,18 @@ class Identity extends Component {
                 <Col md={3}>
                   <p>Picture per NID (Mandatory for Seeker)**</p>
                 </Col>
-                <Col md={6}>
+                 <Col md={6}>
                   {this.state.nid_profile_pic && (
                     <img
                       src={this.state.nid_profile_pic}
                       className="form_image"
-					  alt="NID profile"
+					            alt="NID profile"
                     />
                   )}
-                  <Form.Control
-                    type="file"
-                    className="form_field"
-                    onChange={(event) =>
-                      this.encodeImageFileURL(event, 'nid_profile_pic')
-                    }
-                  ></Form.Control>
-                </Col>
-                <Col md={3}>
-                  {/* <span><i className="fa-solid fa-circle-check" style={{color: 'green'}}></i>   OTP Verified</span> */}
-                </Col>
+                  </Col>
+                  <Col md={3}>
+                  </Col>
+                  
               </Row>
             </Form.Group>
 

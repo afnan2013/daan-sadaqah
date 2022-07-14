@@ -205,12 +205,9 @@ class NameAndAddresses extends Component {
                 <Col md={6}>
                   <Form.Control
                     type="text"
-                    placeholder="Enter your name as per NID"
                     className="form_field"
                     value={this.state.nid_name}
-                    onChange={(e) =>
-                      this.setInputValue('nid_name', e.target.value)
-                    }
+                    readOnly
                   ></Form.Control>
                 </Col>
                 <Col md={3}></Col>
@@ -226,22 +223,16 @@ class NameAndAddresses extends Component {
                   <Form.Control
                     type="text"
                     className="form_field"
-                    placeholder="Enter Address Line 1 (As per NID)"
                     value={this.state.nid_address1}
-                    onChange={(e) =>
-                      this.setInputValue('nid_address1', e.target.value)
-                    }
+                    readOnly
                   ></Form.Control>
                 </Col>
                 <Col md={3}>
                   <Form.Control
                     type="text"
                     className="form_field"
-                    placeholder="Enter Address Line 2 (As per NID)"
                     value={this.state.nid_address2}
-                    onChange={(e) =>
-                      this.setInputValue('nid_address2', e.target.value)
-                    }
+                    readOnly
                   ></Form.Control>
                 </Col>
               </Row>
@@ -254,22 +245,16 @@ class NameAndAddresses extends Component {
                   <Form.Control
                     type="text"
                     className="form_field"
-                    placeholder="Thana (As per NID)"
                     value={this.state.nid_thana}
-                    onChange={(e) =>
-                      this.setInputValue('nid_thana', e.target.value)
-                    }
+                    readOnly
                   ></Form.Control>
                 </Col>
                 <Col md={3}>
                   <Form.Control
                     type="text"
                     className="form_field"
-                    placeholder="District (As per NID)"
                     value={this.state.nid_district}
-                    onChange={(e) =>
-                      this.setInputValue('nid_district', e.target.value)
-                    }
+                    readOnly
                   ></Form.Control>
                 </Col>
               </Row>
