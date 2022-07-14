@@ -21,6 +21,7 @@ class NameAndAddresses extends Component {
       nid_district: '',
 
       name: '',
+      dob: '',
       status: false,
       address1: '',
       address2: '',
@@ -60,6 +61,7 @@ class NameAndAddresses extends Component {
       if (nameandaddress) {
         // console.log(data);
         this.setInputValue('name', nameandaddress.name);
+        this.setInputValue('dob', nameandaddress.dobYYYYdashMMdashDD);
         this.setInputValue('address1', nameandaddress.address1);
         this.setInputValue('address2', nameandaddress.address2);
         this.setInputValue('email', nameandaddress.email);
@@ -130,6 +132,7 @@ class NameAndAddresses extends Component {
     try {
       const nameandaddress = {
         p_name: this.state.name,
+        p_dob: this.state.dob,
         p_type: 'NID',
         p_status: this.state.status,
         p_address1: this.state.address1,
@@ -182,6 +185,7 @@ class NameAndAddresses extends Component {
     this.getNameAndAddressData();
   }
   render() {
+    console.log(this.state.dob)
     return (
       <Row className="account_container">
         {this.state.error && (
@@ -274,6 +278,25 @@ class NameAndAddresses extends Component {
                     className="form_field"
                     value={this.state.name}
                     onChange={(e) => this.setInputValue('name', e.target.value)}
+                    required
+                  ></Form.Control>
+                </Col>
+                <Col md={3}></Col>
+              </Row>
+            </Form.Group>
+
+            <Form.Group controlId="dob">
+              <Row className="my-2 form_row">
+                <Col md={3}>
+                  <p>Date of Birth</p>
+                </Col>
+                <Col md={6}>
+                  <Form.Control
+                    type="date"
+                    placeholder="Enter your Date of Birth"
+                    className="form_field"
+                    value={this.state.dob}
+                    onChange={(e) => this.setInputValue('dob', e.target.value)}
                     required
                   ></Form.Control>
                 </Col>
