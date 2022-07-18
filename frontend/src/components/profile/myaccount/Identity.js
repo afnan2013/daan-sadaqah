@@ -208,7 +208,7 @@ class Identity extends Component {
           <Message variant={'danger'}>{this.state.error}</Message>
         )}
         {this.state.message && (
-          <Message variant={'danger'}>{this.state.message}</Message>
+          <Message variant={'info'}>{this.state.message}</Message>
         )}
         {this.state.success && (
           <Message variant={'success'}>{this.state.success}</Message>

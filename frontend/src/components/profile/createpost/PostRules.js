@@ -80,7 +80,7 @@ class PostRules extends Component {
         <div className="input-group mb-3">
           <div className="input-group-prepend">
             <div className="input-group-text">
-              <input
+              <input className='mx-2'
                 type="checkbox"
                 onChange={() =>
                   this.setInputValue(

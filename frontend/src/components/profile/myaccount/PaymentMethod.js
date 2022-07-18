@@ -89,7 +89,7 @@ class PaymentMethod extends Component {
           'bank_account_number',
           paymentData.bank_account_number
         );
-        this.setInputValue('bank_branch', paymentData.mfs_preferred);
+        this.setInputValue('bank_branch', paymentData.bank_branch);
         this.setInputValue('bank_name', paymentData.bank_name);
         this.setInputValue(
           'bank_routing_number',
@@ -101,28 +101,28 @@ class PaymentMethod extends Component {
         );
         this.setInputValue(
           'isValidated_bkash',
-          String.fromCharCode(paymentData.isValidated_bkash)
+          paymentData.isValidated_bkash
         );
         this.setInputValue(
           'isValidated_mycash',
-          String.fromCharCode(paymentData.isValidated_mycash)
+          paymentData.isValidated_mycash
         );
         this.setInputValue(
           'isValidated_nagad',
-          String.fromCharCode(paymentData.isValidated_nagad)
+          paymentData.isValidated_nagad
         );
         this.setInputValue(
           'isValidated_okwallet',
-          String.fromCharCode(paymentData.isValidated_okwallet)
+          paymentData.isValidated_okwallet
         );
         this.setInputValue(
           'isValidated_rocket',
-          String.fromCharCode(paymentData.isValidated_rocket)
+         paymentData.isValidated_rocket
         );
 
         this.setInputValue('isLoading', false);
       } else {
-        this.setInputValue('error', 'Invalid Credentials');
+        // this.setInputValue('error', 'Invalid Credentials');
         this.setInputValue('isLoading', false);
       }
     } catch (error) {
@@ -222,7 +222,9 @@ class PaymentMethod extends Component {
         console.log(data);
         this.setState({
           enable: '',
-          loading: false,
+          success: 'Information Updated Successful!',
+          isLoading: false,
+          showValidateOTPForm: false,
         });
       } else {
         this.setInputValue('error', 'Update Failed');
@@ -265,7 +267,7 @@ class PaymentMethod extends Component {
           <Loader />
         ) : (
           <>
-            <Row className="my-2 form_row">
+            <Row className="my-2">
               <Col md={3}>
                 <div className="payment_label">
                   <span>MFS Account</span>
@@ -275,9 +277,9 @@ class PaymentMethod extends Component {
                 </div>
               </Col>
               <Col md={9}>
-                <Table striped bordered hover>
+                <Table striped fixed bordered hover className='text-center same-col-widths'>
                   <thead>
-                    <tr>
+                    <tr className='same-col-widths'>
                       <th>
                         <Link to={this.state.mfs_link_bkash}>
                           <span className="common_link_hover">
@@ -292,7 +294,6 @@ class PaymentMethod extends Component {
                           </span>
                         </Link>
                       </th>
-
                       <th>
                         <Link to={this.state.mfs_link_rocket}>
                           <span className="common_link_hover">
@@ -300,7 +301,6 @@ class PaymentMethod extends Component {
                           </span>
                         </Link>
                       </th>
-
                       <th>
                         <Link to={this.state.mfs_link_mycash}>
                           <span className="common_link_hover">
@@ -353,6 +353,7 @@ class PaymentMethod extends Component {
                           name="mfs"
                           onChange={this.onClickRadioHandler}
                           value={this.state.mfs_name_rocket}
+                          checked={this.state.mfs_preferred === 'Rocket'}
                         />
                       </td>
                       <td>
@@ -362,6 +363,7 @@ class PaymentMethod extends Component {
                           name="mfs"
                           onChange={this.onClickRadioHandler}
                           value={this.state.mfs_name_mycash}
+                          checked={this.state.mfs_preferred === 'MyCash'}
                         />
                       </td>
                       <td>
@@ -371,6 +373,7 @@ class PaymentMethod extends Component {
                           name="mfs"
                           onChange={this.onClickRadioHandler}
                           value={this.state.mfs_name_tap}
+                          checked={this.state.mfs_preferred === 'Tap'}
                         />
                       </td>
                       <td>
@@ -380,6 +383,7 @@ class PaymentMethod extends Component {
                           name="mfs"
                           onChange={this.onClickRadioHandler}
                           value={this.state.mfs_name_okwallet}
+                          checked={this.state.mfs_preferred === 'OkWallet'}
                         />
                       </td>
                     </tr>

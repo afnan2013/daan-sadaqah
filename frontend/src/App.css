@@ -382,6 +382,11 @@ a{
   padding: 0px;
 }
 
+/* all columns set to 9% total width */
+tr.same-col-widths th {
+  width: 15%;
+}
+
 /********** Extra Large devices only **********/
 @media (min-width: 1200px) {
   .offcanvas-start{

@@ -136,6 +136,26 @@ class PostForm extends Component {
 
   submitPostHandler = async (e) => {
     e.preventDefault();
+    this.setInputValue('message', undefined);
+    this.setInputValue('error', undefined);
+    this.setInputValue('success', undefined);
+    
+    if(this.state.type == ''){
+      this.setInputValue('message', "Select a valid type");
+      return;
+    }
+    if(this.state.shortTitle == ''){
+      this.setInputValue('message', "Please fill up Short title");
+      return;
+    }
+    if(this.state.fundAmount == ''){
+      this.setInputValue('message', "Please enter a Fund Amount");
+      return;
+    }
+    if(this.state.storyLine == ''){
+      this.setInputValue('message', "Please enter Details");
+      return;
+    }
 
     if (AuthUtil.getPhone()) {
       try {
@@ -149,7 +169,7 @@ class PostForm extends Component {
           p_postStatus: this.state.status,
           p_userid: AuthUtil.getPhone(),
         };
-
+        // console.log(post)
         // If user reviews post
         if (this.state.postid) {
           post.p_id = this.state.postid;
@@ -162,12 +182,17 @@ class PostForm extends Component {
         });
 
         const savedPost = data.returnTables[0][0];
-        console.log(savedPost.post_id);
+        console.log(savedPost);
         if (savedPost.post_id !== -1) {
           this.setInputValue('postid', savedPost.post_id);
           this.setInputValue('status', savedPost.postStatus)
+          if (savedPost.status === "updated non-closed"){
+            this.setInputValue('success', "Post Saved Successfully");
+          } else if(savedPost.status === "updated non-closed"){
+
+          }
         } else {
-          this.setInputValue('message', data.message);
+          this.setInputValue('error', savedPost.status);
         }
       } catch (err) {
         console.log(err);
@@ -249,7 +274,7 @@ class PostForm extends Component {
           <Message variant={'danger'}>{this.state.error}</Message>
         )}
         {this.state.message && (
-          <Message variant={'danger'}>{this.state.message}</Message>
+          <Message variant={'info'}>{this.state.message}</Message>
         )}
         {this.state.success && (
           <Message variant={'success'}>{this.state.success}</Message>
@@ -334,8 +359,10 @@ class PostForm extends Component {
                     type="text"
                     placeholder="Enter Fund Amount"
                     value={this.state.fundAmount}
-                    onChange={(e) =>
-                      this.setInputValue('fundAmount', e.target.value)
+                    onChange={(e) => {
+                      let amount = parseInt(e.target.value);
+                      this.setInputValue('fundAmount', amount.toLocaleString("en-US"))
+                    }
                     }
                     required
                   ></Form.Control>
