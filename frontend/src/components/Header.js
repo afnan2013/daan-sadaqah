@@ -26,6 +26,7 @@ class Header extends React.Component {
       isLoading: false,
       menuList: [],
       notifications: [],
+      unreadCount: undefined
     };
     this.getMenu = this.getMenu.bind(this);
     this.getMenuDesign = this.getMenuDesign.bind(this);
@@ -61,6 +62,7 @@ class Header extends React.Component {
     if(data.returnTables[0]){
       this.setInputValue("isLoading", false);
       this.setInputValue("notifications", data.returnTables[0]);
+      this.setInputValue("unreadCount", data.returnTables[1][0].unread)
     }
   };
 
@@ -198,16 +200,18 @@ class Header extends React.Component {
     this.getNotifications();
   }
 
-  onBlurNotification = (e) => {
-    this.setState({
-      showNotification: !this.state.showNotification,
-    });
-  };
+  // onBlurNotification = (e) => {
+  //   this.setState({
+  //     showNotification: !this.state.showNotification,
+  //   });
+  // };
 
   render() {
     const expand = false;
     const menuDesign = this.getMenuDesign();
 
+
+    
     return (
       <header>
         <Navbar bg="dark" variant="dark" expand={expand} className="fixed-top">
@@ -291,24 +295,32 @@ class Header extends React.Component {
                     <Nav.Link
                       className="common_nav_items"
                       onClick={() => {
+                        this.getNotifications()
                         this.setState({
                           showNotification: !this.state.showNotification,
                         });
                       }}
-                      onBlur={(e) => this.onBlurNotification(e)}
+                      // onBlur={(e) => this.onBlurNotification(e)}
                     >
                       <i
                         className="fa-solid fa-bell"
                         style={{ position: 'relative' }}
                       >
-                        {this.state.notifications && this.state.notifications.length !==0 &&
+                        {(this.state.notifications && this.state.notifications.length !==0 ) ?
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                          {this.state.notifications.length}
+                          {this.state.unreadCount > 9 ? "9+": this.state.unreadCount}
                           <span className="visually-hidden">
                             unread messages
                           </span>
                         </span>
-                      }
+                      : AuthUtil.getUnreadNotificationCount()!== '0' &&
+                      (<span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                      {AuthUtil.getUnreadNotificationCount() > 9 ? "9+": AuthUtil.getUnreadNotificationCount() }
+                      <span className="visually-hidden">
+                        unread messages
+                      </span>
+                    </span>)}
+                  
                       </i>{' '}
                       <br />
                       <span>Notification</span>

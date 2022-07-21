@@ -164,6 +164,19 @@ class AuthUtil {
     return true;
   }
 
+  setUnreadNotificationCount(count){
+    localStorage.setItem('notificationCount', count);
+  }
+
+  getUnreadNotificationCount(){
+    try {
+      return localStorage.getItem('notificationCount');
+    } catch (e) {
+      localStorage.setItem('notificationCount', '');
+      return '';
+    }
+  }
+
   resetTokenDetail() {
     localStorage.clear();
   }

@@ -83,7 +83,7 @@ class LoginScreen extends React.Component {
         const roles = data.returnTables[0];
         const menulist = data.returnTables[1];
         const [user] = data.returnTables[2];
-
+        
         const rolelist = roles.map((role) => role.rolecode);
 
         console.log(data);
@@ -96,6 +96,7 @@ class LoginScreen extends React.Component {
           AuthUtil.setPhone(user.userid);
           AuthUtil.setRole(rolelist);
           AuthUtil.setToken(data.token);
+          AuthUtil.setUnreadNotificationCount(10);
           this.props.navigate(this.state.redirect);
         }
       } else {

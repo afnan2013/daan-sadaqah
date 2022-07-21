@@ -257,7 +257,7 @@ class SinglePost extends Component {
         const post = {
           p_categoryCode: this.state.type,
           p_shortTitle: this.state.shortTitle,
-          p_fundAmount: this.state.fundAmount,
+          p_fundAmount: this.state.fundAmount.toString().split(',').join(''),
           p_storyLine: this.state.storyLine,
           p_postImage: this.state.postImage,
           p_postVideo: this.state.postVideo, 
@@ -350,6 +350,15 @@ class SinglePost extends Component {
 
   }
 
+  convertToLocaleString = (string)=> {
+    if (string !== ''){
+      const trimed =  string.split(',').join('');
+      const amount = parseInt(trimed);
+      return amount.toLocaleString('en-US');
+    }
+    return string;
+  }
+
   componentDidMount() {
     this.getCategoryData();
     this.getPostById();
@@ -357,6 +366,7 @@ class SinglePost extends Component {
   render() {
 
     const submitButton = this.getFormSubmitDesign();
+    const fundAmount = this.convertToLocaleString(this.state.fundAmount.toString());
 
     return (
       <Row className="account_container">
@@ -448,7 +458,7 @@ class SinglePost extends Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter Fund Amount"
-                    value={this.state.fundAmount}
+                    value={fundAmount}
                     onChange={(e) =>
                       this.setInputValue('fundAmount', e.target.value)
                     }

@@ -162,7 +162,7 @@ class PostForm extends Component {
         const post = {
           p_categoryCode: this.state.type,
           p_shortTitle: this.state.shortTitle,
-          p_fundAmount: this.state.fundAmount,
+          p_fundAmount: this.state.fundAmount.toString().split(',').join(''),
           p_storyLine: this.state.storyLine,
           p_postImage: this.state.postImage,
           p_postVideo: this.state.postVideo, 
@@ -259,7 +259,15 @@ class PostForm extends Component {
     } catch (err) {
       console.log(err);
     }
+  }
 
+  convertToLocaleString = (string)=> {
+    if (string !== ''){
+      const trimed =  string.split(',').join('');
+      const amount = parseInt(trimed);
+      return amount.toLocaleString('en-US');
+    }
+    return string;
   }
 
   componentDidMount() {
@@ -267,7 +275,10 @@ class PostForm extends Component {
   }
   render() {
     const submitButton = this.getFormSubmitDesign();
-    console.log(this.state.postid);
+    
+    const fundAmount = this.convertToLocaleString(this.state.fundAmount);
+    console.log(fundAmount);
+    
     return (
       <Row className="account_container">
         {this.state.error && (
@@ -358,10 +369,11 @@ class PostForm extends Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter Fund Amount"
-                    value={this.state.fundAmount}
+                    value={fundAmount}
                     onChange={(e) => {
                       let amount = parseInt(e.target.value);
-                      this.setInputValue('fundAmount', amount.toLocaleString("en-US"))
+                      // this.setInputValue('fundAmount', amount.toLocaleString("en-US"))
+                      this.setInputValue('fundAmount', e.target.value)
                     }
                     }
                     required

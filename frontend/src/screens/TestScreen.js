@@ -2,8 +2,29 @@ import React from 'react';
 import ScreenContainer from '../components/ScreenContainer';
 
 class TestScreen extends React.Component {
+
+  convertToLocaleString = (string)=> {
+    const reverse = string.split('').reverse().join('');
+    const arr = [...reverse];
+    console.log("reverse  ", arr.length);
+    let result = '';
+    for(let i=0; i< arr.length; i++){
+      if(i >0 && i%3===0){
+        result += ",";
+      }
+      result += arr[i];
+      // console.log(result)
+    }
+    return result.split('').reverse().join('');
+  }
+
+
   render() {
     const { title } = this.props;
+
+    const fund = this.convertToLocaleString("2221120000");
+    console.log(fund)
+
     return (
       <>
         <br />
@@ -38,6 +59,8 @@ class TestScreen extends React.Component {
         /> */}
           Click here 3
         </div>
+
+
       </>
     );
   }
