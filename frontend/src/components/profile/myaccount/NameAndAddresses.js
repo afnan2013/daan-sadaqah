@@ -411,15 +411,6 @@ class NameAndAddresses extends Component {
                     required
                   ></Form.Control>
                 </Col>
-                <Col md={3}>
-                  <span>
-                    <i
-                      className="fa-solid fa-circle-check"
-                      style={{ color: 'green' }}
-                    ></i>{' '}
-                    OTP Verified
-                  </span>
-                </Col>
               </Row>
             </Form.Group>
             <Row className="text-center">
