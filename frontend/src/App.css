@@ -382,6 +382,12 @@ a{
   padding: 0px;
 }
 
+.account_profile_avatar {
+  vertical-align: middle;
+  height: 60px;
+  border-radius: 15%;
+}
+
 /* all columns set to 9% total width */
 tr.same-col-widths th {
   width: 15%;

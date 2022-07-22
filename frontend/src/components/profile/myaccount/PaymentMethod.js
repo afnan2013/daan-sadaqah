@@ -78,7 +78,7 @@ class PaymentMethod extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getPaymentData',
+        URL: 'https://www.daansadaqah.com:8443/getPaymentData',
         payload: { p_userid: AuthUtil.getPhone() },
       });
       console.log('Payment Data - ', data);
@@ -147,7 +147,7 @@ class PaymentMethod extends Component {
       try {
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/sendOTP',
+          URL: 'https://www.daansadaqah.com:8443/sendOTP',
           payload: { p_userid: AuthUtil.getPhone() },
         });
         console.log(data);
@@ -214,7 +214,7 @@ class PaymentMethod extends Component {
       console.log(paymentData);
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/updatePaymentData',
+        URL: 'https://www.daansadaqah.com:8443/updatePaymentData',
         payload: paymentData,
       });
 

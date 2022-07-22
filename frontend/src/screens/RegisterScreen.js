@@ -58,7 +58,7 @@ class RegisterScreen extends React.Component {
       try {
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/sendRegOTP',
+          URL: 'https://www.daansadaqah.com:8443/sendRegOTP',
           payload: { p_userid: this.state.phone },
         });
         console.log(data);
@@ -85,7 +85,7 @@ class RegisterScreen extends React.Component {
       try {
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/register',
+          URL: 'https://www.daansadaqah.com:8443/register',
           payload: {
             p_userid: this.state.phone,
             p_username: this.state.name,

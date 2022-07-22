@@ -52,7 +52,7 @@ class ForgetPassScreen extends React.Component {
     
     e.preventDefault();
     if(this.state.phone){
-      const { data } = await apiCall({ method: 'post', URL: 'http://www.daansadaqah.com:8443/sendOTP' , payload: {p_userid: this.state.phone}});
+      const { data } = await apiCall({ method: 'post', URL: 'https://www.daansadaqah.com:8443/sendOTP' , payload: {p_userid: this.state.phone}});
       console.log(data);
       
       if(data.status === "sent"){
@@ -75,7 +75,7 @@ class ForgetPassScreen extends React.Component {
       this.setInputValue('message', 'Password do not match');
     } else {
         try{
-            const { data } = await apiCall({ method: 'post', URL: 'http://www.daansadaqah.com:8443/setPassword' , payload: 
+            const { data } = await apiCall({ method: 'post', URL: 'https://www.daansadaqah.com:8443/setPassword' , payload: 
             {
             p_userid : this.state.phone,
             p_password: this.state.password,

@@ -28,7 +28,7 @@ class PostApproveScreen extends Component {
 
       const { data } = await apiCall({
         method: 'get',
-        URL: 'http://www.daansadaqah.com:8443/getInApprovePosts',
+        URL: 'https://www.daansadaqah.com:8443/getInApprovePosts',
       });
       // const categoryData = data.returnTables[0][0];
 

@@ -35,7 +35,7 @@ class PersonalCategoryScreen extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getPersonalCategories',
+        URL: 'https://www.daansadaqah.com:8443/getPersonalCategories',
         payload: {
           p_userid: AuthUtil.getPhone()
         }
@@ -54,7 +54,7 @@ class PersonalCategoryScreen extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/pcTargetGet',
+        URL: 'https://www.daansadaqah.com:8443/pcTargetGet',
         payload: {
           p_userid: AuthUtil.getPhone()
         }
@@ -73,7 +73,7 @@ class PersonalCategoryScreen extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/pcActionGet',
+        URL: 'https://www.daansadaqah.com:8443/pcActionGet',
         payload: {
           p_userid: AuthUtil.getPhone()
         }
@@ -98,7 +98,7 @@ class PersonalCategoryScreen extends Component {
     try {
       const {data} = await apiCall({
         method:'post',
-        URL: 'http://www.daansadaqah.com:8443/savePersonalCategory',
+        URL: 'https://www.daansadaqah.com:8443/savePersonalCategory',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_category: this.state.category
@@ -129,7 +129,7 @@ class PersonalCategoryScreen extends Component {
     try {
       const {data} = await apiCall({
         method:'post',
-        URL: 'http://www.daansadaqah.com:8443/pcTargetSet',
+        URL: 'https://www.daansadaqah.com:8443/pcTargetSet',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_category: this.state.targetCategory,
@@ -161,7 +161,7 @@ class PersonalCategoryScreen extends Component {
     try {
       const {data} = await apiCall({
         method:'post',
-        URL: 'http://www.daansadaqah.com:8443/pcActionGet',
+        URL: 'https://www.daansadaqah.com:8443/pcActionGet',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_category: this.state.targetCategory,

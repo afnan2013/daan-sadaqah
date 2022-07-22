@@ -29,7 +29,67 @@ class PostScreen extends React.Component {
     });
   }
 
-  getAllOpenPosts = async () => {
+  getAllOpenPosts = async (e) => {
+    try {
+
+      const searchParams = {
+        p_userid: AuthUtil.getPhone()
+      };
+
+      //console.log("Catgoery", this.state.filterCategory)
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'https://www.daansadaqah.com:8443/getOpenPosts',
+        payload: searchParams
+      });
+    
+      if(data.returnTables && data.returnTables[0]){
+        this.setInputValue('isLoading', false);
+        this.setInputValue('postLists', data.returnTables[0]);
+
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
+  getPostsCategory = async () => {
+    try {
+      const { data } = await apiCall({
+        method: 'get',
+        URL: 'https://www.daansadaqah.com:8443/getPostCategories',
+      });
+      console.log(data);
+
+      this.setInputValue('postCategoryLists', data.returnTables[0]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  onPostCategoryHandler = async (category)=> {
+    try {
+      this.setInputValue('filterCategory', category);
+
+      const searchParams = {
+        p_userid: AuthUtil.getPhone(),
+        p_category: category
+      };
+      
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'https://www.daansadaqah.com:8443/getOpenPosts',
+        payload: searchParams
+      });
+      // console.log(data);
+      this.setInputValue('postLists', data.returnTables[0]);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  searchPostsByAddress = async (e) => {
+    e.preventDefault();
     try {
 
       const searchParams = {
@@ -47,39 +107,22 @@ class PostScreen extends React.Component {
         searchParams.p_category = this.state.filterCategory;
       }
 
+      // console.log("Catgoery", this.state.filterCategory)
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getOpenPosts',
+        URL: 'https://www.daansadaqah.com:8443/getOpenPosts',
         payload: searchParams
       });
     
       if(data.returnTables && data.returnTables[0]){
         this.setInputValue('isLoading', false);
         this.setInputValue('postLists', data.returnTables[0]);
+
       }
     } catch (err) {
       console.error(err);
     }
   };
-
-  getPostsCategory = async () => {
-    try {
-      const { data } = await apiCall({
-        method: 'get',
-        URL: 'http://www.daansadaqah.com:8443/getPostCategories',
-      });
-      console.log(data);
-
-      this.setInputValue('postCategoryLists', data.returnTables[0]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  onPostCategoryHandler = (category)=> {
-    this.setInputValue('filterCategory', category);
-    this.getAllOpenPosts();
-  }
 
   componentDidMount() {
     this.getPostsCategory();
@@ -107,7 +150,7 @@ class PostScreen extends React.Component {
           </Col>
           <Col md={3}>
             <Form
-              onSubmit={this.getAllOpenPosts}
+              onSubmit={this.searchPostsByAddress}
               className="d-flex common_search_form"
             >
               <FormControl
@@ -147,7 +190,13 @@ class PostScreen extends React.Component {
           <Loader />
         ) : <>
         {this.state.postLists && this.state.postLists.length !== 0 && (
-          <Post posts={this.state.postLists} />
+          <Row className="account_container">
+          {this.state.postLists &&
+            this.state.postLists.length !== 0 &&
+            this.state.postLists.map((post) => (
+              <Post key={post.id} post={post} />
+            ))}
+        </Row>
         )}
         </>}
       </ScreenContainer>

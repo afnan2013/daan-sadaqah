@@ -74,8 +74,8 @@ class AuthUtil {
     localStorage.setItem('role_list', JSON.stringify(roleList));
   }
   setMenu(menu) {
-    console.log("AuthUtil Menu Loaded");
-    console.log(menu);
+    // console.log("AuthUtil Menu Loaded");
+    // console.log(menu);
     localStorage.setItem('menu', JSON.stringify(menu));
   }
 
@@ -113,6 +113,8 @@ class AuthUtil {
           }
         }
       }
+
+      
       // console.log('====getRolePresence(false)====');
       // console.log('false');
       return result;
@@ -173,6 +175,20 @@ class AuthUtil {
       return localStorage.getItem('notificationCount');
     } catch (e) {
       localStorage.setItem('notificationCount', '');
+      return '';
+    }
+  }
+
+  setProfilePic(blob){
+    const profilePic = String.fromCharCode(...blob.data);
+    localStorage.setItem('profilePic', profilePic);
+  }
+
+  getProfilePic(){
+    try {
+      return localStorage.getItem('profilePic');
+    } catch (e) {
+      localStorage.setItem('profilePic', '');
       return '';
     }
   }

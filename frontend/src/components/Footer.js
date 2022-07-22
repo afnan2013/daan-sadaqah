@@ -1,13 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Image } from 'react-bootstrap';
-import {
-  FaFacebook,
-  FaYoutube,
-  FaInstagram,
-  FaTwitter,
-  FaLinkedin,
-} from 'react-icons/fa';
 import Loader from './Loader';
 import { apiCall } from '../utils/apiCall';
 
@@ -19,6 +12,7 @@ class Footer extends React.Component {
       isLoading: false,
       footerLinks: [],
       statistics: {},
+      socialMedia: []
     };
   }
 
@@ -33,7 +27,7 @@ class Footer extends React.Component {
 
     const { data } = await apiCall({
       method: 'post',
-      URL: 'http://www.daansadaqah.com:8443/getFooters',
+      URL: 'https://www.daansadaqah.com:8443/getFooters',
       payload: {},
     });
     // console.log(data.statistics.banner);
@@ -41,6 +35,7 @@ class Footer extends React.Component {
     this.setInputValue('isLoading', false);
     this.setInputValue('footerLinks', data.footerData.footerLinks);
     this.setInputValue('statistics', data.footerData.statistics);
+    this.setInputValue('socialMedia', data.footerData.social);
   };
 
   getFooterDesign = () => {
@@ -51,7 +46,7 @@ class Footer extends React.Component {
     const banner = this.state.statistics.banner;
     const donorCount = this.state.statistics.donorCount;
     const seekerCount = this.state.statistics.seekerCount;
-    console.log(banner);
+    // console.log(banner);
     let footerDesign = (
       <Container fluid>
         <Row className="align-items-center">
@@ -81,22 +76,13 @@ class Footer extends React.Component {
 
         <Row className="align-items-center">
           <Col md={4}>
-            <p>Follow us</p>
-            <Link to={``} className="social_icon_styles px-3">
-              <FaFacebook />
-            </Link>
-            <Link to={``} className="social_icon_styles px-3">
-              <FaYoutube />
-            </Link>
-            <Link to={``} className="social_icon_styles px-3">
-              <FaInstagram />
-            </Link>
-            <Link to={``} className="social_icon_styles px-3">
-              <FaTwitter />
-            </Link>
-            <Link to={``} className="social_icon_styles px-3">
-              <FaLinkedin />
-            </Link>
+            <h5>Follow us</h5>
+            {this.state.socialMedia &&
+                this.state.socialMedia.map((social) => (
+                  <a href={social.url} target="_blank" className="social_icon_styles px-3">
+                    <i className={social.icon}></i>
+                  </a>
+                ))}
           </Col>
           <Col md={8}>
             <Row className="footer_row">

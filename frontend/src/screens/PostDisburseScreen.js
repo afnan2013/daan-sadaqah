@@ -28,7 +28,7 @@ class PostDisburseScreen extends Component {
 
       const { data } = await apiCall({
         method: 'get',
-        URL: 'http://www.daansadaqah.com:8443/',
+        URL: 'https://www.daansadaqah.com:8443/',
         // payload: {
         //   p_userid: AuthUtil.getPhone(),
         // },

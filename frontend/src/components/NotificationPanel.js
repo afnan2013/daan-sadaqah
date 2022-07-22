@@ -1,17 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Row, Col, Image, Button, Card } from 'react-bootstrap';
 import { apiCall } from '../utils/apiCall';
 
-const read = async (id) =>{
+const read = async (id, callback) =>{
   try {
     const { data } = await apiCall({
       method: 'post',
-      URL: 'http://www.daansadaqah.com:8443/readNotification',
+      URL: 'https://www.daansadaqah.com:8443/readNotification',
       payload: {
         p_id: id
       },
     });
+
+    if(data){
+      callback();
+    }
+
+
     
   } catch (error) {
     
@@ -29,7 +34,7 @@ const NotificationPanel = (props) => {
         {(props.notifications && props.notifications.length !== 0) ? props.notifications.map((notif => (
 
        
-        <li>
+        <li key={notif.id}>
             <Card>
             <Row>
               <Col sm={2}>
@@ -42,7 +47,7 @@ const NotificationPanel = (props) => {
               </Col>
               <Col sm={2}>
                 {!notif.datetimeread && 
-                <Button onClick={()=> read(notif.id)}>Read</Button>}
+                <Button onClick={()=> read(notif.id, props.callback)}>Read</Button>}
               </Col>
             </Row>
             </Card>

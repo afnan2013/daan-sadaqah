@@ -31,7 +31,7 @@ class PostRules extends Component {
 
       const { data } = await apiCall({
         method: 'get',
-        URL: 'http://www.daansadaqah.com:8443/postRules',
+        URL: 'https://www.daansadaqah.com:8443/postRules',
         // payload: {
         //   p_userid: AuthUtil.getPhone(),
         // },

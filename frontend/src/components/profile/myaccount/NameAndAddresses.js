@@ -48,7 +48,7 @@ class NameAndAddresses extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getContact',
+        URL: 'https://www.daansadaqah.com:8443/getContact',
         payload: {
           p_userid: AuthUtil.getPhone(),
         },
@@ -96,7 +96,7 @@ class NameAndAddresses extends Component {
       try {
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/sendOTP',
+          URL: 'https://www.daansadaqah.com:8443/sendOTP',
           payload: { p_userid: AuthUtil.getPhone() },
         });
         console.log(data);
@@ -150,7 +150,7 @@ class NameAndAddresses extends Component {
       // console.log(nameandaddress);
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/updateContact',
+        URL: 'https://www.daansadaqah.com:8443/updateContact',
         payload: nameandaddress,
       });
       const result = data.returnTables[0][0];

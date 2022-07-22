@@ -54,7 +54,7 @@ class Identity extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getIdentity',
+        URL: 'https://www.daansadaqah.com:8443/getIdentity',
         payload: {
           p_userid: AuthUtil.getPhone(),
         },
@@ -117,7 +117,7 @@ class Identity extends Component {
       try {
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/sendOTP',
+          URL: 'https://www.daansadaqah.com:8443/sendOTP',
           payload: { p_userid: AuthUtil.getPhone() },
         });
         console.log(data);
@@ -165,7 +165,7 @@ class Identity extends Component {
       // console.log(identity);
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/updateIdentity',
+        URL: 'https://www.daansadaqah.com:8443/updateIdentity',
         payload: identity,
         // publicAccess: false,
         // token: AuthUtil.getToken()

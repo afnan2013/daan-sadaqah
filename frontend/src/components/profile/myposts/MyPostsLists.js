@@ -4,6 +4,7 @@ import { Table, Row, Button } from 'react-bootstrap';
 import { apiCall } from '../../../utils/apiCall';
 import AuthUtil from '../../../utils/AuthUtil';
 import { Link } from 'react-router-dom';
+import Message from '../../Message';
 
 class MyPostsList extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class MyPostsList extends Component {
 
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getMyPosts',
+        URL: 'https://www.daansadaqah.com:8443/getMyPosts',
         payload: {
           p_userid: AuthUtil.getPhone(),
         },
@@ -61,9 +62,12 @@ class MyPostsList extends Component {
   }
 
   render() {
-    console.log(this.state.posts);
     return (
+
       <Row className="account_container">
+        {this.props.location.state && this.props.location.state.message && (
+          <Message variant={'danger'}>{ this.props.location.state.message}</Message>
+        )}
         <Table hover>
           <thead>
             <tr>

@@ -75,7 +75,7 @@ class LoginScreen extends React.Component {
       const password = this.state.password;
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/login',
+        URL: 'https://www.daansadaqah.com:8443/login',
         payload: { p_userid: phone, p_password: password },
       });
       console.log(data.returnTables);
@@ -83,10 +83,10 @@ class LoginScreen extends React.Component {
         const roles = data.returnTables[0];
         const menulist = data.returnTables[1];
         const [user] = data.returnTables[2];
-        
+        const unreadCount = data.returnTables[3][0];
         const rolelist = roles.map((role) => role.rolecode);
 
-        console.log(data);
+        // console.log(data);
         this.setState({
           enable: '',
           loading: false,
@@ -94,9 +94,10 @@ class LoginScreen extends React.Component {
         if (data.token) {
           AuthUtil.setMenu(menulist);
           AuthUtil.setPhone(user.userid);
+          AuthUtil.setProfilePic(user.pic);
           AuthUtil.setRole(rolelist);
           AuthUtil.setToken(data.token);
-          AuthUtil.setUnreadNotificationCount(10);
+          AuthUtil.setUnreadNotificationCount(unreadCount.unread);
           this.props.navigate(this.state.redirect);
         }
       } else {

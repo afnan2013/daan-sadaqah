@@ -31,7 +31,7 @@ class DonateScreen extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getPostById',
+        URL: 'https://www.daansadaqah.com:8443/getPostById',
         payload: {
           p_id: this.props.params.id
         }
@@ -53,7 +53,7 @@ class DonateScreen extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/donate',
+        URL: 'https://www.daansadaqah.com:8443/donate',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_postid: this.state.post.id,

@@ -74,7 +74,7 @@ class Nominee extends Component {
       this.setInputValue('isLoading', true);
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getNominee',
+        URL: 'https://www.daansadaqah.com:8443/getNominee',
         payload: {
           p_userid: AuthUtil.getPhone(),
         },
@@ -116,7 +116,7 @@ class Nominee extends Component {
       try {
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/sendOTP',
+          URL: 'https://www.daansadaqah.com:8443/sendOTP',
           payload: { p_userid: AuthUtil.getPhone() },
         });
         console.log(data);
@@ -166,7 +166,7 @@ class Nominee extends Component {
       console.log(nominee);
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/updateNominee',
+        URL: 'https://www.daansadaqah.com:8443/updateNominee',
         payload: nominee,
       });
       const result = data.returnTables[0][0];

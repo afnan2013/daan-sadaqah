@@ -29,7 +29,7 @@ class HomeScreen extends React.Component {
     this.setInputValue('loading', true);
     const { data } = await apiCall({
       method: 'post',
-      URL: 'http://www.daansadaqah.com:8443/getSliders',
+      URL: 'https://www.daansadaqah.com:8443/getSliders',
       payload: {},
     });
     if (data.sliders) {
@@ -64,7 +64,7 @@ class HomeScreen extends React.Component {
                   Make A Donation
                 </Button>
               </Link>
-              <Link to="/posts">
+              <Link to="/profile/createpost/rules">
                 <Button type="button" variant="dark" className="w-100">
                   Seek A Donation
                 </Button>
@@ -84,7 +84,7 @@ class HomeScreen extends React.Component {
               </Link>
               <br />
               <div>
-                <Link to="/posts">
+                <Link to="/profile/createpost/rules">
                   <Button type="button" variant="dark" className="w-100">
                     Seek A Donation
                     <span>

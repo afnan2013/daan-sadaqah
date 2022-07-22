@@ -48,7 +48,7 @@ class ShortlistedPosts extends React.Component {
     try {
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/getMyShortlist',
+          URL: 'https://www.daansadaqah.com:8443/getMyShortlist',
           payload: {
             p_userid: AuthUtil.getPhone()
           }
@@ -67,7 +67,7 @@ class ShortlistedPosts extends React.Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/sympathize',
+        URL: 'https://www.daansadaqah.com:8443/sympathize',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_postid: postid
@@ -87,7 +87,7 @@ class ShortlistedPosts extends React.Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/shortlist',
+        URL: 'https://www.daansadaqah.com:8443/shortlist',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_postid: postid
@@ -115,7 +115,7 @@ class ShortlistedPosts extends React.Component {
         console.log(postIDs)
         const { data } = await apiCall({
             method: 'post',
-            URL: 'http://www.daansadaqah.com:8443/donatemultiple',
+            URL: 'https://www.daansadaqah.com:8443/donatemultiple',
             payload: {
               p_userid: AuthUtil.getPhone(),
               p_amount: this.state.donationAmount,

@@ -53,7 +53,7 @@ class SinglePost extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/getPostById',
+        URL: 'https://www.daansadaqah.com:8443/getPostById',
         payload: {
           p_id: this.props.params.id
         }
@@ -174,13 +174,12 @@ class SinglePost extends Component {
       this.setInputValue('isLoading', true);
       const { data } = await apiCall({
         method: 'get',
-        URL: 'http://www.daansadaqah.com:8443/getPostCategories',
+        URL: 'https://www.daansadaqah.com:8443/getPostCategories',
         // payload: {
         //   p_userid: AuthUtil.getPhone(),
         // },
       });
 
-      console.log(data);
       if (data && data.returnTables) {
         this.setInputValue('categories', data.returnTables[0]);
         this.setInputValue('isLoading', false);
@@ -205,12 +204,16 @@ class SinglePost extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/submitPostForApproval',
+        URL: 'https://www.daansadaqah.com:8443/submitPostForApproval',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_postid: this.state.postid
         },
       });
+
+      if(data){
+        this.setInputValue('success', 'Post Review Successful');
+      }
 
     } catch (error) {
       
@@ -221,12 +224,16 @@ class SinglePost extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/approvePost',
+        URL: 'https://www.daansadaqah.com:8443/approvePost',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_postid: this.state.postid
         },
       });
+
+      if(data){
+        this.setInputValue('success', 'Post Approved');
+      }
 
     } catch (error) {
       
@@ -237,12 +244,16 @@ class SinglePost extends Component {
     try {
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/rejectPost',
+        URL: 'https://www.daansadaqah.com:8443/rejectPost',
         payload: {
           p_userid: AuthUtil.getPhone(),
           p_postid: this.state.postid
         },
       });
+
+      if(data){
+        this.setInputValue('success', 'Post Rejected');
+      }
 
     } catch (error) {
       
@@ -272,7 +283,7 @@ class SinglePost extends Component {
 
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/savePost',
+          URL: 'https://www.daansadaqah.com:8443/savePost',
           payload: post,
         });
 
@@ -302,7 +313,7 @@ class SinglePost extends Component {
 
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/submitPostForReview',
+        URL: 'https://www.daansadaqah.com:8443/submitPostForReview',
         payload: post,
       });
 
@@ -331,7 +342,7 @@ class SinglePost extends Component {
 
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/closeByUser',
+        URL: 'https://www.daansadaqah.com:8443/closeByUser',
         payload: post,
       });
 

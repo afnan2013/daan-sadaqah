@@ -53,7 +53,7 @@ class Header extends React.Component {
 
     const { data } = await apiCall({
       method: 'post',
-      URL: 'http://www.daansadaqah.com:8443/getNotificationDaan',
+      URL: 'https://www.daansadaqah.com:8443/getNotificationDaan',
       payload: {
         p_userid: AuthUtil.getPhone(),
       },
@@ -73,7 +73,7 @@ class Header extends React.Component {
 
     const { data } = await apiCall({
       method: 'post',
-      URL: 'http://www.daansadaqah.com:8443/getMenus',
+      URL: 'https://www.daansadaqah.com:8443/getMenus',
       payload: {},
     });
     console.log(data.returnTables[0]);
@@ -210,8 +210,6 @@ class Header extends React.Component {
     const expand = false;
     const menuDesign = this.getMenuDesign();
 
-
-    
     return (
       <header>
         <Navbar bg="dark" variant="dark" expand={expand} className="fixed-top">
@@ -276,9 +274,17 @@ class Header extends React.Component {
                   {AuthUtil.getToken() ? (
                     <LinkContainer to="/profile/myaccount/identity">
                       <Nav.Link className="common_nav_items">
-                        <i className="fa-solid fa-user"></i>
+                        {AuthUtil.getProfilePic() !== "" ? 
+                        <><img
+                        src={AuthUtil.getProfilePic()}
+                        className="account_profile_avatar"
+                        alt="Profile Picture"
+                      /></>
+                        :<><i className="fa-solid fa-user"></i>
                         <br />
-                        <span>Profile</span>
+                        <span>Profile</span></> 
+                        }
+                        
                       </Nav.Link>
                     </LinkContainer>
                   ) : (
@@ -306,7 +312,7 @@ class Header extends React.Component {
                         className="fa-solid fa-bell"
                         style={{ position: 'relative' }}
                       >
-                        {(this.state.notifications && this.state.notifications.length !==0 ) ?
+                        { (this.state.notifications && this.state.notifications.length !==0 && this.state.unreadCount !== 0) ?
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
                           {this.state.unreadCount > 9 ? "9+": this.state.unreadCount}
                           <span className="visually-hidden">
@@ -335,6 +341,7 @@ class Header extends React.Component {
           <NotificationPanel
             show={this.state.showNotification}
             notifications={this.state.notifications}
+            callback={this.getNotifications}
           />
         </div>
       </header>

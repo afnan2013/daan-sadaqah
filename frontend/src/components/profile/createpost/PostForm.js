@@ -107,7 +107,7 @@ class PostForm extends Component {
       this.setInputValue('isLoading', true);
       const { data } = await apiCall({
         method: 'get',
-        URL: 'http://www.daansadaqah.com:8443/getPostCategories',
+        URL: 'https://www.daansadaqah.com:8443/getPostCategories',
         // payload: {
         //   p_userid: AuthUtil.getPhone(),
         // },
@@ -177,7 +177,7 @@ class PostForm extends Component {
 
         const { data } = await apiCall({
           method: 'post',
-          URL: 'http://www.daansadaqah.com:8443/savePost',
+          URL: 'https://www.daansadaqah.com:8443/savePost',
           payload: post,
         });
 
