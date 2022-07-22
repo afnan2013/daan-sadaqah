@@ -12,7 +12,8 @@ class Post extends React.Component {
 
     this.state = {
       isSympathized: this.props.post.sympathized,
-      isShortListed: this.props.post.shortlisted
+      isShortListed: this.props.post.shortlisted,
+      sympathyCount: this.props.post.sympathyCount
     };
 
     this.unchekedSympqathyIcon = '/images/transparent 1-01 (1).png';
@@ -26,6 +27,12 @@ class Post extends React.Component {
   }
 
   toggleSympathyIcon = async (postid, status) => {
+
+    if(!AuthUtil.getToken()){
+      this.props.navigate('/login');
+      return;
+    }
+
     try {
       const { data } = await apiCall({
         method: 'post',
@@ -38,8 +45,10 @@ class Post extends React.Component {
 
       if(data.returnTables[0][0].Messages === "Sympathized"){
         this.setInputValue("isSympathized", true);
+        this.setInputValue("sympathyCount", data.returnTables[0][0].sympathyCount);
       }else if(data.returnTables[0][0].Messages === "Sympathy removed"){
         this.setInputValue("isSympathized", false);
+        this.setInputValue("sympathyCount", data.returnTables[0][0].sympathyCount);
       }
     
 		//console.log(data);
@@ -127,8 +136,9 @@ class Post extends React.Component {
                   this.toggleSympathyIcon(post.id, this.state.isSympathized);
                 }}
       alt="sympathize"
-                className="post_author_image"
+                className="sympathy_icon"
               ></img>
+              <p>Count: {this.state.sympathyCount}</p>
             </div>
           </Col>
         </Row>

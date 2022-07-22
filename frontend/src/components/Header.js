@@ -95,10 +95,10 @@ class Header extends React.Component {
               <LinkContainer key={menu.menucode} to={menu.menucode}>
                 <Nav.Link className="common_sidenav_items">
                   <Row>
-                    <Col md={3} className="text-center">
+                    <Col md={3} sm={3} xs={3} className="text-center">
                       <i className={menu.menuicon}></i>
                     </Col>
-                    <Col md={9}>
+                    <Col md={9} sm={9} xs={9}>
                       <span>{menu.menuname}</span>
                     </Col>
                   </Row>
@@ -107,10 +107,10 @@ class Header extends React.Component {
           : <LinkContainer key={menu.menucode} to={'login'}>
             <Nav.Link className="common_sidenav_items" onClick={()=> this.logout()}>
               <Row>
-                <Col md={3} className="text-center">
+                <Col md={3} sm={3} xs={3} className="text-center">
                   <i className={menu.menuicon}></i>
                 </Col>
-                <Col md={9}>
+                <Col md={9} sm={9} xs={9}>
                   <span>{menu.menuname}</span>
                 </Col>
               </Row>
@@ -215,7 +215,7 @@ class Header extends React.Component {
         <Navbar bg="dark" variant="dark" expand={expand} className="fixed-top">
           <Container fluid>
             <Row className="w-100 my-2 align-items-center">
-              <Col md={4} className="d-flex">
+              <Col md={4} sm={4} xs={8} className="d-flex">
                 <Navbar.Toggle
                   id="common_hamBurger_Icon"
                   aria-controls={`offcanvasNavbar-expand-${expand}`}
@@ -254,7 +254,7 @@ class Header extends React.Component {
                 </LinkContainer>
               </Col>
 
-              <Col md={6}>
+              <Col md={6} sm={5} className="d-none d-md-block">
                 <Form className="d-flex common_search_form">
                   <FormControl
                     type="search"
@@ -266,7 +266,7 @@ class Header extends React.Component {
                   </Button>
                 </Form>
               </Col>
-              <Col md={2} className="d-none d-lg-block">
+              <Col md={2} sm={3} xs={4}>
                 <Nav
                   className="ms-auto"
                   style={{ flexDirection: 'row-reverse' }}

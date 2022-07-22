@@ -363,6 +363,17 @@ a{
   cursor: pointer;
 }
 
+.post_card .sympathy_icon{
+  max-width: 50px;
+  height: auto;
+  cursor: pointer;
+
+}
+
+.post_card p {
+  font-size: 10px;
+}
+
 .post_card .card {
   border: none;
   text-align: justify;
@@ -495,6 +506,10 @@ tr.same-col-widths th {
     font-size: 15px;
   }
 
+  .common_nav_items {
+    font-size: 10px;
+  }
+
   .carousel {
     height: 530px;
   }
@@ -517,6 +532,10 @@ tr.same-col-widths th {
     margin: 15px 5px;
     font-size: 15px;
   }
+
+  .common_nav_items {
+    font-size: 8px;
+  }
   
   .carousel {
     height: 430px;
@@ -535,6 +554,14 @@ tr.same-col-widths th {
   #common_hamBurger_Icon{
     margin: 15px 10px;
     font-size: 15px;
+  }
+
+  .common_nav_items {
+    font-size: 7px;
+  }
+
+  .account_profile_avatar {
+    height: 45px;
   }
 
   .common_navbar_brand img {

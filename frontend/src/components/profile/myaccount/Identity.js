@@ -198,6 +198,41 @@ class Identity extends Component {
     }
   };
 
+  verifyNID = async ()=> {
+    try {
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'https://www.daansadaqah.com:8443/verifyNID',
+        payload: { p_userid: AuthUtil.getPhone() },
+      });
+
+      if(data){
+        this.getIdentityData();
+      }
+      
+    } catch (error) {
+      
+    }
+  }
+
+  verifyPhone = async ()=> {
+    try {
+      const { data } = await apiCall({
+        method: 'post',
+        URL: 'https://www.daansadaqah.com:8443/verifyPhone',
+        payload: { p_userid: AuthUtil.getPhone() },
+      });
+
+      if(data){
+        this.getIdentityData();
+      }
+      
+    } catch (error) {
+      
+    }
+  }
+
+
   componentDidMount() {
     this.getIdentityData();
   }
@@ -263,7 +298,7 @@ class Identity extends Component {
                 <Col md={3}>
                   <p>Mobile</p>
                 </Col>
-                <Col md={6}>
+                <Col md={5}>
                   <Form.Control
                     type="text"
                     placeholder="Enter phone number"
@@ -275,14 +310,15 @@ class Identity extends Component {
                     required
                   ></Form.Control>
                 </Col>
-                <Col md={3}>
+                {this.state.phone && 
+                <Col md={4}>
                   {this.state.verify_status_phone ? (
                     <span>
                       <i
                         className="fa-solid fa-circle-check"
                         style={{ color: 'green' }}
                       ></i>{' '}
-                      OTP Verified
+                      Verified
                     </span>
                   ) : (
                     <span>
@@ -290,10 +326,12 @@ class Identity extends Component {
                         className="fa-solid fa-circle-xmark"
                         style={{ color: 'red' }}
                       ></i>{' '}
-                      Not Verified
+                      Not Verified  
+                      <Button onClick={()=> this.verifyPhone()} className='mx-2'>Verify</Button>
                     </span>
                   )}
                 </Col>
+              }
               </Row>
             </Form.Group>
 
@@ -302,7 +340,7 @@ class Identity extends Component {
                 <Col md={3}>
                   <p>NID</p>
                 </Col>
-                <Col md={6}>
+                <Col md={5}>
                   <Form.Control
                     type="text"
                     className="form_field"
@@ -312,14 +350,16 @@ class Identity extends Component {
                     required
                   ></Form.Control>
                 </Col>
-                <Col md={3}>
+                {this.state.nid && 
+                <Col md={4}>
+
                   {this.state.verify_status_nid ? (
                     <span>
                       <i
                         className="fa-solid fa-circle-check"
                         style={{ color: 'green' }}
                       ></i>{' '}
-                      OTP Verified
+                      Verified
                     </span>
                   ) : (
                     <span>
@@ -328,9 +368,12 @@ class Identity extends Component {
                         style={{ color: 'red' }}
                       ></i>{' '}
                       Not Verified
+                      <Button onClick={()=> this.verifyNID()} className='mx-2'>Verify</Button>
                     </span>
+                    
                   )}
                 </Col>
+                }
               </Row>
             </Form.Group>
 
