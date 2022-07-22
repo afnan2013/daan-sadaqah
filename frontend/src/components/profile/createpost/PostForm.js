@@ -212,7 +212,7 @@ class PostForm extends Component {
 
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/submitPostForReview',
+        URL: 'https://www.daansadaqah.com:8443/submitPostForReview',
         payload: post,
       });
 
@@ -243,7 +243,7 @@ class PostForm extends Component {
 
       const { data } = await apiCall({
         method: 'post',
-        URL: 'http://www.daansadaqah.com:8443/closeByUser',
+        URL: 'https://www.daansadaqah.com:8443/closeByUser',
         payload: post,
       });
 
