@@ -70,11 +70,12 @@ class Identity extends Component {
             'profile_pic',
             String.fromCharCode(...identity.profile_pic.data)
           );
-        // if (identity.nid_profile_pic)
-        //   this.setInputValue(
-        //     'nid_profile_pic',
-        //     String.fromCharCode(...identity.nid_profile_pic.data)
-        //   );
+        const nid = this.state.nid;
+        if (identity.verify_status_nid)
+          this.setInputValue(
+            'nid_profile_pic',
+            `https://daansadaqah.com:8443/nidpics/${nid}.jpg`
+          );
         if (identity.nid_front_page)
           this.setInputValue(
             'nid_front_page',
