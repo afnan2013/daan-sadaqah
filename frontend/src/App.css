@@ -278,15 +278,17 @@ a{
 
 
 .notification_panel{
-  position: absolute;
-  top: 12%;
-  right: -42%;
+  display: none;
+  position: fixed;
+  top: 122px;
+  right: 1%;
   width: 400px;
   padding: 0 10px;
   height: 85vh;
   border-radius: 10px;
-  transition: all 0.5s;
   background: snow;
+  overflow: auto;
+  overflow-x: hidden;
   z-index: 10;
 }
 
@@ -295,8 +297,7 @@ a{
 }
 
 .notification_panel.active {
-  top: 12%;
-  right: 1%;
+  display: block;
 }
 
 .account_container {
@@ -410,10 +411,6 @@ tr.same-col-widths th {
     width: 460px;
   }
 
-  .notification_panel.active {
-    top: 16%;
-  }
-
 }
 
 
@@ -449,8 +446,8 @@ tr.same-col-widths th {
     font-size: 1.3rem;
   }
 
-  .notification_panel.active {
-    top: 28%;
+  .notification_panel {
+    top: 100px;
   }
 }
 
@@ -495,6 +492,10 @@ tr.same-col-widths th {
   .footer_row {
     font-size: 1.1rem;
   }
+
+  .notification_panel {
+    top: 100px;
+  }
 }
 
 
@@ -521,6 +522,9 @@ tr.same-col-widths th {
     font-size: 1rem;
   }
 
+  .notification_panel {
+    top: 100px;
+  }
 
 }
 
@@ -546,18 +550,25 @@ tr.same-col-widths th {
   .footer_row {
     font-size: 1rem;
   }
+
+  .notification_panel {
+    top: 100px;
+  }
+
+  
 }
 
 /************ Extra small devices (portrait phones, less than 576px) **********/
 @media (max-width: 575.98px) {
 
   #common_hamBurger_Icon{
-    margin: 15px 10px;
-    font-size: 15px;
+    margin: 10px 8px;
+    font-size: 13px;
   }
 
   .common_nav_items {
-    font-size: 7px;
+    font-size: 8px;
+    margin: 0px 5px;
   }
 
   .account_profile_avatar {
@@ -573,5 +584,24 @@ tr.same-col-widths th {
 
   .footer_row {
     font-size: 1.1rem;
+  }
+
+  .notification_panel {
+    top: 90px;
+    right: 3%;
+    width: 90vw;
+  }
+
+  .btn_donation_fixed_mobile {
+    margin-top: 88px;
+  }
+
+  .top_header_row{
+    margin: 0px;
+  }
+
+  .top_header_row > * {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }

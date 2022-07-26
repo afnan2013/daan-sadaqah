@@ -26,7 +26,7 @@ class Header extends React.Component {
       isLoading: false,
       menuList: [],
       notifications: [],
-      unreadCount: undefined
+      unreadCount: undefined,
     };
     this.getMenu = this.getMenu.bind(this);
     this.getMenuDesign = this.getMenuDesign.bind(this);
@@ -44,12 +44,12 @@ class Header extends React.Component {
     }
   };
 
-  logout = ()=> {
+  logout = () => {
     AuthUtil.resetTokenDetail();
-  }
+  };
 
   getNotifications = async () => {
-    this.setInputValue("isLoading", true);
+    this.setInputValue('isLoading', true);
 
     const { data } = await apiCall({
       method: 'post',
@@ -59,10 +59,11 @@ class Header extends React.Component {
       },
     });
     console.log(data.returnTables[0]);
-    if(data.returnTables[0]){
-      this.setInputValue("isLoading", false);
-      this.setInputValue("notifications", data.returnTables[0]);
-      this.setInputValue("unreadCount", data.returnTables[1][0].unread)
+    if (data.returnTables[0]) {
+      this.setInputValue('isLoading', false);
+      this.setInputValue('notifications', data.returnTables[0]);
+      this.setInputValue('unreadCount', data.returnTables[1][0].unread);
+      AuthUtil.setUnreadNotificationCount(data.returnTables[1][0].unread);
     }
   };
 
@@ -90,8 +91,8 @@ class Header extends React.Component {
           (menu) =>
             menu !== undefined &&
             menu.menucode !== undefined &&
-            menu.menuposition === 'left' && (
-              menu.menucode !== 'logout' ?
+            menu.menuposition === 'left' &&
+            (menu.menucode !== 'logout' ? (
               <LinkContainer key={menu.menucode} to={menu.menucode}>
                 <Nav.Link className="common_sidenav_items">
                   <Row>
@@ -104,18 +105,23 @@ class Header extends React.Component {
                   </Row>
                 </Nav.Link>
               </LinkContainer>
-          : <LinkContainer key={menu.menucode} to={'login'}>
-            <Nav.Link className="common_sidenav_items" onClick={()=> this.logout()}>
-              <Row>
-                <Col md={3} sm={3} xs={3} className="text-center">
-                  <i className={menu.menuicon}></i>
-                </Col>
-                <Col md={9} sm={9} xs={9}>
-                  <span>{menu.menuname}</span>
-                </Col>
-              </Row>
-            </Nav.Link>
-          </LinkContainer>)
+            ) : (
+              <LinkContainer key={menu.menucode} to={'login'}>
+                <Nav.Link
+                  className="common_sidenav_items"
+                  onClick={() => this.logout()}
+                >
+                  <Row>
+                    <Col md={3} sm={3} xs={3} className="text-center">
+                      <i className={menu.menuicon}></i>
+                    </Col>
+                    <Col md={9} sm={9} xs={9}>
+                      <span>{menu.menuname}</span>
+                    </Col>
+                  </Row>
+                </Nav.Link>
+              </LinkContainer>
+            ))
         )}
       </Nav>
     );
@@ -171,13 +177,14 @@ class Header extends React.Component {
 
     console.log('Default Menu Populated - ');
     console.log(this.state.menuList);
-    return (<Nav className="justify-content-end flex-grow-1 pe-3">
+    return (
+      <Nav className="justify-content-end flex-grow-1 pe-3">
         {this.state.menuList.map(
           (menu) =>
             menu !== undefined &&
             menu.menucode !== undefined &&
             menu.menuposition === 'left' &&
-            menu.open ===1  && (
+            menu.open === 1 && (
               <LinkContainer key={menu.menucode} to={menu.menucode}>
                 <Nav.Link className="common_sidenav_items">
                   <Row>
@@ -192,7 +199,8 @@ class Header extends React.Component {
               </LinkContainer>
             )
         )}
-      </Nav>);
+      </Nav>
+    );
   };
 
   componentDidMount() {
@@ -200,11 +208,13 @@ class Header extends React.Component {
     this.getNotifications();
   }
 
-  // onBlurNotification = (e) => {
-  //   this.setState({
-  //     showNotification: !this.state.showNotification,
-  //   });
-  // };
+  onBlurNotification = (e) => {
+    if (this.state.showNotification) {
+      this.setState({
+        showNotification: !this.state.showNotification,
+      });
+    }
+  };
 
   render() {
     const expand = false;
@@ -214,7 +224,7 @@ class Header extends React.Component {
       <header>
         <Navbar bg="dark" variant="dark" expand={expand} className="fixed-top">
           <Container fluid>
-            <Row className="w-100 my-2 align-items-center">
+            <Row className="w-100 my-2 align-items-center top_header_row">
               <Col md={4} sm={4} xs={8} className="d-flex">
                 <Navbar.Toggle
                   id="common_hamBurger_Icon"
@@ -274,17 +284,21 @@ class Header extends React.Component {
                   {AuthUtil.getToken() ? (
                     <LinkContainer to="/profile/myaccount/identity">
                       <Nav.Link className="common_nav_items">
-                        {AuthUtil.getProfilePic() !== "" ? 
-                        <><img
-                        src={AuthUtil.getProfilePic()}
-                        className="account_profile_avatar"
-                        alt="Profile Picture"
-                      /></>
-                        :<><i className="fa-solid fa-user"></i>
-                        <br />
-                        <span>Profile</span></> 
-                        }
-                        
+                        {AuthUtil.getProfilePic() !== '' ? (
+                          <>
+                            <img
+                              src={AuthUtil.getProfilePic()}
+                              className="account_profile_avatar"
+                              alt="Profile Picture"
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <i className="fa-solid fa-user"></i>
+                            <br />
+                            <span>Profile</span>
+                          </>
+                        )}
                       </Nav.Link>
                     </LinkContainer>
                   ) : (
@@ -301,32 +315,46 @@ class Header extends React.Component {
                     <Nav.Link
                       className="common_nav_items"
                       onClick={() => {
-                        this.getNotifications()
+                        this.getNotifications();
                         this.setState({
                           showNotification: !this.state.showNotification,
                         });
                       }}
-                      // onBlur={(e) => this.onBlurNotification(e)}
+                      onBlur={(e) => {
+                        if (this.state.showNotification) {
+                          this.setState({
+                            showNotification: false,
+                          });
+                        }
+                      }}
                     >
                       <i
                         className="fa-solid fa-bell"
                         style={{ position: 'relative' }}
                       >
-                        { (this.state.notifications && this.state.notifications.length !==0 && this.state.unreadCount !== 0) ?
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                          {this.state.unreadCount > 9 ? "9+": this.state.unreadCount}
-                          <span className="visually-hidden">
-                            unread messages
+                        {this.state.notifications &&
+                        this.state.notifications.length !== 0 &&
+                        this.state.unreadCount !== 0 ? (
+                          <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                            {this.state.unreadCount > 9
+                              ? '9+'
+                              : this.state.unreadCount}
+                            <span className="visually-hidden">
+                              unread messages
+                            </span>
                           </span>
-                        </span>
-                      : AuthUtil.getUnreadNotificationCount()!== '0' &&
-                      (<span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                      {AuthUtil.getUnreadNotificationCount() > 9 ? "9+": AuthUtil.getUnreadNotificationCount() }
-                      <span className="visually-hidden">
-                        unread messages
-                      </span>
-                    </span>)}
-                  
+                        ) : (
+                          AuthUtil.getUnreadNotificationCount() !== '0' && (
+                            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                              {AuthUtil.getUnreadNotificationCount() > 9
+                                ? '9+'
+                                : AuthUtil.getUnreadNotificationCount()}
+                              <span className="visually-hidden">
+                                unread messages
+                              </span>
+                            </span>
+                          )
+                        )}
                       </i>{' '}
                       <br />
                       <span>Notification</span>
@@ -337,7 +365,7 @@ class Header extends React.Component {
             </Row>
           </Container>
         </Navbar>
-        <div className="d-none d-lg-block">
+        <div>
           <NotificationPanel
             show={this.state.showNotification}
             notifications={this.state.notifications}
