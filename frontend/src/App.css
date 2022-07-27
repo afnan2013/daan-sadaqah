@@ -134,18 +134,24 @@ a{
 
 
 .carousel {
-  height: 85vh; 
+  height: 80vh; 
+  margin-top: 115px;
   overflow: hidden;
 }
 
 .carousel-caption {
-  top:65%;
+  top:55%;
   left: 5%;
   right: 50%;
 }
 
 .carousel-caption p {
   text-align: right;
+  font-size: 1.3rem;
+}
+
+.carousel-caption h3 {
+  font-size: 1.6rem;
 }
 
 /************************************************* END HEADER ********************************************/
@@ -153,7 +159,7 @@ a{
 
 /********************* Fixed Donation Buttons *****************/
 .btn_donation_fixed_mobile{
-  margin-top: 150px;
+  margin-top: 95px;
   font-size: 1.5em;
   color: white;
   padding: 10px;
@@ -436,10 +442,22 @@ tr.same-col-widths th {
   }
 
   .carousel {
-    height: 650px;
+    margin-top: 95px;
+    height: 550px;
   }
-  .carousel img{
-    margin-top: 70px;
+
+  .carousel-caption {
+    top: 55%;
+    left: 5%;
+    right: 50%;
+  }
+
+  .carousel-caption p {
+    font-size: 1.2rem;
+  }
+  
+  .carousel-caption h3 {
+    font-size: 1.4rem;
   }
 
   .footer_row {
@@ -482,12 +500,21 @@ tr.same-col-widths th {
   }
 
   .carousel {
-    height: 590px;
-  }
-  .carousel img{
-    margin-top: 70px;
+    margin-top: 95px;
+    height: 500px;
   }
 
+  .carousel-caption p {
+    font-size: 1.1rem;
+  }
+  
+  .carousel-caption h3 {
+    font-size: 1.3rem;
+  }
+
+  .btn_donation_fixed_desktop button {
+    padding: 25px 90px;
+  }
 
   .footer_row {
     font-size: 1.1rem;
@@ -509,13 +536,15 @@ tr.same-col-widths th {
 
   .common_nav_items {
     font-size: 10px;
+    margin: 0px 5px;
   }
 
-  .carousel {
-    height: 530px;
+  .top_right_navbar{
+    margin-right: -15px;
   }
-  .carousel img{
-    margin-top: 100px;
+
+  .account_profile_avatar{
+    height: 50px;
   }
   
   .footer_row {
@@ -524,6 +553,32 @@ tr.same-col-widths th {
 
   .notification_panel {
     top: 100px;
+  }
+
+  .carousel {
+    margin-top: 85px;
+    height: 390px;
+  }
+
+  .carousel-caption{
+    top: 62%;
+  }
+
+  .carousel-caption p {
+    font-size: 1rem;
+  }
+  
+  .carousel-caption h3 {
+    font-size: 1.1rem;
+  }
+
+  .btn_donation_fixed_desktop{
+    top:15%;
+  }
+
+  .btn_donation_fixed_desktop button {
+    padding: 20px 80px;
+    margin: 5px 0px;
   }
 
 }
@@ -533,26 +588,51 @@ tr.same-col-widths th {
 /********** Small devices only **********/
 @media (min-width: 576px) and (max-width: 767.98px) {
   #common_hamBurger_Icon{
-    margin: 15px 5px;
+    margin: 25px 5px;
     font-size: 15px;
   }
 
-  .common_nav_items {
-    font-size: 8px;
+  .common_navbar_brand img {
+    max-height: 70px;
+    margin-left: 8px;
+  }
+
+  .common_nav_itms {
+    font-size: 10px;
+  }
+
+  .account_profile_avatar{
+    height: 50px;
   }
   
-  .carousel {
-    height: 430px;
-  }
-  .carousel img{
-    margin-top: 70px;
-  }
   .footer_row {
     font-size: 1rem;
   }
 
   .notification_panel {
     top: 100px;
+  }
+
+  .top_header_row{
+    margin: 0px;
+  }
+
+  
+  .carousel {
+    height: 290px;
+    margin-top: 0px;
+  }
+
+  .carousel-caption{
+    top: 50%;
+  }
+
+  .carousel-caption p {
+    font-size: 0.8rem;
+  }
+  
+  .carousel-caption h3 {
+    font-size: 1rem;
   }
 
   
@@ -562,7 +642,7 @@ tr.same-col-widths th {
 @media (max-width: 575.98px) {
 
   #common_hamBurger_Icon{
-    margin: 10px 8px;
+    margin: 15px 8px;
     font-size: 13px;
   }
 
@@ -578,8 +658,22 @@ tr.same-col-widths th {
   .common_navbar_brand img {
     max-height: 65px;
   }
+
   .carousel {
-    height: 200px;
+    height: 190px;
+    margin-top: 0px;
+  }
+
+  .carousel-caption{
+    top: 25%;
+  }
+
+  .carousel-caption p {
+    font-size: 0.6rem;
+  }
+  
+  .carousel-caption h3 {
+    font-size: 0.8rem;
   }
 
   .footer_row {
@@ -600,8 +694,22 @@ tr.same-col-widths th {
     margin: 0px;
   }
 
+  .top_right_navbar{
+    margin-right: 0px;
+  }
+
   .top_header_row > * {
     padding-left: 0px;
     padding-right: 0px;
+  }
+
+  .offcanvas {
+    max-width: 80%;
+  }
+
+  .common_sidenav_items {
+    font-size: 18px;
+    margin: 5px 0px;
+    padding: 8px 0px;
   }
 }

@@ -21,20 +21,20 @@ class MyAccount extends Component {
       <>
         <Nav className="ms-auto" style={{ display: 'block' }}>
           <Row className="profile_menu text-center">
-            <Col>
+            <Col sm={3} xs={3}>
               <LinkContainer to={'/profile/myaccount/identity'}>
                 <Nav.Link className="common_inner_nav_link">Identity</Nav.Link>
               </LinkContainer>
             </Col>
 
-            <Col>
+            <Col sm={3} xs={3}>
               <LinkContainer to={'/profile/myaccount/nameandaddress'}>
                 <Nav.Link className="common_inner_nav_link">
                   Name and Address
                 </Nav.Link>
               </LinkContainer>
             </Col>
-            <Col>
+            <Col sm={3} xs={3}>
               <LinkContainer to={'/profile/myaccount/paymentmethod'}>
                 <Nav.Link className="common_inner_nav_link">
                   Payment Method
@@ -42,7 +42,7 @@ class MyAccount extends Component {
               </LinkContainer>
             </Col>
 
-            <Col>
+            <Col sm={3} xs={3}>
               <LinkContainer to={'/profile/myaccount/nominee'}>
                 <Nav.Link className="common_inner_nav_link">Nominee</Nav.Link>
               </LinkContainer>

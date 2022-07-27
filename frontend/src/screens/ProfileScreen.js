@@ -49,7 +49,7 @@ class ProfileScreen extends React.Component {
       <>
         <Nav className="ms-auto" style={{ display: 'block' }}>
           <Row className="profile_menu text-center">
-            <Col md={3}>
+            <Col md={3} sm={3} xs={3}>
               <LinkContainer to={'/profile/myaccount/identity'}>
                 <Nav.Link
                   className={
@@ -63,7 +63,7 @@ class ProfileScreen extends React.Component {
                 </Nav.Link>
               </LinkContainer>
             </Col>
-            <Col md={3}>
+            <Col md={3} sm={3} xs={3}>
               <LinkContainer to={'/profile/myposts/lists'}>
                 <Nav.Link
                   className={
@@ -77,7 +77,7 @@ class ProfileScreen extends React.Component {
                 </Nav.Link>
               </LinkContainer>
             </Col>
-            <Col md={3}>
+            <Col md={3} sm={3} xs={3}>
               <LinkContainer to={'/profile/feesanddues'}>
                 <Nav.Link
                   className={
@@ -91,7 +91,7 @@ class ProfileScreen extends React.Component {
                 </Nav.Link>
               </LinkContainer>
             </Col>
-            <Col md={3}>
+            <Col md={3} sm={3} xs={3}>
             <LinkContainer to={'/login'}>
                 <Nav.Link
                   className="common_inner_nav_link btn-primary"

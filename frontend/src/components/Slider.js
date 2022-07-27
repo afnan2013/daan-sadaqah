@@ -30,7 +30,7 @@ const Slider = ({ sliders }) => {
                 <h3
                   style={{
                     color: `${slider.fontColor}`,
-                    fontSize: `${slider.fontSize}`,
+                    // fontSize: `${slider.fontSize}`,
                   }}
                 >
                   “{slider.description}”
@@ -38,7 +38,7 @@ const Slider = ({ sliders }) => {
                 <p
                   style={{
                     color: `${slider.fontColor}`,
-                    fontSize: `${slider.fontSize}`,
+                    // fontSize: `${slider.fontSize}`,
                   }}
                 >
                   - {slider.author}

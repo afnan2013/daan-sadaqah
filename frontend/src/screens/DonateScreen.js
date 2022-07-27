@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import ReadMore from '../components/post/ReadMore';
 import {apiCall} from '../utils/apiCall'
 import FormContainer from '../components/FormContainer';
+import Post from '../components/post/Post';
 import AuthUtil from '../utils/AuthUtil';
 
 class DonateScreen extends Component {
@@ -97,7 +98,8 @@ class DonateScreen extends Component {
           <Loader />
         ) : (
           <>
-          <Card key={post.id} className="post_card">
+            <Post key={post.id} post={post} />
+          {/* <Card key={post.id} className="post_card">
               <Row>
                 <Col md={2}>
                   <div className="d-flex py-2">
@@ -178,7 +180,7 @@ class DonateScreen extends Component {
                   <Button className="w-100">Shortlist</Button>
                 </Col>
               </Row>
-            </Card>
+            </Card> */}
             <FormContainer>
             <Form onSubmit={this.donateHandler}>
               <Form.Group controlId="phone" className="form_field">

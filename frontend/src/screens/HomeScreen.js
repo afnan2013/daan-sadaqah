@@ -58,7 +58,7 @@ class HomeScreen extends React.Component {
           <Message variant="danger">{error}</Message>
         ) : (
           <>
-            <div className="btn_donation_fixed_mobile d-block d-sm-none">
+            <div className="btn_donation_fixed_mobile d-block d-md-none">
               <Link to="/posts">
                 <Button type="button" variant="dark" className="w-100">
                   Make A Donation
@@ -70,7 +70,7 @@ class HomeScreen extends React.Component {
                 </Button>
               </Link>
             </div>
-            <div className="btn_donation_fixed_desktop d-none d-lg-block">
+            <div className="btn_donation_fixed_desktop d-none d-md-block">
               <Link to="/posts">
                 <Button type="button" variant="dark" className="w-100">
                   Make A Donation{' '}

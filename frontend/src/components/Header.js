@@ -27,6 +27,7 @@ class Header extends React.Component {
       menuList: [],
       notifications: [],
       unreadCount: undefined,
+      isCanvasVisible:false
     };
     this.getMenu = this.getMenu.bind(this);
     this.getMenuDesign = this.getMenuDesign.bind(this);
@@ -84,6 +85,15 @@ class Header extends React.Component {
     });
   };
 
+  closeOffCanvas = () => {
+    this.setInputValue("isCanvasVisible", false);
+  }
+  
+  openOffCanvas = () => {
+    this.setInputValue("isCanvasVisible", true);
+
+  }
+
   getMenuTemplate = (menus) => {
     const template = (
       <Nav className="justify-content-end flex-grow-1 pe-3">
@@ -94,7 +104,7 @@ class Header extends React.Component {
             menu.menuposition === 'left' &&
             (menu.menucode !== 'logout' ? (
               <LinkContainer key={menu.menucode} to={menu.menucode}>
-                <Nav.Link className="common_sidenav_items">
+                <Nav.Link className="common_sidenav_items" onClick={()=> this.closeOffCanvas()}>
                   <Row>
                     <Col md={3} sm={3} xs={3} className="text-center">
                       <i className={menu.menuicon}></i>
@@ -225,16 +235,18 @@ class Header extends React.Component {
         <Navbar bg="dark" variant="dark" expand={expand} className="fixed-top">
           <Container fluid>
             <Row className="w-100 my-2 align-items-center top_header_row">
-              <Col md={4} sm={4} xs={8} className="d-flex">
+              <Col md={4} sm={8} xs={8} className="d-flex">
                 <Navbar.Toggle
                   id="common_hamBurger_Icon"
-                  aria-controls={`offcanvasNavbar-expand-${expand}`}
+                  // aria-controls={`offcanvasNavbar-expand-${expand}`}
+                  onClick={()=>this.openOffCanvas()}
                 />
                 <Navbar.Offcanvas
                   id={`offcanvasNavbar-expand-${expand}`}
                   aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
                   placement="start"
-                  // onBlur={(e) => this.onBlurOffCanvas(e)}
+                  onHide={(e) => this.closeOffCanvas()}
+                  show={this.state.isCanvasVisible}
                 >
                   <Offcanvas.Header closeButton>
                     <Offcanvas.Title
@@ -264,7 +276,7 @@ class Header extends React.Component {
                 </LinkContainer>
               </Col>
 
-              <Col md={6} sm={5} className="d-none d-md-block">
+              <Col md={6} className="d-none d-md-block">
                 <Form className="d-flex common_search_form">
                   <FormControl
                     type="search"
@@ -276,9 +288,9 @@ class Header extends React.Component {
                   </Button>
                 </Form>
               </Col>
-              <Col md={2} sm={3} xs={4}>
+              <Col md={2} sm={4} xs={4}>
                 <Nav
-                  className="ms-auto"
+                  className="ms-auto top_right_navbar"
                   style={{ flexDirection: 'row-reverse' }}
                 >
                   {AuthUtil.getToken() ? (
