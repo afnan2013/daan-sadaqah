@@ -36,7 +36,6 @@ class MyPostsList extends Component {
       });
       // const categoryData = data.returnTables[0][0];
 
-      console.log(data.returnTables[0][0]);
       if (data && data.returnTables[0]) {
         this.setInputValue('posts', data.returnTables[0]);
         this.setInputValue('isLoading', false);
@@ -56,6 +55,15 @@ class MyPostsList extends Component {
       });
     }
   };
+
+  convertToLocaleString = (string)=> {
+    if (string !== ''){
+      const trimed =  string.split(',').join('');
+      const amount = parseInt(trimed);
+      return amount.toLocaleString('en-US');
+    }
+    return string;
+  }
 
   componentDidMount() {
     this.getAllPostsByUser();
@@ -95,7 +103,7 @@ class MyPostsList extends Component {
                   </td>
 
                   <td>
-                    <span>{post.fundamount}</span>
+                    <span>{this.convertToLocaleString(post.fundamount.toString())}</span>
                   </td>
                   <td>
                     <span>{post.poststatus}</span>

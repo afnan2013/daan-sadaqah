@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Button, Row, Col, Nav } from 'react-bootstrap';
+import {  Row, Col, Nav } from 'react-bootstrap';
 import ScreenContainer from '../components/ScreenContainer';
 import { withRouter } from '../components/withRouter';
 import AuthUtil from '../utils/AuthUtil';
@@ -95,7 +95,7 @@ class ProfileScreen extends React.Component {
             <LinkContainer to={'/login'}>
                 <Nav.Link
                   className="common_inner_nav_link btn-primary"
-                  onClick={() => this.logout()}
+                  onClick={(e) => this.logout(e)}
                 >
                   Logout
                 </Nav.Link>
@@ -115,9 +115,13 @@ class ProfileScreen extends React.Component {
     this.setInputValue('selectedMenu', menu);
   }
 
-  logout = () => {
-    AuthUtil.resetTokenDetail();
-    this.checkLoggedInUser();
+  logout = (e) => {
+    const result = window.confirm("Are you sure ?");
+    if(result === false){
+     e.preventDefault();
+    }else{
+      AuthUtil.resetTokenDetail();
+    }
   };
 
   render() {

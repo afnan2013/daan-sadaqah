@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Card, Image, Form } from 'react-bootstrap';
+import { Row, Button, Form } from 'react-bootstrap';
 import {withRouter} from '../components/withRouter'
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import ScreenContainer from '../components/ScreenContainer';
-import { Link } from 'react-router-dom';
-import ReadMore from '../components/post/ReadMore';
 import {apiCall} from '../utils/apiCall'
 import FormContainer from '../components/FormContainer';
 import Post from '../components/post/Post';
@@ -81,6 +79,7 @@ class DonateScreen extends Component {
   render() {
     console.log(this.props.params.id)    
     const post = this.state.post;
+    console.log(post);
     return (
       
         <ScreenContainer>
@@ -98,7 +97,8 @@ class DonateScreen extends Component {
           <Loader />
         ) : (
           <>
-            <Post key={post.id} post={post} />
+            {post && post.id &&
+            <Post key={post.id} post={post} />}
           {/* <Card key={post.id} className="post_card">
               <Row>
                 <Col md={2}>

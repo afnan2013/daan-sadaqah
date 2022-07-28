@@ -75,14 +75,23 @@ class Post extends React.Component {
         this.setInputValue("isShortListed", false);
       }
       
-      
     } catch (error) {
       
     }
   }
 
+  convertToLocaleString = (string)=> {
+    if (string !== ''){
+      const trimed =  string.split(',').join('');
+      const amount = parseInt(trimed);
+      return amount.toLocaleString('en-US');
+    }
+    return string;
+  }
+
   render() {
     const post = this.props.post;
+    const fundAmount = this.convertToLocaleString(post.fundamount.toString());
     
     return (
       <Card className="post_card">
@@ -120,7 +129,7 @@ class Post extends React.Component {
         <Row>
           <Col md={2}>
             <div>Category - {post.categoryname}</div>
-            <div>Amount - {post.fundamount}</div>
+            <div>Amount - {fundAmount}</div>
           </Col>
           <Col md={8}>
             <img src="/images/slider-1.jpg" className="form_image" alt="slider 1"/>

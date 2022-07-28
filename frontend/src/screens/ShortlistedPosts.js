@@ -131,6 +131,7 @@ class ShortlistedPosts extends React.Component {
     }
   }
 
+
   componentDidMount (){
     this.getShortlistedPosts();
   }
@@ -204,7 +205,7 @@ class ShortlistedPosts extends React.Component {
               <Row>
                 <Col md={2}>
                   <div>Category - {post.categoryname}</div>
-                  <div>Amount - {post.fundamount}</div>
+                  <div>Amount - {post.fundamount.toLocaleString('en-US')}</div>
                 </Col>
                 <Col md={8}>
                   <img src="/images/slider-1.jpg" className="form_image" alt="slider 1"/>

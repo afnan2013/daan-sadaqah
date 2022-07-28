@@ -45,8 +45,13 @@ class Header extends React.Component {
     }
   };
 
-  logout = () => {
-    AuthUtil.resetTokenDetail();
+  logout = (e) => {
+    const result = window.confirm("Are you sure ?");
+    if(result === false){
+     e.preventDefault();
+    }else{
+      AuthUtil.resetTokenDetail();
+    }
   };
 
   getNotifications = async () => {
@@ -119,7 +124,7 @@ class Header extends React.Component {
               <LinkContainer key={menu.menucode} to={'login'}>
                 <Nav.Link
                   className="common_sidenav_items"
-                  onClick={() => this.logout()}
+                  onClick={(e) => this.logout(e)}
                 >
                   <Row>
                     <Col md={3} sm={3} xs={3} className="text-center">
